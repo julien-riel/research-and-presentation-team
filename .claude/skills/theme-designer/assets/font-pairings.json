@@ -1,0 +1,134 @@
+{
+  "pairings": [
+    {
+      "id": "corporate-classic",
+      "name": "Corporate Classic",
+      "heading": {
+        "family": "Arial Black, Arial, sans-serif",
+        "weights": ["700"],
+        "fallback": "sans-serif"
+      },
+      "body": {
+        "family": "Arial, Helvetica, sans-serif",
+        "weights": ["400", "600", "700"],
+        "fallback": "sans-serif"
+      },
+      "style": "professional",
+      "mood": "Confiance, stabilité, universalité",
+      "bestFor": ["Finance", "Corporate", "Government"]
+    },
+    {
+      "id": "elegant-contrast",
+      "name": "Elegant Contrast",
+      "heading": {
+        "family": "Georgia, Times New Roman, serif",
+        "weights": ["700"],
+        "fallback": "serif"
+      },
+      "body": {
+        "family": "Arial, sans-serif",
+        "weights": ["400", "600"],
+        "fallback": "sans-serif"
+      },
+      "style": "sophisticated",
+      "mood": "Élégance, tradition, autorité",
+      "bestFor": ["Luxury", "Legal", "Publishing"]
+    },
+    {
+      "id": "modern-tech",
+      "name": "Modern Tech",
+      "heading": {
+        "family": "Trebuchet MS, sans-serif",
+        "weights": ["700"],
+        "fallback": "sans-serif"
+      },
+      "body": {
+        "family": "Verdana, Geneva, sans-serif",
+        "weights": ["400", "700"],
+        "fallback": "sans-serif"
+      },
+      "style": "modern",
+      "mood": "Innovation, clarté, accessibilité",
+      "bestFor": ["Tech", "Startups", "Digital"]
+    },
+    {
+      "id": "readable-first",
+      "name": "Readable First",
+      "heading": {
+        "family": "Verdana, Geneva, sans-serif",
+        "weights": ["700"],
+        "fallback": "sans-serif"
+      },
+      "body": {
+        "family": "Verdana, Geneva, sans-serif",
+        "weights": ["400"],
+        "fallback": "sans-serif"
+      },
+      "style": "accessible",
+      "mood": "Clarté maximale, accessibilité",
+      "bestFor": ["Education", "Healthcare", "Government"]
+    },
+    {
+      "id": "impactful",
+      "name": "Impactful Headlines",
+      "heading": {
+        "family": "Impact, Arial Black, sans-serif",
+        "weights": ["700"],
+        "fallback": "sans-serif"
+      },
+      "body": {
+        "family": "Arial, Helvetica, sans-serif",
+        "weights": ["400", "600"],
+        "fallback": "sans-serif"
+      },
+      "style": "bold",
+      "mood": "Force, attention, urgence",
+      "bestFor": ["Marketing", "Events", "Sales"]
+    },
+    {
+      "id": "humanist",
+      "name": "Humanist Touch",
+      "heading": {
+        "family": "Tahoma, Geneva, sans-serif",
+        "weights": ["700"],
+        "fallback": "sans-serif"
+      },
+      "body": {
+        "family": "Tahoma, Geneva, sans-serif",
+        "weights": ["400"],
+        "fallback": "sans-serif"
+      },
+      "style": "friendly",
+      "mood": "Approchable, humain, chaleureux",
+      "bestFor": ["HR", "Non-profit", "Community"]
+    }
+  ],
+  "sizeScales": {
+    "presentation": {
+      "h1": { "min": 44, "max": 54, "recommended": 48 },
+      "h2": { "min": 32, "max": 40, "recommended": 36 },
+      "h3": { "min": 24, "max": 28, "recommended": 26 },
+      "body": { "min": 18, "max": 24, "recommended": 20 },
+      "caption": { "min": 12, "max": 16, "recommended": 14 }
+    },
+    "document": {
+      "h1": { "min": 24, "max": 32, "recommended": 28 },
+      "h2": { "min": 18, "max": 24, "recommended": 20 },
+      "h3": { "min": 14, "max": 18, "recommended": 16 },
+      "body": { "min": 10, "max": 12, "recommended": 11 },
+      "caption": { "min": 8, "max": 10, "recommended": 9 }
+    }
+  },
+  "lineHeights": {
+    "tight": 1.2,
+    "normal": 1.4,
+    "relaxed": 1.6,
+    "loose": 1.8
+  },
+  "letterSpacing": {
+    "tight": "-0.02em",
+    "normal": "0",
+    "wide": "0.02em",
+    "wider": "0.05em"
+  }
+}

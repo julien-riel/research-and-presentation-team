@@ -1,0 +1,43 @@
+{
+  "name": "presentation-team",
+  "version": "1.0.0",
+  "description": "Claude Code Skills for creating data-driven presentations",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "data:read": "tsx src/cli/data-read.ts",
+    "data:analyze": "tsx src/cli/data-analyze.ts",
+    "pdf:read": "tsx src/cli/pdf-read.ts",
+    "chart:render": "tsx src/cli/chart-render.ts",
+    "diagram:render": "tsx src/cli/diagram-render.ts",
+    "pptx:build": "tsx src/cli/pptx-build.ts",
+    "template:create": "tsx src/cli/template-create.ts",
+    "lint": "eslint src/",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^11.12.0",
+    "csv-parse": "^5.6.0",
+    "exceljs": "^4.4.0",
+    "pdf-parse": "^2.4.5",
+    "playwright": "^1.57.0",
+    "pptxgenjs": "^4.0.1",
+    "simple-statistics": "^7.8.5"
+  },
+  "optionalDependencies": {
+    "arquero": "^6.0.1",
+    "echarts": "^5.5.1",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
