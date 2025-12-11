@@ -1,6 +1,6 @@
 ---
 name: pptx-builder
-description: Génération de fichiers PowerPoint (.pptx) à partir de spécifications structurées. Création de slides, insertion d'images, graphiques, tableaux, mise en forme. Utiliser ce skill pour produire le fichier PowerPoint final.
+description: Generation of PowerPoint files (.pptx) from structured specifications. Creating slides, inserting images, charts, tables, formatting. Use this skill to produce the final PowerPoint file.
 allowed-tools:
   - Bash
   - Read
@@ -9,77 +9,77 @@ allowed-tools:
 
 # PPTX Builder Skill
 
-Tu es un **Expert en Production de Présentations** qui maîtrise :
+You are a **Presentation Production Expert** who masters:
 
-- La bibliothèque **PptxGenJS** pour la génération programmatique
-- Les standards **Office Open XML** (OOXML) pour PowerPoint
-- Les **meilleures pratiques** de mise en page et d'accessibilité
+- The **PptxGenJS** library for programmatic generation
+- The **Office Open XML** (OOXML) standards for PowerPoint
+- **Best practices** for layout and accessibility
 
-## Référence CLI Complète
+## Complete CLI Reference
 
-### Commande principale
+### Main command
 
 ```bash
 npx tsx src/cli/pptx-build.ts --spec <path> --output <path>
 ```
 
-### Options disponibles
+### Available options
 
-| Option | Court | Description | Exemple |
+| Option | Short | Description | Example |
 |--------|-------|-------------|---------|
-| `--spec <path>` | `-s` | Fichier de spécification JSON (requis) | `--spec presentation.json` |
-| `--theme <path>` | `-t` | Fichier de thème JSON | `--theme theme.json` |
-| `--output <path>` | `-o` | Chemin du fichier PPTX de sortie (requis) | `--output slides.pptx` |
-| `--quick` | `-q` | Mode rapide interactif | `--quick` |
-| `--title <text>` | | Titre (pour mode quick) | `--title "Ma Présentation"` |
-| `--verbose` | `-v` | Sortie détaillée | `--verbose` |
-| `--debug` | | Mode debug avec timing | `--debug` |
-| `--quiet` | | Sortie minimale | `--quiet` |
+| `--spec <path>` | `-s` | JSON specification file (required) | `--spec presentation.json` |
+| `--theme <path>` | `-t` | JSON theme file | `--theme theme.json` |
+| `--output <path>` | `-o` | Output PPTX file path (required) | `--output slides.pptx` |
+| `--quick` | `-q` | Interactive quick mode | `--quick` |
+| `--title <text>` | | Title (for quick mode) | `--title "My Presentation"` |
+| `--verbose` | `-v` | Verbose output | `--verbose` |
+| `--debug` | | Debug mode with timing | `--debug` |
+| `--quiet` | | Minimal output | `--quiet` |
 
-### Types de slides disponibles
+### Available slide types
 
 | Type | Description |
 |------|-------------|
-| `title` | Slide titre avec titre principal, sous-titre, auteur, date |
-| `section` | Diviseur de section avec numéro et titre |
-| `content` | Slide de contenu avec titre et éléments |
-| `two-column` | Layout à deux colonnes |
-| `quote` | Slide citation avec attribution |
+| `title` | Title slide with main title, subtitle, author, date |
+| `section` | Section divider with number and title |
+| `content` | Content slide with title and elements |
+| `two-column` | Two-column layout |
+| `quote` | Quote slide with attribution |
 
-### Types d'éléments dans les slides
+### Element types in slides
 
-| Élément | Description |
+| Element | Description |
 |---------|-------------|
-| `text` | Bloc de texte avec style |
-| `bullets` | Liste à puces |
-| `table` | Tableau avec en-têtes |
-| `image` | Image depuis un chemin de fichier |
-| `chart` | Graphique intégré |
+| `text` | Text block with style |
+| `bullets` | Bullet list |
+| `table` | Table with headers |
+| `image` | Image from a file path |
+| `chart` | Embedded chart |
 
-### Exemples d'utilisation
+### Usage examples
 
 ```bash
-# Générer une présentation depuis une spécification JSON
+# Generate a presentation from a JSON specification
 npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx
 
-# Avec un thème personnalisé séparé
+# With a separate custom theme
 npx tsx src/cli/pptx-build.ts --spec presentation.json --theme theme.json --output output.pptx
 
-# Mode verbose pour debugging
+# Verbose mode for debugging
 npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --verbose
 ```
 
-## Format de Spécification
+## Specification Format
 
-### Structure Principale
+### Main Structure
 
 ```json
 {
   "metadata": {
-    "title": "Titre de la présentation",
-    "author": "Nom de l'auteur",
-    "company": "Entreprise",
-    "subject": "Sujet",
+    "title": "Presentation title",
+    "author": "Author name",
+    "company": "Company",
+    "subject": "Subject",
     "revision": "1.0"
   },
   "settings": {
@@ -118,11 +118,11 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
 }
 ```
 
-### Format du Thème (ThemeColors et ThemeTypography)
+### Theme Format (ThemeColors and ThemeTypography)
 
-**IMPORTANT** : Le thème doit respecter exactement cette structure. Ne pas utiliser de valeurs simplifiées.
+**IMPORTANT**: The theme must follow exactly this structure. Do not use simplified values.
 
-#### ThemeColors (obligatoire)
+#### ThemeColors (required)
 
 ```json
 {
@@ -140,19 +140,19 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
 }
 ```
 
-| Propriété | Description | Exemple |
-|-----------|-------------|---------|
-| `primary` | Couleur principale (titres, headers) | `#1E3A5F` |
-| `secondary` | Couleur secondaire (accents légers) | `#4A90A4` |
-| `accent` | Couleur d'accent (mise en évidence) | `#2E7D32` |
-| `background` | Fond des slides | `#FFFFFF` |
-| `surface` | Fond des éléments (cartes, boîtes) | `#F5F5F5` |
-| `text.primary` | Couleur du texte principal | `#333333` |
-| `text.secondary` | Couleur du texte secondaire | `#666666` |
+| Property | Description | Example |
+|----------|-------------|---------|
+| `primary` | Main color (titles, headers) | `#1E3A5F` |
+| `secondary` | Secondary color (light accents) | `#4A90A4` |
+| `accent` | Accent color (highlighting) | `#2E7D32` |
+| `background` | Slide background | `#FFFFFF` |
+| `surface` | Element background (cards, boxes) | `#F5F5F5` |
+| `text.primary` | Primary text color | `#333333` |
+| `text.secondary` | Secondary text color | `#666666` |
 
-⚠️ **Attention** : `text` doit être un objet avec `primary` et `secondary`, pas une chaîne simple.
+⚠️ **Warning**: `text` must be an object with `primary` and `secondary`, not a simple string.
 
-#### ThemeTypography (obligatoire)
+#### ThemeTypography (required)
 
 ```json
 {
@@ -172,21 +172,21 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
 }
 ```
 
-| Propriété | Description | Exemple |
-|-----------|-------------|---------|
-| `fontFamily.heading` | Police pour les titres | `Arial`, `Calibri` |
-| `fontFamily.body` | Police pour le texte | `Arial`, `Calibri` |
-| `sizes.h1` | Taille titre niveau 1 | `"44"` |
-| `sizes.h2` | Taille titre niveau 2 | `"32"` |
-| `sizes.h3` | Taille titre niveau 3 | `"24"` |
-| `sizes.body` | Taille texte corps | `"18"` |
-| `sizes.caption` | Taille légendes/notes | `"14"` |
+| Property | Description | Example |
+|----------|-------------|---------|
+| `fontFamily.heading` | Font for headings | `Arial`, `Calibri` |
+| `fontFamily.body` | Font for body text | `Arial`, `Calibri` |
+| `sizes.h1` | Level 1 heading size | `"44"` |
+| `sizes.h2` | Level 2 heading size | `"32"` |
+| `sizes.h3` | Level 3 heading size | `"24"` |
+| `sizes.body` | Body text size | `"18"` |
+| `sizes.caption` | Caption/notes size | `"14"` |
 
-⚠️ **Attention** : Les tailles sont des chaînes (`"44"`), pas des nombres.
+⚠️ **Warning**: Sizes are strings (`"44"`), not numbers.
 
-#### Palettes de Couleurs Recommandées
+#### Recommended Color Palettes
 
-**Corporate Blue** (professionnel)
+**Corporate Blue** (professional)
 ```json
 {
   "primary": "#1E3A5F",
@@ -198,7 +198,7 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
 }
 ```
 
-**Modern Dark** (présentations impactantes)
+**Modern Dark** (impactful presentations)
 ```json
 {
   "primary": "#2D3436",
@@ -222,16 +222,16 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
 }
 ```
 
-### Types de Slides
+### Slide Types
 
-#### 1. Slide Titre
+#### 1. Title Slide
 
 ```json
 {
   "type": "title",
-  "title": "Titre Principal",
-  "subtitle": "Sous-titre optionnel",
-  "author": "Présentateur",
+  "title": "Main Title",
+  "subtitle": "Optional subtitle",
+  "author": "Presenter",
   "date": "2024-01-15",
   "background": {
     "color": "#1E3A5F"
@@ -239,7 +239,7 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
 }
 ```
 
-#### 2. Slide Section
+#### 2. Section Slide
 
 ```json
 {
@@ -252,16 +252,16 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
 }
 ```
 
-#### 3. Slide Contenu Standard
+#### 3. Standard Content Slide
 
 ```json
 {
   "type": "content",
-  "title": "Titre du slide",
+  "title": "Slide title",
   "elements": [
     {
       "type": "text",
-      "content": "Paragraphe de texte...",
+      "content": "Text paragraph...",
       "position": { "x": 0.5, "y": 1.5, "w": 9, "h": 1 },
       "style": {
         "fontSize": 18,
@@ -271,10 +271,10 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
     {
       "type": "bullets",
       "items": [
-        "Premier point",
-        "Deuxième point",
-        { "text": "Point avec sous-points", "indent": 0 },
-        { "text": "Sous-point", "indent": 1 }
+        "First point",
+        "Second point",
+        { "text": "Point with sub-points", "indent": 0 },
+        { "text": "Sub-point", "indent": 1 }
       ],
       "position": { "x": 0.5, "y": 2.5, "w": 9, "h": 3 }
     }
@@ -282,12 +282,12 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
 }
 ```
 
-#### 4. Slide avec Image
+#### 4. Slide with Image
 
 ```json
 {
   "type": "content",
-  "title": "Slide avec image",
+  "title": "Slide with image",
   "elements": [
     {
       "type": "image",
@@ -297,7 +297,7 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
     },
     {
       "type": "text",
-      "content": "Source: Rapport 2024",
+      "content": "Source: Report 2024",
       "position": { "x": 1, "y": 6.2, "w": 8, "h": 0.3 },
       "style": { "fontSize": 10, "color": "#666666" }
     }
@@ -305,31 +305,31 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --ve
 }
 ```
 
-**Options de sizing pour les images** :
+**Sizing options for images**:
 
-| Type | Comportement |
-|------|--------------|
-| `contain` | **Par défaut**. Préserve le ratio d'aspect, l'image est entièrement visible dans la zone |
-| `cover` | Préserve le ratio d'aspect, remplit la zone (peut rogner) |
-| `stretch` | Étire l'image pour remplir exactement la zone (peut déformer) |
+| Type | Behavior |
+|------|----------|
+| `contain` | **Default**. Preserves aspect ratio, image is fully visible within the area |
+| `cover` | Preserves aspect ratio, fills the area (may crop) |
+| `stretch` | Stretches image to exactly fill the area (may distort) |
 
-⚠️ **Important** : Par défaut, les images utilisent `contain` pour préserver leur ratio d'aspect et éviter les déformations. Utilisez `stretch` uniquement si vous voulez explicitement déformer l'image.
+⚠️ **Important**: By default, images use `contain` to preserve their aspect ratio and avoid distortion. Use `stretch` only if you explicitly want to distort the image.
 
-### Intégration des Images Stock (skill: stock-photo-finder)
+### Stock Photo Integration (skill: stock-photo-finder)
 
-Les images téléchargées via `stock-photo-finder` sont prêtes à l'emploi :
+Images downloaded via `stock-photo-finder` are ready to use:
 
 ```bash
-# Télécharger une image pour la présentation
+# Download an image for the presentation
 npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation landscape --download --output-dir output/photos
 ```
 
-**Utilisation dans la spécification :**
+**Usage in specification:**
 
 ```json
 {
   "type": "content",
-  "title": "Notre Équipe",
+  "title": "Our Team",
   "elements": [
     {
       "type": "image",
@@ -342,17 +342,17 @@ npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation lands
 }
 ```
 
-**Types de slides avec images stock :**
+**Slide types with stock photos:**
 
-| Usage | Sizing | Position recommandée |
-|-------|--------|----------------------|
-| Image plein slide (background) | `cover` | `{ "x": 0, "y": 0, "w": 10, "h": 5.625 }` |
-| Image avec titre | `contain` | `{ "x": 0.5, "y": 1.2, "w": 9, "h": 4.2 }` |
-| Image demi-slide (gauche) | `cover` | `{ "x": 0, "y": 0, "w": 5, "h": 5.625 }` |
-| Image demi-slide (droite) | `cover` | `{ "x": 5, "y": 0, "w": 5, "h": 5.625 }` |
-| Vignette/médaillon | `cover` | `{ "x": 7, "y": 1.5, "w": 2.5, "h": 2.5 }` |
+| Usage | Sizing | Recommended position |
+|-------|--------|---------------------|
+| Full slide image (background) | `cover` | `{ "x": 0, "y": 0, "w": 10, "h": 5.625 }` |
+| Image with title | `contain` | `{ "x": 0.5, "y": 1.2, "w": 9, "h": 4.2 }` |
+| Half-slide image (left) | `cover` | `{ "x": 0, "y": 0, "w": 5, "h": 5.625 }` |
+| Half-slide image (right) | `cover` | `{ "x": 5, "y": 0, "w": 5, "h": 5.625 }` |
+| Thumbnail/vignette | `cover` | `{ "x": 7, "y": 1.5, "w": 2.5, "h": 2.5 }` |
 
-**Slide avec texte sur image (overlay) :**
+**Slide with text over image (overlay):**
 
 ```json
 {
@@ -370,7 +370,7 @@ npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation lands
     },
     {
       "type": "text",
-      "content": "Notre Vision pour 2025",
+      "content": "Our Vision for 2025",
       "position": { "x": 0.5, "y": 4, "w": 9, "h": 1 },
       "style": { "fontSize": 36, "color": "#FFFFFF", "bold": true }
     }
@@ -378,14 +378,14 @@ npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation lands
 }
 ```
 
-> 💡 **Astuce** : Inclure l'attribution dans les notes du présentateur pour respecter les bonnes pratiques.
+> 💡 **Tip**: Include attribution in presenter notes to follow best practices.
 
-#### 5. Slide avec Graphique
+#### 5. Slide with Chart
 
 ```json
 {
   "type": "content",
-  "title": "Performance Trimestrielle",
+  "title": "Quarterly Performance",
   "elements": [
     {
       "type": "chart",
@@ -396,7 +396,7 @@ npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation lands
         { "name": "Q3", "values": [110, 130, 90] },
         { "name": "Q4", "values": [150, 160, 110] }
       ],
-      "series": ["Produit A", "Produit B", "Produit C"],
+      "series": ["Product A", "Product B", "Product C"],
       "position": { "x": 0.5, "y": 1.5, "w": 9, "h": 5 },
       "options": {
         "showLegend": true,
@@ -408,18 +408,18 @@ npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation lands
 }
 ```
 
-#### 6. Slide avec Tableau
+#### 6. Slide with Table
 
 ```json
 {
   "type": "content",
-  "title": "Comparatif",
+  "title": "Comparison",
   "elements": [
     {
       "type": "table",
-      "headers": ["Critère", "Option A", "Option B", "Option C"],
+      "headers": ["Criteria", "Option A", "Option B", "Option C"],
       "rows": [
-        ["Prix", "100€", "150€", "120€"],
+        ["Price", "100€", "150€", "120€"],
         ["Performance", "★★★", "★★★★★", "★★★★"],
         ["Support", "Email", "24/7", "Business hours"]
       ],
@@ -434,20 +434,20 @@ npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation lands
 }
 ```
 
-#### 7. Slide Deux Colonnes
+#### 7. Two-Column Slide
 
 ```json
 {
   "type": "two-column",
-  "title": "Comparaison",
+  "title": "Comparison",
   "left": {
-    "title": "Avant",
+    "title": "Before",
     "elements": [
       { "type": "bullets", "items": ["Point 1", "Point 2"] }
     ]
   },
   "right": {
-    "title": "Après",
+    "title": "After",
     "elements": [
       { "type": "bullets", "items": ["Point 1", "Point 2"] }
     ]
@@ -455,13 +455,13 @@ npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation lands
 }
 ```
 
-#### 8. Slide Citation
+#### 8. Quote Slide
 
 ```json
 {
   "type": "quote",
-  "quote": "Le meilleur moment pour planter un arbre était il y a 20 ans. Le deuxième meilleur moment est maintenant.",
-  "author": "Proverbe chinois",
+  "quote": "The best time to plant a tree was 20 years ago. The second best time is now.",
+  "author": "Chinese proverb",
   "style": {
     "quoteSize": 28,
     "authorSize": 16
@@ -469,23 +469,23 @@ npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation lands
 }
 ```
 
-## Système de Positionnement
+## Positioning System
 
-### Coordonnées (en pouces)
+### Coordinates (in inches)
 
-Pour un slide 16:9 (dimensions : 10" x 5.625") :
+For a 16:9 slide (dimensions: 10" x 5.625"):
 
 ```
 ┌─────────────────────────────────────────┐
 │ (0,0)                           (10,0)  │
 │                                         │
-│          Zone de contenu                │
+│          Content area                   │
 │                                         │
 │ (0,5.625)                    (10,5.625) │
 └─────────────────────────────────────────┘
 ```
 
-### Positions Prédéfinies
+### Predefined Positions
 
 ```json
 {
@@ -500,20 +500,20 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
 }
 ```
 
-## Types de Graphiques Supportés
+## Supported Chart Types
 
 | Type | Code | Description |
 |------|------|-------------|
-| Barres verticales | `bar` | Comparaison de catégories |
-| Barres horizontales | `barH` | Classement, labels longs |
-| Lignes | `line` | Tendances temporelles |
-| Aires | `area` | Volume dans le temps |
-| Camembert | `pie` | Parts d'un tout |
-| Donut | `doughnut` | Parts avec espace central |
-| Scatter | `scatter` | Corrélations |
-| Radar | `radar` | Comparaison multicritères |
+| Vertical bars | `bar` | Category comparison |
+| Horizontal bars | `barH` | Ranking, long labels |
+| Lines | `line` | Temporal trends |
+| Areas | `area` | Volume over time |
+| Pie | `pie` | Parts of a whole |
+| Donut | `doughnut` | Parts with central space |
+| Scatter | `scatter` | Correlations |
+| Radar | `radar` | Multi-criteria comparison |
 
-### Options de Graphiques
+### Chart Options
 
 ```json
 {
@@ -524,7 +524,7 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
     "showValue": true,
     "showPercent": false,
     "showCatAxisTitle": true,
-    "catAxisTitle": "Trimestres",
+    "catAxisTitle": "Quarters",
     "showValAxisTitle": true,
     "valAxisTitle": "Revenue (M€)",
     "catGridLine": { "style": "none" },
@@ -533,9 +533,9 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
 }
 ```
 
-## Styles de Texte
+## Text Styles
 
-### Options de Formatage
+### Formatting Options
 
 ```json
 {
@@ -558,23 +558,23 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
 }
 ```
 
-### Texte Enrichi (Rich Text)
+### Rich Text
 
 ```json
 {
   "type": "text",
   "content": [
-    { "text": "Texte normal " },
-    { "text": "en gras", "options": { "bold": true } },
-    { "text": " et " },
-    { "text": "en couleur", "options": { "color": "#E15759" } }
+    { "text": "Normal text " },
+    { "text": "in bold", "options": { "bold": true } },
+    { "text": " and " },
+    { "text": "in color", "options": { "color": "#E15759" } }
   ]
 }
 ```
 
-## Éléments de Forme
+## Shape Elements
 
-### Formes de Base
+### Basic Shapes
 
 ```json
 {
@@ -593,9 +593,9 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
 }
 ```
 
-**Formes disponibles** : `rect`, `roundRect`, `ellipse`, `triangle`, `diamond`, `pentagon`, `hexagon`, `arrow`, `chevron`, `line`
+**Available shapes**: `rect`, `roundRect`, `ellipse`, `triangle`, `diamond`, `pentagon`, `hexagon`, `arrow`, `chevron`, `line`
 
-### Connecteurs
+### Connectors
 
 ```json
 {
@@ -610,9 +610,9 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
 }
 ```
 
-## Master Slides et Layouts
+## Master Slides and Layouts
 
-### Définir un Master
+### Define a Master
 
 ```json
 {
@@ -628,7 +628,7 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
         },
         {
           "type": "text",
-          "content": "Confidentiel",
+          "content": "Confidential",
           "position": { "x": 0.5, "y": 5.3, "w": 2, "h": 0.2 },
           "style": { "fontSize": 8, "color": "#999999" }
         }
@@ -638,7 +638,7 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
 }
 ```
 
-### Utiliser un Layout
+### Use a Layout
 
 ```json
 {
@@ -649,23 +649,23 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
 }
 ```
 
-## Notes du Présentateur
+## Presenter Notes
 
 ```json
 {
   "type": "content",
-  "title": "Slide avec notes",
+  "title": "Slide with notes",
   "elements": [...],
-  "notes": "Points clés à mentionner :\n- Premier point important\n- Deuxième point\n- Question à poser à l'audience"
+  "notes": "Key points to mention:\n- First important point\n- Second point\n- Question to ask the audience"
 }
 ```
 
-## Animations (Basiques)
+## Animations (Basic)
 
 ```json
 {
   "type": "text",
-  "content": "Texte animé",
+  "content": "Animated text",
   "animation": {
     "type": "fadeIn",
     "delay": 0.5
@@ -673,37 +673,37 @@ Pour un slide 16:9 (dimensions : 10" x 5.625") :
 }
 ```
 
-**Types d'animation** : `fadeIn`, `fadeOut`, `slideInLeft`, `slideInRight`, `slideInTop`, `slideInBottom`, `zoomIn`, `zoomOut`
+**Animation types**: `fadeIn`, `fadeOut`, `slideInLeft`, `slideInRight`, `slideInTop`, `slideInBottom`, `zoomIn`, `zoomOut`
 
-## Bonnes Pratiques de Production
+## Production Best Practices
 
 ### Performance
 
-- Images : Utiliser JPEG pour photos, PNG pour graphiques
-- Résolution : 2x pour écrans retina (max 1920x1080 par image)
-- Compression : Optimiser les images avant inclusion
+- Images: Use JPEG for photos, PNG for charts
+- Resolution: 2x for retina displays (max 1920x1080 per image)
+- Compression: Optimize images before inclusion
 
-### Compatibilité
+### Compatibility
 
-- Polices : Utiliser web-safe fonts pour garantir l'affichage
-- Couleurs : Utiliser le format HEX (#RRGGBB)
-- Dimensions : Respecter le ratio 16:9
+- Fonts: Use web-safe fonts to ensure display
+- Colors: Use HEX format (#RRGGBB)
+- Dimensions: Respect the 16:9 ratio
 
-### Accessibilité
+### Accessibility
 
-- Alt text pour toutes les images
-- Contraste suffisant (WCAG 2.1)
-- Structure hiérarchique des titres
+- Alt text for all images
+- Sufficient contrast (WCAG 2.1)
+- Hierarchical heading structure
 
-## Workflow de Génération
+## Generation Workflow
 
-1. **Validation** : Vérifier la structure JSON
-2. **Résolution des ressources** : Charger images, vérifier chemins
-3. **Application du thème** : Appliquer couleurs, typographie
-4. **Génération** : Créer les slides un par un
-5. **Post-traitement** : Ajouter métadonnées, optimiser
-6. **Export** : Sauvegarder le fichier .pptx
+1. **Validation**: Check JSON structure
+2. **Resource resolution**: Load images, check paths
+3. **Theme application**: Apply colors, typography
+4. **Generation**: Create slides one by one
+5. **Post-processing**: Add metadata, optimize
+6. **Export**: Save the .pptx file
 
-## Références
+## References
 
-Consulte `references/slide-layouts.md` pour les layouts prédéfinis.
+See `references/slide-layouts.md` for predefined layouts.

@@ -1,253 +1,253 @@
 ---
 name: skill-review
-description: Analyse et évalue la qualité des skills - description, expertise, outils et bonnes pratiques
+description: Analyze and evaluate skill quality - description, expertise, tools and best practices
 tags: [skills, quality, review, audit]
 version: 1.0.0
 ---
 
-# Évaluation de la Qualité des Skills
+# Skill Quality Evaluation
 
-## Objectif
+## Objective
 
-Analyser chaque skill dans `.claude/skills/` et évaluer sa qualité selon 4 axes principaux pour garantir une exploitation optimale par Claude Code.
+Analyze each skill in `.claude/skills/` and evaluate its quality across 4 main axes to ensure optimal utilization by Claude Code.
 
-## Méthodologie d'Évaluation
+## Evaluation Methodology
 
-Pour chaque skill, effectuer une analyse complète selon les critères ci-dessous et attribuer une note de 1 à 5.
-
----
-
-## Axe 1 : Clarté et Exploitabilité par Claude Code
-
-### Critères d'évaluation
-
-| Critère | Poids | Description |
-|---------|-------|-------------|
-| **Front matter complet** | 20% | name, description, allowed-tools présents et cohérents |
-| **Description concise et précise** | 25% | La description explique QUAND utiliser le skill (trigger) |
-| **Instructions actionnables** | 25% | Les instructions sont claires, séquencées, sans ambiguïté |
-| **Exemples d'utilisation** | 15% | Exemples CLI concrets et reproductibles |
-| **Structure du document** | 15% | Hiérarchie claire, sections bien délimitées |
-
-### Checklist
-
-- [ ] Le front matter contient `name`, `description`, `allowed-tools`
-- [ ] La description commence par un verbe d'action ou "Utiliser ce skill quand..."
-- [ ] Les commandes CLI sont documentées avec toutes les options
-- [ ] Les exemples couvrent les cas d'usage principaux
-- [ ] La structure suit un ordre logique (contexte → référence → exemples)
-- [ ] Pas de jargon non expliqué
-- [ ] Les prérequis sont explicites
-- [ ] Les limitations sont documentées
-
-### Questions à se poser
-
-1. Claude peut-il comprendre QUAND invoquer ce skill ?
-2. Claude peut-il exécuter les tâches SANS information supplémentaire ?
-3. Les instructions évitent-elles toute ambiguïté ?
-4. Le skill guide-t-il vers les bonnes décisions ?
+For each skill, perform a comprehensive analysis according to the criteria below and assign a score from 1 to 5.
 
 ---
 
-## Axe 2 : Expertise Métier et Références
+## Axis 1: Clarity and Usability by Claude Code
 
-### Critères d'évaluation
+### Evaluation Criteria
 
-| Critère | Poids | Description |
+| Criterion | Weight | Description |
 |---------|-------|-------------|
-| **Persona expert crédible** | 20% | Le skill incarne une expertise réelle et citée |
-| **Références autoritatives** | 25% | Citations d'experts, livres, standards reconnus |
-| **Principes fondamentaux** | 20% | Philosophie/principes guidant les décisions |
-| **Actualité des références** | 20% | Sources à jour, pas obsolètes |
-| **Documents de référence** | 15% | Fichiers dans `references/` pertinents et complets |
+| **Complete front matter** | 20% | name, description, allowed-tools present and consistent |
+| **Concise and precise description** | 25% | The description explains WHEN to use the skill (trigger) |
+| **Actionable instructions** | 25% | Instructions are clear, sequenced, without ambiguity |
+| **Usage examples** | 15% | Concrete and reproducible CLI examples |
+| **Document structure** | 15% | Clear hierarchy, well-defined sections |
 
 ### Checklist
 
-- [ ] Le skill définit un "persona expert" (ex: "Tu es un Data Engineer Senior")
-- [ ] Les experts/auteurs cités sont des références reconnues du domaine
-- [ ] Les principes fondamentaux sont énoncés clairement
-- [ ] Les sources sont vérifiables (livres, URLs, standards)
-- [ ] Le répertoire `references/` contient des guides complémentaires
-- [ ] Les références sont datées de moins de 5 ans (ou classiques intemporels)
-- [ ] La terminologie utilisée est celle du domaine professionnel
+- [ ] Front matter contains `name`, `description`, `allowed-tools`
+- [ ] Description starts with an action verb or "Use this skill when..."
+- [ ] CLI commands are documented with all options
+- [ ] Examples cover the main use cases
+- [ ] Structure follows a logical order (context → reference → examples)
+- [ ] No unexplained jargon
+- [ ] Prerequisites are explicit
+- [ ] Limitations are documented
 
-### Questions à se poser
+### Questions to Ask
 
-1. Un expert du domaine validerait-il ces recommandations ?
-2. Les références citées sont-elles des autorités reconnues ?
-3. La philosophie du skill est-elle cohérente et professionnelle ?
-4. Les pratiques recommandées sont-elles à jour ?
+1. Can Claude understand WHEN to invoke this skill?
+2. Can Claude execute the tasks WITHOUT additional information?
+3. Do the instructions avoid any ambiguity?
+4. Does the skill guide toward the right decisions?
 
-### Références Attendues par Domaine
+---
 
-| Domaine | Références Recommandées |
+## Axis 2: Domain Expertise and References
+
+### Evaluation Criteria
+
+| Criterion | Weight | Description |
+|---------|-------|-------------|
+| **Credible expert persona** | 20% | The skill embodies real and cited expertise |
+| **Authoritative references** | 25% | Citations from experts, books, recognized standards |
+| **Fundamental principles** | 20% | Philosophy/principles guiding decisions |
+| **Reference currency** | 20% | Up-to-date sources, not obsolete |
+| **Reference documents** | 15% | Relevant and complete files in `references/` |
+
+### Checklist
+
+- [ ] The skill defines an "expert persona" (e.g., "You are a Senior Data Engineer")
+- [ ] The cited experts/authors are recognized references in the field
+- [ ] Fundamental principles are clearly stated
+- [ ] Sources are verifiable (books, URLs, standards)
+- [ ] The `references/` directory contains complementary guides
+- [ ] References are less than 5 years old (or timeless classics)
+- [ ] Terminology used is that of the professional domain
+
+### Questions to Ask
+
+1. Would a domain expert validate these recommendations?
+2. Are the cited references recognized authorities?
+3. Is the skill's philosophy coherent and professional?
+4. Are the recommended practices up to date?
+
+### Expected References by Domain
+
+| Domain | Recommended References |
 |---------|------------------------|
 | Data Engineering | Joe Reis, Matt Housley, Martin Kleppmann |
-| Visualisation | Edward Tufte, Stephen Few, Alberto Cairo, Jacques Bertin |
+| Visualization | Edward Tufte, Stephen Few, Alberto Cairo, Jacques Bertin |
 | Storytelling | Nancy Duarte, Cole Nussbaumer Knaflic, Chip & Dan Heath |
-| Présentation | Garr Reynolds, Nancy Duarte, Chris Anderson |
+| Presentation | Garr Reynolds, Nancy Duarte, Chris Anderson |
 | UX/Design | Don Norman, Steve Krug, Jakob Nielsen |
 | Architecture | Martin Fowler, Eric Evans, Sam Newman |
 
 ---
 
-## Axe 3 : Outils et Documentation Technique
+## Axis 3: Tools and Technical Documentation
 
-### Critères d'évaluation
+### Evaluation Criteria
 
-| Critère | Poids | Description |
+| Criterion | Weight | Description |
 |---------|-------|-------------|
-| **Commandes CLI complètes** | 25% | Toutes les options documentées avec exemples |
-| **Formats d'entrée/sortie** | 20% | Structures de données clairement définies |
-| **Gestion des erreurs** | 15% | Cas d'erreur et solutions documentés |
-| **Intégration workflow** | 20% | Comment le skill s'intègre aux autres |
-| **Bonnes pratiques** | 20% | Tips, warnings, anti-patterns |
+| **Complete CLI commands** | 25% | All options documented with examples |
+| **Input/output formats** | 20% | Data structures clearly defined |
+| **Error handling** | 15% | Error cases and solutions documented |
+| **Workflow integration** | 20% | How the skill integrates with others |
+| **Best practices** | 20% | Tips, warnings, anti-patterns |
 
 ### Checklist
 
-- [ ] Syntaxe CLI complète avec toutes les options
-- [ ] Tableau des options avec description et exemples
-- [ ] Formats d'entrée documentés (types, schémas)
-- [ ] Formats de sortie documentés (structure JSON, fichiers)
-- [ ] Messages d'erreur expliqués avec solutions
-- [ ] Workflow d'intégration avec les autres skills
-- [ ] Section "Bonnes Pratiques" ou équivalent
-- [ ] Section "Pièges à Éviter" ou équivalent
+- [ ] Complete CLI syntax with all options
+- [ ] Table of options with description and examples
+- [ ] Input formats documented (types, schemas)
+- [ ] Output formats documented (JSON structure, files)
+- [ ] Error messages explained with solutions
+- [ ] Integration workflow with other skills
+- [ ] "Best Practices" section or equivalent
+- [ ] "Pitfalls to Avoid" section or equivalent
 
-### Questions à se poser
+### Questions to Ask
 
-1. Un développeur peut-il utiliser l'outil sans aide extérieure ?
-2. Les formats de données sont-ils explicites et validables ?
-3. Les cas d'erreur courants sont-ils couverts ?
-4. L'intégration avec les autres skills est-elle claire ?
+1. Can a developer use the tool without external help?
+2. Are data formats explicit and validatable?
+3. Are common error cases covered?
+4. Is integration with other skills clear?
 
 ---
 
-## Axe 4 : Qualité Générale et Bonnes Pratiques
+## Axis 4: General Quality and Best Practices
 
-### Critères d'évaluation
+### Evaluation Criteria
 
-| Critère | Poids | Description |
+| Criterion | Weight | Description |
 |---------|-------|-------------|
-| **Cohérence interne** | 20% | Pas de contradictions, terminologie uniforme |
-| **Complétude** | 20% | Tous les cas d'usage sont couverts |
-| **Maintenabilité** | 20% | Facile à mettre à jour, modulaire |
-| **Accessibilité** | 20% | Compréhensible par un non-expert |
-| **Valeur ajoutée** | 20% | Le skill apporte une réelle expertise |
+| **Internal consistency** | 20% | No contradictions, uniform terminology |
+| **Completeness** | 20% | All use cases are covered |
+| **Maintainability** | 20% | Easy to update, modular |
+| **Accessibility** | 20% | Understandable by a non-expert |
+| **Added value** | 20% | The skill provides real expertise |
 
 ### Checklist
 
-- [ ] Terminologie cohérente dans tout le document
-- [ ] Pas de sections vides ou "TODO"
-- [ ] Longueur appropriée (ni trop court, ni trop verbeux)
-- [ ] Table des matières implicite via les titres
-- [ ] Liens vers d'autres skills si pertinent
-- [ ] Exemples testables et reproductibles
-- [ ] Le skill évite la redondance avec CLAUDE.md
-- [ ] Les assets (palettes, configs) sont à jour
+- [ ] Consistent terminology throughout the document
+- [ ] No empty sections or "TODO"
+- [ ] Appropriate length (neither too short, nor too verbose)
+- [ ] Implicit table of contents via headings
+- [ ] Links to other skills if relevant
+- [ ] Testable and reproducible examples
+- [ ] The skill avoids redundancy with CLAUDE.md
+- [ ] Assets (palettes, configs) are up to date
 
-### Anti-Patterns à Détecter
+### Anti-Patterns to Detect
 
 | Anti-Pattern | Description | Impact |
 |--------------|-------------|--------|
-| **Skill vide** | Peu de contenu, pas d'expertise | Claude ne sait pas quoi faire |
-| **Skill fourre-tout** | Trop de responsabilités | Confusion sur quand l'utiliser |
-| **Instructions ambiguës** | "Fais au mieux", "Si nécessaire" | Résultats inconsistants |
-| **Références obsolètes** | Outils/méthodes dépassés | Mauvaises recommandations |
-| **Couplage fort** | Dépend trop d'autres skills | Difficile à maintenir |
-| **Documentation inversée** | Référence avant contexte | Difficile à comprendre |
+| **Empty skill** | Little content, no expertise | Claude doesn't know what to do |
+| **Catch-all skill** | Too many responsibilities | Confusion about when to use it |
+| **Ambiguous instructions** | "Do your best", "If necessary" | Inconsistent results |
+| **Obsolete references** | Outdated tools/methods | Bad recommendations |
+| **Strong coupling** | Depends too much on other skills | Hard to maintain |
+| **Inverted documentation** | Reference before context | Hard to understand |
 
 ---
 
-## Grille de Notation
+## Scoring Grid
 
-### Échelle
+### Scale
 
-| Note | Niveau | Description |
+| Score | Level | Description |
 |------|--------|-------------|
-| 5 | Excellent | Skill exemplaire, peut servir de modèle |
-| 4 | Bon | Quelques améliorations mineures possibles |
-| 3 | Acceptable | Fonctionnel mais perfectible |
-| 2 | Insuffisant | Lacunes importantes, nécessite révision |
-| 1 | Critique | Ne remplit pas sa fonction |
+| 5 | Excellent | Exemplary skill, can serve as a model |
+| 4 | Good | Some minor improvements possible |
+| 3 | Acceptable | Functional but improvable |
+| 2 | Insufficient | Major gaps, requires revision |
+| 1 | Critical | Does not fulfill its function |
 
-### Calcul du Score Global
+### Overall Score Calculation
 
 ```
-Score = (Axe1 × 30%) + (Axe2 × 25%) + (Axe3 × 25%) + (Axe4 × 20%)
+Score = (Axis1 × 30%) + (Axis2 × 25%) + (Axis3 × 25%) + (Axis4 × 20%)
 ```
 
 ---
 
-## Template de Rapport
+## Report Template
 
-Pour chaque skill analysé, produire un rapport structuré :
+For each analyzed skill, produce a structured report:
 
 ```markdown
-## Skill: [nom]
+## Skill: [name]
 
-### Résumé
-- **Score global** : X.X/5
-- **Points forts** : ...
-- **Axes d'amélioration** : ...
+### Summary
+- **Overall score**: X.X/5
+- **Strengths**: ...
+- **Areas for improvement**: ...
 
-### Détail par Axe
+### Detail by Axis
 
-#### Axe 1 : Clarté et Exploitabilité (X/5)
-- Front matter : ✓/✗
-- Description : ...
-- Instructions : ...
-- Exemples : ...
+#### Axis 1: Clarity and Usability (X/5)
+- Front matter: ✓/✗
+- Description: ...
+- Instructions: ...
+- Examples: ...
 
-#### Axe 2 : Expertise Métier (X/5)
-- Persona : ...
-- Références : ...
-- Actualité : ...
+#### Axis 2: Domain Expertise (X/5)
+- Persona: ...
+- References: ...
+- Currency: ...
 
-#### Axe 3 : Outils et Documentation (X/5)
-- CLI : ...
-- Formats : ...
-- Intégration : ...
+#### Axis 3: Tools and Documentation (X/5)
+- CLI: ...
+- Formats: ...
+- Integration: ...
 
-#### Axe 4 : Qualité Générale (X/5)
-- Cohérence : ...
-- Complétude : ...
-- Maintenabilité : ...
+#### Axis 4: General Quality (X/5)
+- Consistency: ...
+- Completeness: ...
+- Maintainability: ...
 
-### Recommandations Prioritaires
-1. [Action prioritaire 1]
-2. [Action prioritaire 2]
-3. [Action prioritaire 3]
+### Priority Recommendations
+1. [Priority action 1]
+2. [Priority action 2]
+3. [Priority action 3]
 ```
 
 ---
 
-## Analyse à Effectuer
+## Analysis to Perform
 
-1. **Lister tous les skills** dans `.claude/skills/`
+1. **List all skills** in `.claude/skills/`
 
-2. **Pour chaque skill** :
-   - Lire le fichier `SKILL.md`
-   - Lire les fichiers dans `references/` s'ils existent
-   - Lire les assets (JSON, configs) s'ils existent
-   - Appliquer la grille d'évaluation
+2. **For each skill**:
+   - Read the `SKILL.md` file
+   - Read files in `references/` if they exist
+   - Read assets (JSON, configs) if they exist
+   - Apply the evaluation grid
 
-3. **Produire** :
-   - Un rapport individuel par skill
-   - Un tableau récapitulatif avec scores
-   - Une liste de recommandations prioritaires globales
+3. **Produce**:
+   - An individual report per skill
+   - A summary table with scores
+   - A list of overall priority recommendations
 
-4. **Identifier** :
-   - Le skill modèle (meilleur score)
-   - Les skills nécessitant une révision urgente
-   - Les patterns communs à améliorer
+4. **Identify**:
+   - The model skill (best score)
+   - Skills requiring urgent revision
+   - Common patterns to improve
 
 ---
 
-## Livrables Attendus
+## Expected Deliverables
 
-1. **Tableau récapitulatif** : Tous les skills avec leurs 4 scores et le score global
-2. **Rapports détaillés** : Un rapport par skill suivant le template
-3. **Recommandations globales** : Améliorations transversales à tous les skills
-4. **Skill modèle** : Identification du meilleur skill comme référence
-5. **Plan d'action** : Liste priorisée des améliorations à apporter
+1. **Summary table**: All skills with their 4 scores and overall score
+2. **Detailed reports**: One report per skill following the template
+3. **Overall recommendations**: Cross-cutting improvements for all skills
+4. **Model skill**: Identification of the best skill as a reference
+5. **Action plan**: Prioritized list of improvements to make

@@ -1,6 +1,6 @@
 ---
 name: icon-finder
-description: Recherche et téléchargement d'icônes depuis Lucide Icons. 1500+ icônes open source, SVG personnalisables (couleur, taille). Utiliser ce skill pour illustrer les slides avec des icônes professionnelles.
+description: Search and download icons from Lucide Icons. 1500+ open source icons, customizable SVG (color, size). Use this skill to illustrate slides with professional icons.
 allowed-tools:
   - Bash
   - Read
@@ -9,148 +9,148 @@ allowed-tools:
 
 # Icon Finder Skill
 
-Tu es un **Expert en Iconographie** qui comprend :
+You are an **Iconography Expert** who understands:
 
-- **Communication visuelle** - L'icône parfaite clarifie le message
-- **Cohérence graphique** - Style uniforme dans une présentation
-- **Hiérarchie visuelle** - Les icônes guident l'attention
+- **Visual communication** - The perfect icon clarifies the message
+- **Graphic consistency** - Uniform style throughout a presentation
+- **Visual hierarchy** - Icons guide attention
 
-## Références et Expertise
+## References and Expertise
 
-### Experts de Référence
+### Reference Experts
 
-- **Susan Kare** - Pionnière de l'iconographie moderne (icônes Macintosh originales)
-- **Jon Hicks** - Auteur de *The Icon Handbook*, créateur du logo Firefox
-- **Don Norman** - *The Design of Everyday Things* - Signifiants et affordances visuelles
-- **Otl Aicher** - Designer des pictogrammes olympiques (Munich 1972)
+- **Susan Kare** - Pioneer of modern iconography (original Macintosh icons)
+- **Jon Hicks** - Author of *The Icon Handbook*, creator of Firefox logo
+- **Don Norman** - *The Design of Everyday Things* - Visual signifiers and affordances
+- **Otl Aicher** - Designer of Olympic pictograms (Munich 1972)
 
-### Philosophie
+### Philosophy
 
-> « Une bonne icône est comme un bon panneau routier : elle communique instantanément,
-> sans ambiguïté, et fonctionne même en vision périphérique. »
+> "A good icon is like a good road sign: it communicates instantly,
+> without ambiguity, and works even in peripheral vision."
 > — Susan Kare
 
-### Principes de Sémiotique Visuelle
+### Visual Semiotics Principles
 
-1. **Universalité** : Une icône doit être comprise sans texte, transcender les cultures
-2. **Cohérence** : Même style (outline OU filled) dans une présentation, jamais mélangé
-3. **Hiérarchie** : La taille indique l'importance relative
-4. **Contraste** : Visible sur tous les fonds, tester sur clair ET foncé
-5. **Simplicité** : Réduire au minimum de traits nécessaires à la reconnaissance
+1. **Universality**: An icon must be understood without text, transcend cultures
+2. **Consistency**: Same style (outline OR filled) in a presentation, never mixed
+3. **Hierarchy**: Size indicates relative importance
+4. **Contrast**: Visible on all backgrounds, test on light AND dark
+5. **Simplicity**: Reduce to minimum strokes needed for recognition
 
-## Source : Lucide Icons
+## Source: Lucide Icons
 
-Ce skill utilise **Lucide**, une bibliothèque d'icônes open source :
+This skill uses **Lucide**, an open source icon library:
 
-- **1500+ icônes** de haute qualité
-- **SVG vectoriel** - Net à toute taille
-- **Personnalisable** - Couleur, taille, épaisseur de trait
-- **Gratuit** - Licence MIT, aucune attribution requise
-- **Pas d'API key** - Téléchargement direct depuis CDN
+- **1500+ icons** of high quality
+- **Vector SVG** - Sharp at any size
+- **Customizable** - Color, size, stroke width
+- **Free** - MIT license, no attribution required
+- **No API key** - Direct download from CDN
 
-Documentation : https://lucide.dev
+Documentation: https://lucide.dev
 
-## Référence CLI Complète
+## Complete CLI Reference
 
-### Commande principale
+### Main command
 
 ```bash
 npx tsx src/cli/icon-search.ts --query <text> [options]
 ```
 
-### Options disponibles
+### Available options
 
-| Option | Court | Description | Exemple |
+| Option | Short | Description | Example |
 |--------|-------|-------------|---------|
-| `--query <text>` | `-q` | Recherche par mot-clé | `--query "chart"` |
-| `--category <cat>` | `-c` | Filtrer par catégorie | `--category business` |
-| `--download` | `-d` | Télécharger les icônes | `--download` |
-| `--output-dir <path>` | `-o` | Dossier de sortie | `--output-dir output/icons` |
-| `--color <hex>` | | Couleur sans # | `--color 4CAF50` |
-| `--size <px>` | `-s` | Taille en pixels | `--size 48` |
-| `--stroke-width <n>` | | Épaisseur trait (1-3) | `--stroke-width 2` |
-| `--list-categories` | | Lister les catégories | `--list-categories` |
-| `--limit <n>` | `-l` | Nombre max de résultats | `--limit 10` |
+| `--query <text>` | `-q` | Search by keyword | `--query "chart"` |
+| `--category <cat>` | `-c` | Filter by category | `--category business` |
+| `--download` | `-d` | Download icons | `--download` |
+| `--output-dir <path>` | `-o` | Output directory | `--output-dir output/icons` |
+| `--color <hex>` | | Color without # | `--color 4CAF50` |
+| `--size <px>` | `-s` | Size in pixels | `--size 48` |
+| `--stroke-width <n>` | | Stroke width (1-3) | `--stroke-width 2` |
+| `--list-categories` | | List categories | `--list-categories` |
+| `--limit <n>` | `-l` | Max number of results | `--limit 10` |
 | `--format <fmt>` | `-F` | Format: json, markdown | `--format json` |
 
-### Exemples d'utilisation
+### Usage examples
 
 ```bash
-# Rechercher des icônes de graphiques
+# Search for chart icons
 npx tsx src/cli/icon-search.ts --query "chart"
 
-# Lister les icônes business
+# List business icons
 npx tsx src/cli/icon-search.ts --category business
 
-# Télécharger des icônes de flèches
+# Download arrow icons
 npx tsx src/cli/icon-search.ts --query "arrow" --download --output-dir output/icons
 
-# Télécharger avec couleur et taille personnalisées
+# Download with custom color and size
 npx tsx src/cli/icon-search.ts --query "check" --download --color 2E7D32 --size 64
 
-# Lister toutes les catégories disponibles
+# List all available categories
 npx tsx src/cli/icon-search.ts --list-categories
 
-# Export JSON pour automatisation
+# JSON export for automation
 npx tsx src/cli/icon-search.ts --query "user" --format json
 ```
 
-## Catégories Disponibles
+## Available Categories
 
-| Catégorie | Icônes typiques | Usage |
+| Category | Typical icons | Usage |
 |-----------|-----------------|-------|
-| `business` | briefcase, building, landmark | Contexte professionnel |
-| `finance` | wallet, credit-card, coins | Argent, paiements |
-| `charts` | bar-chart, line-chart, pie-chart | Visualisation de données |
-| `people` | user, users, contact | Personnes, équipes |
-| `communication` | mail, message, phone | Contact, échanges |
+| `business` | briefcase, building, landmark | Professional context |
+| `finance` | wallet, credit-card, coins | Money, payments |
+| `charts` | bar-chart, line-chart, pie-chart | Data visualization |
+| `people` | user, users, contact | People, teams |
+| `communication` | mail, message, phone | Contact, exchanges |
 | `technology` | laptop, server, cloud | IT, digital |
-| `navigation` | home, menu, search | Interface utilisateur |
-| `actions` | plus, check, edit, trash | Opérations CRUD |
+| `navigation` | home, menu, search | User interface |
+| `actions` | plus, check, edit, trash | CRUD operations |
 | `arrows` | arrow-up, chevron-right | Direction, navigation |
-| `status` | alert-circle, info, bell | Notifications, états |
+| `status` | alert-circle, info, bell | Notifications, states |
 | `files` | file, folder, clipboard | Documents |
-| `media` | image, camera, play | Multimédia |
-| `time` | clock, calendar, timer | Dates, durées |
-| `security` | lock, shield, key | Sécurité, accès |
-| `location` | map, map-pin, globe | Géographie |
+| `media` | image, camera, play | Multimedia |
+| `time` | clock, calendar, timer | Dates, durations |
+| `security` | lock, shield, key | Security, access |
+| `location` | map, map-pin, globe | Geography |
 | `shopping` | shopping-cart, tag, package | E-commerce |
 | `social` | heart, star, thumbs-up | Engagement |
 
-## Guide de Sélection d'Icônes
+## Icon Selection Guide
 
-### Par Concept Business
+### By Business Concept
 
-| Concept | Icônes recommandées |
+| Concept | Recommended icons |
 |---------|---------------------|
-| Croissance | `trending-up`, `bar-chart`, `arrow-up` |
-| Équipe | `users`, `user-plus`, `contact` |
-| Objectifs | `target`, `flag`, `trophy` |
-| Sécurité | `shield-check`, `lock`, `key` |
+| Growth | `trending-up`, `bar-chart`, `arrow-up` |
+| Team | `users`, `user-plus`, `contact` |
+| Goals | `target`, `flag`, `trophy` |
+| Security | `shield-check`, `lock`, `key` |
 | Innovation | `lightbulb`, `zap`, `rocket` |
 | Communication | `mail`, `message-circle`, `phone` |
 | Finance | `banknote`, `credit-card`, `piggy-bank` |
-| Technologie | `server`, `cloud`, `database` |
-| Temps | `clock`, `calendar`, `timer` |
+| Technology | `server`, `cloud`, `database` |
+| Time | `clock`, `calendar`, `timer` |
 | Validation | `check`, `check-circle`, `thumbs-up` |
 
-### Par Émotion/Ton
+### By Emotion/Tone
 
-| Ton | Icônes suggérées |
+| Tone | Suggested icons |
 |-----|------------------|
-| Positif | `check-circle`, `thumbs-up`, `smile`, `star` |
-| Alerte | `alert-triangle`, `alert-circle`, `bell` |
-| Négatif | `x-circle`, `thumbs-down`, `frown` |
-| Neutre | `info`, `help-circle`, `minus` |
+| Positive | `check-circle`, `thumbs-up`, `smile`, `star` |
+| Alert | `alert-triangle`, `alert-circle`, `bell` |
+| Negative | `x-circle`, `thumbs-down`, `frown` |
+| Neutral | `info`, `help-circle`, `minus` |
 
-## Intégration avec pptx-builder
+## Integration with pptx-builder
 
-Les icônes téléchargées sont des SVG utilisables directement :
+Downloaded icons are SVGs usable directly:
 
 ```json
 {
   "type": "content",
-  "title": "Nos Services",
+  "title": "Our Services",
   "elements": [
     {
       "type": "image",
@@ -159,22 +159,22 @@ Les icônes téléchargées sont des SVG utilisables directement :
     },
     {
       "type": "text",
-      "content": "Conseil",
+      "content": "Consulting",
       "position": { "x": 2, "y": 2, "w": 3, "h": 0.8 }
     }
   ]
 }
 ```
 
-### Layout avec icônes (grille 3 colonnes)
+### Layout with icons (3-column grid)
 
 ```json
 {
   "type": "content",
-  "title": "Nos Valeurs",
+  "title": "Our Values",
   "elements": [
     { "type": "image", "path": "output/icons/shield-check.svg", "position": { "x": 1.5, "y": 2, "w": 1, "h": 1 } },
-    { "type": "text", "content": "Sécurité", "position": { "x": 1, "y": 3.2, "w": 2, "h": 0.5 }, "style": { "align": "center" } },
+    { "type": "text", "content": "Security", "position": { "x": 1, "y": 3.2, "w": 2, "h": 0.5 }, "style": { "align": "center" } },
 
     { "type": "image", "path": "output/icons/zap.svg", "position": { "x": 4.5, "y": 2, "w": 1, "h": 1 } },
     { "type": "text", "content": "Performance", "position": { "x": 4, "y": 3.2, "w": 2, "h": 0.5 }, "style": { "align": "center" } },
@@ -185,54 +185,54 @@ Les icônes téléchargées sont des SVG utilisables directement :
 }
 ```
 
-## Personnalisation des Icônes
+## Icon Customization
 
-### Couleurs Recommandées
+### Recommended Colors
 
-| Style | Couleur | Hex |
+| Style | Color | Hex |
 |-------|---------|-----|
-| Corporate Blue | Bleu foncé | `1E3A5F` |
-| Success Green | Vert | `2E7D32` |
+| Corporate Blue | Dark blue | `1E3A5F` |
+| Success Green | Green | `2E7D32` |
 | Warning Orange | Orange | `EE6C4D` |
-| Error Red | Rouge | `D32F2F` |
-| Neutral Gray | Gris | `666666` |
-| Dark | Noir | `333333` |
-| Light | Gris clair | `9E9E9E` |
+| Error Red | Red | `D32F2F` |
+| Neutral Gray | Gray | `666666` |
+| Dark | Black | `333333` |
+| Light | Light gray | `9E9E9E` |
 
-### Tailles Recommandées pour PPTX
+### Recommended Sizes for PPTX
 
-| Usage | Taille | Contexte |
+| Usage | Size | Context |
 |-------|--------|----------|
-| Petit | 24px | Dans du texte, listes |
-| Moyen | 48px | Accompagnement de titre |
-| Grand | 64-96px | Slide d'icône principale |
-| Très grand | 128px+ | Slide minimaliste |
+| Small | 24px | In text, lists |
+| Medium | 48px | Title accompaniment |
+| Large | 64-96px | Main icon slide |
+| Very large | 128px+ | Minimalist slide |
 
 ```bash
-# Icônes pour slides minimalistes
+# Icons for minimalist slides
 npx tsx src/cli/icon-search.ts --query "target" --download --size 128 --color 1E3A5F
 
-# Icônes pour listes
+# Icons for lists
 npx tsx src/cli/icon-search.ts --query "check" --download --size 24 --color 2E7D32
 ```
 
-## Bonnes Pratiques
+## Best Practices
 
 ### DO ✅
 
-- **Cohérence** : Utiliser le même style (couleur, taille) pour toutes les icônes
-- **Simplicité** : Une icône par concept, pas de surcharge
-- **Pertinence** : L'icône doit clarifier, pas décorer
-- **Contraste** : S'assurer que l'icône est visible sur le fond
+- **Consistency**: Use the same style (color, size) for all icons
+- **Simplicity**: One icon per concept, no overload
+- **Relevance**: The icon should clarify, not decorate
+- **Contrast**: Ensure the icon is visible on the background
 
 ### DON'T ❌
 
-- **Mélanger les styles** : Éviter icônes pleines et outline ensemble
-- **Surcharger** : Pas plus de 5-6 icônes par slide
-- **Trop petit** : Icônes < 20px difficiles à voir en présentation
-- **Couleurs incohérentes** : Garder une palette limitée
+- **Mix styles**: Avoid filled and outline icons together
+- **Overload**: No more than 5-6 icons per slide
+- **Too small**: Icons < 20px difficult to see in presentation
+- **Inconsistent colors**: Keep a limited palette
 
-## Structure de Sortie
+## Output Structure
 
 ```
 output/icons/
@@ -242,24 +242,24 @@ output/icons/
 └── check-circle.svg
 ```
 
-## Recherche Efficace
+## Efficient Search
 
-### Mots-clés par Domaine
+### Keywords by Domain
 
-| Domaine | Mots-clés efficaces |
+| Domain | Effective keywords |
 |---------|---------------------|
 | Finance | money, bank, wallet, chart, growth |
-| RH | user, team, people, contact |
+| HR | user, team, people, contact |
 | IT | server, cloud, code, database |
 | Marketing | target, chart, share, trending |
-| Opérations | settings, tool, cog, process |
-| Juridique | file, document, shield, lock |
+| Operations | settings, tool, cog, process |
+| Legal | file, document, shield, lock |
 
-### Synonymes Utiles
+### Useful Synonyms
 
-Si une recherche ne donne pas de résultats, essayer :
+If a search doesn't return results, try:
 
-| Terme original | Alternatives |
+| Original term | Alternatives |
 |----------------|--------------|
 | money | banknote, coins, wallet, credit-card |
 | people | user, users, contact, team |

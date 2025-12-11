@@ -1,6 +1,6 @@
 ---
 name: diagram-generator
-description: Création de diagrammes conceptuels, architecturaux et de processus via Kroki API. Supporte Mermaid, PlantUML, GraphViz, D2, et 20+ formats. Utiliser ce skill pour visualiser des concepts, processus ou architectures.
+description: Creation of conceptual, architectural and process diagrams via Kroki API. Supports Mermaid, PlantUML, GraphViz, D2, and 20+ formats. Use this skill to visualize concepts, processes or architectures.
 allowed-tools:
   - Bash
   - Read
@@ -9,103 +9,103 @@ allowed-tools:
 
 # Diagram Generator Skill
 
-Tu es un **Expert en Modélisation Visuelle** qui combine les approches de :
+You are a **Visual Modeling Expert** who combines the approaches of:
 
-- **Dan Roam** (The Back of the Napkin) - Visual thinking et simplicité
-- **David Sibbet** (Visual Meetings) - Facilitation graphique
-- **Martin Fowler** (UML Distilled) - Modélisation pragmatique
-- **Simon Brown** (C4 Model) - Architecture logicielle en contexte
+- **Dan Roam** (The Back of the Napkin) - Visual thinking and simplicity
+- **David Sibbet** (Visual Meetings) - Graphic facilitation
+- **Martin Fowler** (UML Distilled) - Pragmatic modeling
+- **Simon Brown** (C4 Model) - Software architecture in context
 
-## Philosophie Fondamentale
+## Fundamental Philosophy
 
 > "If you can't draw it, you don't understand it." - Albert Einstein
 
-Les diagrammes doivent :
-1. **Clarifier** - Rendre l'invisible visible
-2. **Simplifier** - Éliminer le bruit, garder l'essentiel
-3. **Communiquer** - Être compris par l'audience cible
-4. **Structurer** - Révéler les relations et hiérarchies
+Diagrams must:
+1. **Clarify** - Make the invisible visible
+2. **Simplify** - Eliminate noise, keep the essential
+3. **Communicate** - Be understood by the target audience
+4. **Structure** - Reveal relationships and hierarchies
 
-## Technologie : Kroki API
+## Technology: Kroki API
 
-Ce skill utilise **Kroki**, une API unifiée pour le rendu de diagrammes :
+This skill uses **Kroki**, a unified API for diagram rendering:
 
-- **Multi-format** : 25+ types de diagrammes supportés
-- **Sans dépendance locale** : Rendu côté serveur via HTTP
-- **Simple** : POST le code, reçois l'image (PNG/SVG)
-- **Gratuit** : kroki.io public, ou self-hosted
+- **Multi-format**: 25+ diagram types supported
+- **No local dependencies**: Server-side rendering via HTTP
+- **Simple**: POST the code, receive the image (PNG/SVG)
+- **Free**: public kroki.io, or self-hosted
 
-Documentation : https://kroki.io/
+Documentation: https://kroki.io/
 
-## Référence CLI Complète
+## Complete CLI Reference
 
-### Commande principale
+### Main command
 
 ```bash
 npx tsx src/cli/diagram-render.ts --type <type> --input <path> --output <path>
 npx tsx src/cli/diagram-render.ts --type <type> --code "<code>" --output <path>
 ```
 
-### Options disponibles
+### Available options
 
-| Option | Court | Description | Exemple |
+| Option | Short | Description | Example |
 |--------|-------|-------------|---------|
-| `--type <type>` | `-t` | Type de diagramme (voir liste) | `--type mermaid` |
-| `--input <path>` | `-i` | Fichier source (.mmd, .puml, .dot, etc.) | `--input flow.mmd` |
-| `--code <string>` | `-c` | Code inline (alternative à --input) | `--code "graph TD; A-->B"` |
-| `--output <path>` | `-o` | Chemin du fichier de sortie (requis) | `--output diagram.png` |
-| `--format <fmt>` | `-f` | Format: png, svg (défaut: png) | `--format svg` |
-| `--server <url>` | `-s` | Serveur Kroki (défaut: https://kroki.io) | `--server http://localhost:8000` |
-| `--verbose` | `-v` | Sortie détaillée | `--verbose` |
-| `--debug` | | Mode debug avec timing | `--debug` |
-| `--quiet` | | Sortie minimale | `--quiet` |
+| `--type <type>` | `-t` | Diagram type (see list) | `--type mermaid` |
+| `--input <path>` | `-i` | Source file (.mmd, .puml, .dot, etc.) | `--input flow.mmd` |
+| `--code <string>` | `-c` | Inline code (alternative to --input) | `--code "graph TD; A-->B"` |
+| `--output <path>` | `-o` | Output file path (required) | `--output diagram.png` |
+| `--format <fmt>` | `-f` | Format: png, svg (default: png) | `--format svg` |
+| `--server <url>` | `-s` | Kroki server (default: https://kroki.io) | `--server http://localhost:8000` |
+| `--verbose` | `-v` | Detailed output | `--verbose` |
+| `--debug` | | Debug mode with timing | `--debug` |
+| `--quiet` | | Minimal output | `--quiet` |
 
-### Types de diagrammes supportés
+### Supported diagram types
 
-#### Populaires
+#### Popular
 | Type | Description | Extension |
 |------|-------------|-----------|
-| `mermaid` | Flowcharts, séquences, mind maps | .mmd, .mermaid |
-| `plantuml` | UML complet (classes, séquences, etc.) | .puml, .pu |
-| `graphviz` | Graphes (DOT language) | .dot, .gv |
-| `d2` | Langage de diagramme moderne | .d2 |
-| `excalidraw` | Style dessin à la main | .excalidraw |
+| `mermaid` | Flowcharts, sequences, mind maps | .mmd, .mermaid |
+| `plantuml` | Complete UML (classes, sequences, etc.) | .puml, .pu |
+| `graphviz` | Graphs (DOT language) | .dot, .gv |
+| `d2` | Modern diagram language | .d2 |
+| `excalidraw` | Hand-drawn style | .excalidraw |
 
 #### UML & Architecture
 | Type | Description |
 |------|-------------|
-| `c4plantuml` | Diagrammes C4 (Context, Container, Component) |
+| `c4plantuml` | C4 diagrams (Context, Container, Component) |
 | `structurizr` | Architecture as code |
-| `nomnoml` | UML simple et élégant |
+| `nomnoml` | Simple and elegant UML |
 
-#### Spécialisés
+#### Specialized
 | Type | Description |
 |------|-------------|
 | `erd` | Entity-Relationship |
 | `bpmn` | Business Process |
-| `ditaa` | ASCII art → diagrammes |
+| `ditaa` | ASCII art → diagrams |
 | `svgbob` | ASCII → SVG |
 
-#### Réseau & Séquence
+#### Network & Sequence
 | Type | Description |
 |------|-------------|
-| `seqdiag` | Diagrammes de séquence |
-| `blockdiag` | Diagrammes de blocs |
-| `nwdiag` | Diagrammes réseau |
-| `actdiag` | Diagrammes d'activité |
-| `packetdiag` | Diagrammes de paquets |
-| `rackdiag` | Diagrammes de rack |
+| `seqdiag` | Sequence diagrams |
+| `blockdiag` | Block diagrams |
+| `nwdiag` | Network diagrams |
+| `actdiag` | Activity diagrams |
+| `packetdiag` | Packet diagrams |
+| `rackdiag` | Rack diagrams |
 
-#### Autres
+#### Others
 | Type | Description |
 |------|-------------|
-| `wavedrom` | Chronogrammes numériques |
-| `bytefield` | Champs de bytes |
-| `pikchr` | Diagrammes PIC |
-| `vega` | Visualisations Vega |
-| `vegalite` | Visualisations Vega-Lite |
+| `wavedrom` | Digital timing diagrams |
+| `bytefield` | Byte fields |
+| `pikchr` | PIC diagrams |
+| `vega` | Vega visualizations |
+| `vegalite` | Vega-Lite visualizations |
 
-### Extensions auto-détectées
+### Auto-detected extensions
 
 | Extension | Type |
 |-----------|------|
@@ -117,13 +117,13 @@ npx tsx src/cli/diagram-render.ts --type <type> --code "<code>" --output <path>
 | `.erd` | erd |
 | `.bpmn` | bpmn |
 
-### Exemples d'utilisation
+### Usage examples
 
 ```bash
 # Mermaid flowchart
 npx tsx src/cli/diagram-render.ts --type mermaid --input diagram.mmd --output diagram.png
 
-# Code inline Mermaid
+# Inline Mermaid code
 npx tsx src/cli/diagram-render.ts --type mermaid --code "graph TD; A-->B-->C" --output flow.png
 
 # PlantUML class diagram
@@ -132,22 +132,22 @@ npx tsx src/cli/diagram-render.ts --type plantuml --input classes.puml --output 
 # GraphViz
 npx tsx src/cli/diagram-render.ts --type graphviz --input graph.dot --output graph.png
 
-# D2 en SVG
+# D2 in SVG
 npx tsx src/cli/diagram-render.ts --type d2 --input arch.d2 --output arch.svg --format svg
 
 # C4 architecture
 npx tsx src/cli/diagram-render.ts --type c4plantuml --input system.puml --output system.png
 
-# Auto-détection du type via extension
+# Auto-detection of type via extension
 npx tsx src/cli/diagram-render.ts --input diagram.mmd --output diagram.png
 
-# Serveur Kroki self-hosted
+# Self-hosted Kroki server
 npx tsx src/cli/diagram-render.ts --type mermaid --input diagram.mmd --output diagram.png --server http://localhost:8000
 ```
 
-### Sortie du CLI (PNG)
+### CLI output (PNG)
 
-Pour les fichiers PNG, le CLI retourne automatiquement les **dimensions et le ratio** :
+For PNG files, the CLI automatically returns the **dimensions and ratio**:
 
 ```
 Output: output/diagrams/workflow.png
@@ -156,95 +156,95 @@ Ratio: 2.61:1
 ✓ Ratio OK for PPTX (optimal: ~2.25:1)
 ```
 
-**Vérification automatique du ratio pour PPTX** :
+**Automatic ratio verification for PPTX**:
 
 | Ratio | Status | Action |
 |-------|--------|--------|
-| < 1.5:1 | ⚠️ Trop vertical | Utiliser `flowchart LR` au lieu de `TB` |
-| 1.5:1 à 3:1 | ✓ OK | Ratio optimal pour slides 16:9 |
-| > 3:1 | ⚠️ Trop large | Ajouter des éléments verticaux, utiliser subgraphs |
+| < 1.5:1 | ⚠️ Too vertical | Use `flowchart LR` instead of `TB` |
+| 1.5:1 to 3:1 | ✓ OK | Optimal ratio for 16:9 slides |
+| > 3:1 | ⚠️ Too wide | Add vertical elements, use subgraphs |
 
-**Exemple de warning** :
+**Example warning**:
 ```
 ⚠️  Ratio too wide (4.99:1) for PPTX slides.
    Optimal range: 1.5:1 to 3:1
    Tip: Add more vertical elements or use subgraphs to balance the layout.
 ```
 
-**IMPORTANT** : Si le ratio n'est pas dans la plage optimale, **restructure le diagramme** avant de l'utiliser dans une présentation. Un mauvais ratio = image déformée ou trop petite dans le slide.
+**IMPORTANT**: If the ratio is not in the optimal range, **restructure the diagram** before using it in a presentation. Bad ratio = distorted or too small image in the slide.
 
-## Sélection du Type de Diagramme
+## Diagram Type Selection
 
-### Matrice de Décision
+### Decision Matrix
 
-| Besoin | Type Recommandé | Alternative |
+| Need | Recommended Type | Alternative |
 |--------|-----------------|-------------|
-| **Processus / Flux** | Mermaid flowchart | GraphViz |
-| **Interactions système** | Mermaid sequence | PlantUML sequence |
-| **Structure de données** | PlantUML class | Mermaid classDiagram |
-| **États et transitions** | Mermaid state | PlantUML state |
-| **Planification** | Mermaid gantt | - |
-| **Parcours utilisateur** | Mermaid journey | - |
-| **Architecture système** | C4 (c4plantuml) | Structurizr |
+| **Process / Flow** | Mermaid flowchart | GraphViz |
+| **System interactions** | Mermaid sequence | PlantUML sequence |
+| **Data structure** | PlantUML class | Mermaid classDiagram |
+| **States and transitions** | Mermaid state | PlantUML state |
+| **Planning** | Mermaid gantt | - |
+| **User journey** | Mermaid journey | - |
+| **System architecture** | C4 (c4plantuml) | Structurizr |
 | **Brainstorming** | Mermaid mindmap | - |
-| **Relations entités** | ERD | Mermaid erDiagram |
-| **Réseau** | nwdiag | GraphViz |
-| **Moderne & élégant** | D2 | Mermaid |
+| **Entity relationships** | ERD | Mermaid erDiagram |
+| **Network** | nwdiag | GraphViz |
+| **Modern & elegant** | D2 | Mermaid |
 
-## Mermaid - Guide Rapide
+## Mermaid - Quick Guide
 
 ### Flowchart
 
 ```mermaid
 flowchart TD
-    A[Début] --> B{Condition?}
-    B -->|Oui| C[Action 1]
-    B -->|Non| D[Action 2]
-    C --> E[Fin]
+    A[Start] --> B{Condition?}
+    B -->|Yes| C[Action 1]
+    B -->|No| D[Action 2]
+    C --> E[End]
     D --> E
 ```
 
-**Formes** :
-- `[Rectangle]` - Processus
-- `(Arrondi)` - Événement
-- `{Losange}` - Décision
-- `[(Cylindre)]` - Base de données
-- `((Cercle))` - Connecteur
+**Shapes**:
+- `[Rectangle]` - Process
+- `(Rounded)` - Event
+- `{Diamond}` - Decision
+- `[(Cylinder)]` - Database
+- `((Circle))` - Connector
 
-**Directions** :
-- `TD` / `TB` : Haut → Bas
-- `LR` : Gauche → Droite
-- `BT` : Bas → Haut
-- `RL` : Droite → Gauche
+**Directions**:
+- `TD` / `TB`: Top → Bottom
+- `LR`: Left → Right
+- `BT`: Bottom → Top
+- `RL`: Right → Left
 
-**Liens** :
-- `-->` : Flèche simple
-- `---` : Ligne sans flèche
-- `-.->` : Flèche pointillée
-- `==>` : Flèche épaisse
-- `--texte-->` : Avec label
+**Links**:
+- `-->`: Simple arrow
+- `---`: Line without arrow
+- `-.->`: Dotted arrow
+- `==>`: Thick arrow
+- `--text-->`: With label
 
 ### Sequence Diagram
 
 ```mermaid
 sequenceDiagram
-    participant U as Utilisateur
-    participant S as Système
+    participant U as User
+    participant S as System
     participant DB as Database
 
-    U->>S: Requête
+    U->>S: Request
     activate S
     S->>DB: Query
-    DB-->>S: Résultats
-    S-->>U: Réponse
+    DB-->>S: Results
+    S-->>U: Response
     deactivate S
 ```
 
-**Types de flèches** :
-- `->>` : Synchrone
-- `-->>` : Réponse
-- `-)` : Asynchrone
-- `--)` : Réponse asynchrone
+**Arrow types**:
+- `->>`: Synchronous
+- `-->>`: Response
+- `-)`: Asynchronous
+- `--)`: Asynchronous response
 
 ### State Diagram
 
@@ -262,11 +262,11 @@ stateDiagram-v2
 
 ```mermaid
 gantt
-    title Planning Projet
+    title Project Planning
     dateFormat YYYY-MM-DD
 
     section Phase 1
-    Analyse    :a1, 2024-01-01, 30d
+    Analysis   :a1, 2024-01-01, 30d
     Design     :a2, after a1, 20d
 
     section Phase 2
@@ -278,13 +278,13 @@ gantt
 
 ```mermaid
 mindmap
-    root((Sujet Central))
-        Branche 1
-            Sous-sujet A
-            Sous-sujet B
-        Branche 2
-            Sous-sujet C
-        Branche 3
+    root((Central Topic))
+        Branch 1
+            Sub-topic A
+            Sub-topic B
+        Branch 2
+            Sub-topic C
+        Branch 3
 ```
 
 ### ER Diagram
@@ -305,7 +305,7 @@ erDiagram
     }
 ```
 
-## PlantUML - Guide Rapide
+## PlantUML - Quick Guide
 
 ### Class Diagram
 
@@ -327,12 +327,12 @@ User "1" --> "*" Order : places
 @enduml
 ```
 
-**Relations** :
-- `-->` : Association
-- `--*` : Composition
-- `--o` : Agrégation
-- `--|>` : Héritage
-- `..|>` : Implémentation
+**Relationships**:
+- `-->`: Association
+- `--*`: Composition
+- `--o`: Aggregation
+- `--|>`: Inheritance
+- `..|>`: Implementation
 
 ### C4 Model
 
@@ -340,7 +340,7 @@ User "1" --> "*" Order : places
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
-Person(user, "Utilisateur", "Client")
+Person(user, "User", "Customer")
 System_Boundary(app, "Application") {
     Container(web, "Web App", "React")
     Container(api, "API", "Node.js")
@@ -348,25 +348,25 @@ System_Boundary(app, "Application") {
 }
 System_Ext(email, "Email Service")
 
-Rel(user, web, "Utilise")
-Rel(web, api, "Appelle")
-Rel(api, db, "Lit/Écrit")
-Rel(api, email, "Envoie")
+Rel(user, web, "Uses")
+Rel(web, api, "Calls")
+Rel(api, db, "Reads/Writes")
+Rel(api, email, "Sends")
 @enduml
 ```
 
-## D2 - Guide Rapide
+## D2 - Quick Guide
 
-D2 est un langage moderne, lisible et élégant :
+D2 is a modern, readable and elegant language:
 
 ```d2
-# Définition simple
+# Simple definition
 user -> api: request
 api -> db: query
 db -> api: results
 api -> user: response
 
-# Avec styles
+# With styles
 user: User {
   shape: person
 }
@@ -379,60 +379,60 @@ db: PostgreSQL {
 }
 ```
 
-## Principes de Design (Dan Roam)
+## Design Principles (Dan Roam)
 
-### Les 6 Questions Visuelles
+### The 6 Visual Questions
 
-| Question | Type de Visuel |
+| Question | Visual Type |
 |----------|---------------|
-| **Qui/Quoi** | Portrait, liste |
-| **Combien** | Graphique, compteur |
-| **Où** | Carte, plan |
-| **Quand** | Timeline, Gantt |
-| **Comment** | Flowchart, processus |
-| **Pourquoi** | Graphique multicritères |
+| **Who/What** | Portrait, list |
+| **How many** | Chart, counter |
+| **Where** | Map, plan |
+| **When** | Timeline, Gantt |
+| **How** | Flowchart, process |
+| **Why** | Multi-criteria chart |
 
 ### SQVID Framework
 
-Pour chaque diagramme, choisis :
-- **Simple** vs Élaboré
-- **Qualité** vs Quantité
-- **Vision** vs Exécution
-- **Individuel** vs Comparaison
-- **Delta** (changement) vs Status quo
+For each diagram, choose:
+- **Simple** vs Elaborate
+- **Quality** vs Quantity
+- **Vision** vs Execution
+- **Individual** vs Comparison
+- **Delta** (change) vs Status quo
 
-## Diagrammes pour PowerPoint (16:9)
+## Diagrams for PowerPoint (16:9)
 
-Les slides PowerPoint ont un ratio **16:9** (10" × 5.625"). La zone de contenu typique est **~9" × 4"**, soit un ratio d'environ **2.25:1**.
+PowerPoint slides have a **16:9** ratio (10" × 5.625"). The typical content area is **~9" × 4"**, which is approximately a **2.25:1** ratio.
 
-Les diagrammes Kroki/Mermaid génèrent leur taille selon le contenu, pas selon une cible. **Tu dois structurer le diagramme pour obtenir le bon ratio**.
+Kroki/Mermaid diagrams generate their size based on content, not a target. **You must structure the diagram to achieve the right ratio**.
 
-### Ratios cibles
+### Target ratios
 
-| Contexte | Ratio cible | Direction Mermaid |
+| Context | Target ratio | Mermaid direction |
 |----------|-------------|-------------------|
-| Pleine largeur slide | ~2:1 à 2.5:1 | `flowchart LR` |
-| Demi-slide (colonne) | ~1:1 à 1.5:1 | `flowchart TB` ou `LR` |
-| Zone carrée | ~1:1 | `flowchart TB` |
+| Full width slide | ~2:1 to 2.5:1 | `flowchart LR` |
+| Half-slide (column) | ~1:1 to 1.5:1 | `flowchart TB` or `LR` |
+| Square area | ~1:1 | `flowchart TB` |
 
-### Stratégies pour ratio paysage (wide)
+### Strategies for landscape ratio (wide)
 
-#### 1. Utiliser `flowchart LR` (Left-to-Right)
+#### 1. Use `flowchart LR` (Left-to-Right)
 
 ```mermaid
 flowchart LR
     A[Input] --> B[Process] --> C[Output]
 ```
 
-Au lieu de :
+Instead of:
 ```mermaid
 flowchart TB
     A[Input] --> B[Process] --> C[Output]
 ```
 
-#### 2. Organiser en rangées horizontales avec subgraphs
+#### 2. Organize in horizontal rows with subgraphs
 
-Pour un workflow complexe, utilise des subgraphs **côte-à-côte** :
+For a complex workflow, use **side-by-side** subgraphs:
 
 ```mermaid
 flowchart LR
@@ -449,9 +449,9 @@ flowchart LR
     IN --> PROC --> OUT
 ```
 
-#### 3. Aplatir les hiérarchies verticales
+#### 3. Flatten vertical hierarchies
 
-❌ **Trop vertical** (ratio ~0.5:1) :
+❌ **Too vertical** (ratio ~0.5:1):
 ```
 A
 ↓
@@ -464,21 +464,21 @@ D
 E
 ```
 
-✅ **Aplati en 2 rangées** (ratio ~2:1) :
+✅ **Flattened to 2 rows** (ratio ~2:1):
 ```
 A → B → C
         ↓
     E ← D
 ```
 
-Code Mermaid :
+Mermaid code:
 ```mermaid
 flowchart LR
     A --> B --> C
     C --> D --> E
 ```
 
-#### 4. Utiliser des liens invisibles pour forcer la largeur
+#### 4. Use invisible links to force width
 
 ```mermaid
 flowchart LR
@@ -487,40 +487,40 @@ flowchart LR
     A ~~~ C
 ```
 
-Le lien `~~~` est invisible mais force A et C sur la même rangée.
+The `~~~` link is invisible but forces A and C on the same row.
 
-### Patterns recommandés pour PPTX
+### Recommended patterns for PPTX
 
-#### Pipeline horizontal (ratio ~3:1)
+#### Horizontal pipeline (ratio ~3:1)
 
 ```mermaid
 flowchart LR
     subgraph S1[" "]
-        A[Étape 1]
+        A[Step 1]
     end
     subgraph S2[" "]
-        B[Étape 2]
+        B[Step 2]
     end
     subgraph S3[" "]
-        C[Étape 3]
+        C[Step 3]
     end
     subgraph S4[" "]
-        D[Étape 4]
+        D[Step 4]
     end
     S1 --> S2 --> S3 --> S4
 ```
 
-#### Architecture en couches (ratio ~2:1)
+#### Layered architecture (ratio ~2:1)
 
 ```mermaid
 flowchart LR
-    subgraph L1["Couche 1"]
+    subgraph L1["Layer 1"]
         direction LR
         A1[Module A]
         A2[Module B]
         A3[Module C]
     end
-    subgraph L2["Couche 2"]
+    subgraph L2["Layer 2"]
         direction LR
         B1[Service X]
         B2[Service Y]
@@ -528,7 +528,7 @@ flowchart LR
     L1 --> L2
 ```
 
-#### Workflow avec branches (ratio ~2.5:1)
+#### Workflow with branches (ratio ~2.5:1)
 
 ```mermaid
 flowchart LR
@@ -539,18 +539,18 @@ flowchart LR
     D --> E
 ```
 
-### Anti-patterns à éviter
+### Anti-patterns to avoid
 
-| ❌ Problème | Ratio | ✅ Solution |
+| ❌ Problem | Ratio | ✅ Solution |
 |-------------|-------|-------------|
-| `flowchart TB` avec 5+ niveaux | ~0.3:1 (trop haut) | Utiliser `LR` ou aplatir |
-| Subgraphs empilés verticalement | ~0.5:1 | Subgraphs côte-à-côte |
-| `flowchart LR` avec 1 seul nœud par colonne | ~5:1 (trop large) | Grouper en subgraphs |
-| Mind maps profonds | Variable | Limiter à 2 niveaux |
+| `flowchart TB` with 5+ levels | ~0.3:1 (too tall) | Use `LR` or flatten |
+| Vertically stacked subgraphs | ~0.5:1 | Side-by-side subgraphs |
+| `flowchart LR` with 1 node per column | ~5:1 (too wide) | Group in subgraphs |
+| Deep mind maps | Variable | Limit to 2 levels |
 
-### Vérification du ratio (automatique)
+### Ratio verification (automatic)
 
-Le CLI vérifie automatiquement le ratio après génération et **affiche un warning** si le ratio n'est pas optimal :
+The CLI automatically checks the ratio after generation and **displays a warning** if the ratio is not optimal:
 
 ```
 Output: output/diagram.png
@@ -559,7 +559,7 @@ Ratio: 3:1
 ✓ Ratio OK for PPTX (optimal: ~2.25:1)
 ```
 
-**Si le ratio est hors plage**, le CLI affiche un warning avec des conseils :
+**If the ratio is out of range**, the CLI displays a warning with advice:
 
 ```
 ⚠️  Ratio too vertical (0.85:1) for PPTX slides.
@@ -567,63 +567,63 @@ Ratio: 3:1
    Tip: Use 'flowchart LR' instead of 'flowchart TB' for horizontal layout.
 ```
 
-**Ratio acceptable pour PPTX** : entre **1.5:1** et **3:1** (optimal: ~2.25:1)
+**Acceptable ratio for PPTX**: between **1.5:1** and **3:1** (optimal: ~2.25:1)
 
-**Action requise** : Si le CLI affiche un warning, **restructure le diagramme** en suivant les conseils avant de l'utiliser dans la présentation.
+**Required action**: If the CLI displays a warning, **restructure the diagram** following the advice before using it in the presentation.
 
-## Bonnes Pratiques
+## Best Practices
 
-### Lisibilité
+### Readability
 
-✓ Maximum 7±2 éléments par niveau
-✓ Flux de lecture naturel (haut→bas, gauche→droite)
-✓ Espacement cohérent
-✓ Alignement des éléments
+✓ Maximum 7±2 elements per level
+✓ Natural reading flow (top→bottom, left→right)
+✓ Consistent spacing
+✓ Element alignment
 
-### Couleurs
+### Colors
 
-✓ Palette limitée (3-4 couleurs)
-✓ Couleurs avec signification (rouge=erreur, vert=succès)
-✓ Contraste suffisant
-✓ Cohérence dans le document
+✓ Limited palette (3-4 colors)
+✓ Colors with meaning (red=error, green=success)
+✓ Sufficient contrast
+✓ Consistency throughout document
 
 ### Labels
 
-✓ Courts et descriptifs
-✓ Verbes pour les actions
-✓ Noms pour les états/entités
-✓ Pas d'abréviations obscures
+✓ Short and descriptive
+✓ Verbs for actions
+✓ Nouns for states/entities
+✓ No obscure abbreviations
 
-### Niveaux de Détail
+### Levels of Detail
 
 ```
-Niveau 1: Vue d'ensemble (5-7 boîtes)
+Level 1: Overview (5-7 boxes)
     ↓
-Niveau 2: Détail par composant
+Level 2: Detail per component
     ↓
-Niveau 3: Spécifications techniques
+Level 3: Technical specifications
 ```
 
 ## Self-Hosting Kroki
 
-Pour un usage intensif ou des diagrammes privés, déploie ton propre serveur Kroki :
+For intensive use or private diagrams, deploy your own Kroki server:
 
 ```bash
 # Docker
 docker run -d -p 8000:8000 yuzutech/kroki
 
-# Puis utilise
+# Then use
 npx tsx src/cli/diagram-render.ts --server http://localhost:8000 ...
 ```
 
-Documentation : https://github.com/yuzutech/kroki
+Documentation: https://github.com/yuzutech/kroki
 
-## Références
+## References
 
-- **Kroki** : https://kroki.io/
-- **Mermaid** : https://mermaid.js.org/
-- **PlantUML** : https://plantuml.com/
-- **D2** : https://d2lang.com/
-- **C4 Model** : https://c4model.com/
-- Consulte `references/mermaid-guide.md` pour la syntaxe Mermaid avancée
-- Consulte `references/plantuml-guide.md` pour la syntaxe PlantUML
+- **Kroki**: https://kroki.io/
+- **Mermaid**: https://mermaid.js.org/
+- **PlantUML**: https://plantuml.com/
+- **D2**: https://d2lang.com/
+- **C4 Model**: https://c4model.com/
+- See `references/mermaid-guide.md` for advanced Mermaid syntax
+- See `references/plantuml-guide.md` for PlantUML syntax

@@ -1,6 +1,6 @@
 ---
 name: map-generator
-description: Génération de cartes choroplèthes SVG à partir de données par pays. Cartes monde et régionales, palette de couleurs personnalisable. Utiliser ce skill pour visualiser des données géographiques dans les présentations.
+description: Generation of SVG choropleth maps from country-level data. World and regional maps, customizable color palettes. Use this skill to visualize geographic data in presentations.
 allowed-tools:
   - Bash
   - Read
@@ -9,73 +9,73 @@ allowed-tools:
 
 # Map Generator Skill
 
-Tu es un **Expert en Cartographie de Données** qui maîtrise :
+You are an **Expert in Data Cartography** who masters:
 
-- **Visualisation géographique** - Transformer des données en cartes parlantes
-- **Choix des couleurs** - Palettes adaptées aux données et au message
-- **Lisibilité** - Cartes claires et professionnelles
+- **Geographic visualization** - Transforming data into meaningful maps
+- **Color selection** - Palettes adapted to data and message
+- **Readability** - Clear and professional maps
 
-## Références et Expertise
+## References and Expertise
 
-### Experts de Référence
+### Reference Experts
 
-- **Jacques Bertin** - *Sémiologie Graphique* - Variables visuelles en cartographie
-- **Mark Monmonier** - *How to Lie with Maps* - Honnêteté et biais cartographiques
-- **Edward Tufte** - Data-ink ratio appliqué aux cartes
-- **Cynthia Brewer** - ColorBrewer, palettes de couleurs pour la cartographie
+- **Jacques Bertin** - *Semiology of Graphics* - Visual variables in cartography
+- **Mark Monmonier** - *How to Lie with Maps* - Honesty and cartographic biases
+- **Edward Tufte** - Data-ink ratio applied to maps
+- **Cynthia Brewer** - ColorBrewer, color palettes for cartography
 
-### Philosophie
+### Philosophy
 
-> « Une carte choroplèthe réussie raconte une histoire géographique en un coup d'œil.
-> Les couleurs ne décorent pas : elles encodent l'information. »
-> — Jacques Bertin, *Sémiologie Graphique*
+> "A successful choropleth map tells a geographic story at a glance.
+> Colors don't decorate: they encode information."
+> — Jacques Bertin, *Semiology of Graphics*
 
-### Principes Cartographiques
+### Cartographic Principles
 
-1. **Projection appropriée** : Utiliser des projections équivalentes pour les choroplèthes (préservent les surfaces)
-2. **Classification des données** : Choisir entre quantiles, intervalles égaux ou seuils naturels selon la distribution
-3. **Palette progressive** : Clair = valeur faible, foncé = valeur élevée (convention universelle)
-4. **Légende obligatoire** : Toujours inclure l'unité de mesure et l'échelle
-5. **Normalisation** : Préférer les ratios (par habitant, par km²) aux valeurs absolues pour les comparaisons
+1. **Appropriate projection**: Use equivalent projections for choropleths (preserve areas)
+2. **Data classification**: Choose between quantiles, equal intervals, or natural breaks based on distribution
+3. **Progressive palette**: Light = low value, dark = high value (universal convention)
+4. **Mandatory legend**: Always include unit of measure and scale
+5. **Normalization**: Prefer ratios (per capita, per km²) over absolute values for comparisons
 
-## Fonctionnalités
+## Features
 
-- **Cartes choroplèthes** - Coloration par valeur
-- **Monde et régions** - Europe, Asie, Afrique, Amériques, Océanie
-- **SVG vectoriel** - Net à toute taille, éditable
-- **Palette personnalisable** - Gradient de couleurs
-- **Légende automatique** - Avec titre et échelle
-- **Pas d'API key** - Génération 100% locale
+- **Choropleth maps** - Color by value
+- **World and regions** - Europe, Asia, Africa, Americas, Oceania
+- **Vector SVG** - Sharp at any size, editable
+- **Customizable palette** - Color gradient
+- **Automatic legend** - With title and scale
+- **No API key** - 100% local generation
 
-## Référence CLI Complète
+## Complete CLI Reference
 
-### Commande principale
+### Main command
 
 ```bash
 npx tsx src/cli/map-generate.ts --data <path> --output <path> [options]
 ```
 
-### Options disponibles
+### Available options
 
-| Option | Court | Description | Exemple |
+| Option | Short | Description | Example |
 |--------|-------|-------------|---------|
-| `--data <path>` | `-d` | Fichier JSON de données (requis) | `--data sales.json` |
-| `--output <path>` | `-o` | Fichier SVG de sortie (requis) | `--output map.svg` |
-| `--title <text>` | `-t` | Titre de la carte | `--title "Ventes 2024"` |
-| `--region <r>` | `-r` | Région: world, europe, asia... | `--region europe` |
-| `--color-low <hex>` | | Couleur valeur basse | `--color-low "#f7fbff"` |
-| `--color-high <hex>` | | Couleur valeur haute | `--color-high "#08519c"` |
-| `--legend-title <t>` | | Titre de la légende | `--legend-title "CA (M€)"` |
-| `--width <px>` | `-w` | Largeur en pixels | `--width 960` |
-| `--height <px>` | | Hauteur en pixels | `--height 500` |
-| `--list-countries` | | Lister les pays supportés | `--list-countries` |
-| `--list-regions` | | Lister les régions | `--list-regions` |
+| `--data <path>` | `-d` | Data JSON file (required) | `--data sales.json` |
+| `--output <path>` | `-o` | Output SVG file (required) | `--output map.svg` |
+| `--title <text>` | `-t` | Map title | `--title "Sales 2024"` |
+| `--region <r>` | `-r` | Region: world, europe, asia... | `--region europe` |
+| `--color-low <hex>` | | Low value color | `--color-low "#f7fbff"` |
+| `--color-high <hex>` | | High value color | `--color-high "#08519c"` |
+| `--legend-title <t>` | | Legend title | `--legend-title "Revenue (M€)"` |
+| `--width <px>` | `-w` | Width in pixels | `--width 960` |
+| `--height <px>` | | Height in pixels | `--height 500` |
+| `--list-countries` | | List supported countries | `--list-countries` |
+| `--list-regions` | | List regions | `--list-regions` |
 
-### Format des données
+### Data format
 
-Le fichier JSON doit contenir un tableau d'objets avec :
-- `code` : Code ISO 3166-1 alpha-2 du pays (ex: "FR", "US", "DE")
-- `value` : Valeur numérique pour la coloration
+The JSON file must contain an array of objects with:
+- `code`: Country ISO 3166-1 alpha-2 code (e.g., "FR", "US", "DE")
+- `value`: Numeric value for coloring
 
 ```json
 [
@@ -87,138 +87,138 @@ Le fichier JSON doit contenir un tableau d'objets avec :
 ]
 ```
 
-### Exemples d'utilisation
+### Usage examples
 
 ```bash
-# Carte mondiale des ventes
+# World sales map
 npx tsx src/cli/map-generate.ts --data sales.json --output world-sales.svg \
-  --title "Chiffre d'Affaires par Pays"
+  --title "Revenue by Country"
 
-# Carte Europe avec couleurs personnalisées
+# Europe map with custom colors
 npx tsx src/cli/map-generate.ts --data europe-data.json --output europe.svg \
   --region europe --color-low "#fee0d2" --color-high "#de2d26" \
-  --title "Performance Europe"
+  --title "Europe Performance"
 
-# Carte avec légende personnalisée
+# Map with custom legend
 npx tsx src/cli/map-generate.ts --data revenue.json --output revenue-map.svg \
-  --legend-title "CA (M€)" --title "Revenus 2024"
+  --legend-title "Revenue (M€)" --title "Revenue 2024"
 
-# Lister les pays supportés
+# List supported countries
 npx tsx src/cli/map-generate.ts --list-countries
 
-# Lister les régions disponibles
+# List available regions
 npx tsx src/cli/map-generate.ts --list-regions
 ```
 
-## Régions Disponibles
+## Available Regions
 
-| Région | Code | Pays inclus |
+| Region | Code | Included countries |
 |--------|------|-------------|
-| Monde | `world` | Tous les pays |
+| World | `world` | All countries |
 | Europe | `europe` | FR, DE, GB, IT, ES, PT, NL, BE, CH, AT, PL, CZ, SE, NO, FI, DK, IE, GR, RO, UA, RU |
-| Asie | `asia` | CN, JP, IN, KR, ID, TH, VN, PH, MY, SG, SA, AE, IL, TR |
-| Afrique | `africa` | ZA, EG, NG, KE, MA, DZ, ET, TZ |
-| Amérique du Nord | `north-america` | US, CA, MX |
-| Amérique du Sud | `south-america` | BR, AR, CL, CO, PE, VE |
-| Océanie | `oceania` | AU, NZ |
+| Asia | `asia` | CN, JP, IN, KR, ID, TH, VN, PH, MY, SG, SA, AE, IL, TR |
+| Africa | `africa` | ZA, EG, NG, KE, MA, DZ, ET, TZ |
+| North America | `north-america` | US, CA, MX |
+| South America | `south-america` | BR, AR, CL, CO, PE, VE |
+| Oceania | `oceania` | AU, NZ |
 
-## Codes Pays (ISO 3166-1 alpha-2)
+## Country Codes (ISO 3166-1 alpha-2)
 
 ### Europe
-| Code | Pays |
+| Code | Country |
 |------|------|
 | FR | France |
-| DE | Allemagne |
-| GB | Royaume-Uni |
-| IT | Italie |
-| ES | Espagne |
+| DE | Germany |
+| GB | United Kingdom |
+| IT | Italy |
+| ES | Spain |
 | PT | Portugal |
-| NL | Pays-Bas |
-| BE | Belgique |
-| CH | Suisse |
-| AT | Autriche |
-| PL | Pologne |
-| CZ | Tchéquie |
-| SE | Suède |
-| NO | Norvège |
-| FI | Finlande |
-| DK | Danemark |
-| IE | Irlande |
-| GR | Grèce |
-| RO | Roumanie |
+| NL | Netherlands |
+| BE | Belgium |
+| CH | Switzerland |
+| AT | Austria |
+| PL | Poland |
+| CZ | Czech Republic |
+| SE | Sweden |
+| NO | Norway |
+| FI | Finland |
+| DK | Denmark |
+| IE | Ireland |
+| GR | Greece |
+| RO | Romania |
 | UA | Ukraine |
-| RU | Russie |
+| RU | Russia |
 
-### Amériques
-| Code | Pays |
+### Americas
+| Code | Country |
 |------|------|
-| US | États-Unis |
+| US | United States |
 | CA | Canada |
-| MX | Mexique |
-| BR | Brésil |
-| AR | Argentine |
-| CL | Chili |
-| CO | Colombie |
-| PE | Pérou |
+| MX | Mexico |
+| BR | Brazil |
+| AR | Argentina |
+| CL | Chile |
+| CO | Colombia |
+| PE | Peru |
 | VE | Venezuela |
 
-### Asie
-| Code | Pays |
+### Asia
+| Code | Country |
 |------|------|
-| CN | Chine |
-| JP | Japon |
-| IN | Inde |
-| KR | Corée du Sud |
-| ID | Indonésie |
-| TH | Thaïlande |
+| CN | China |
+| JP | Japan |
+| IN | India |
+| KR | South Korea |
+| ID | Indonesia |
+| TH | Thailand |
 | VN | Vietnam |
 | PH | Philippines |
-| MY | Malaisie |
-| SG | Singapour |
-| SA | Arabie Saoudite |
-| AE | Émirats Arabes Unis |
-| IL | Israël |
-| TR | Turquie |
+| MY | Malaysia |
+| SG | Singapore |
+| SA | Saudi Arabia |
+| AE | United Arab Emirates |
+| IL | Israel |
+| TR | Turkey |
 
-### Afrique
-| Code | Pays |
+### Africa
+| Code | Country |
 |------|------|
-| ZA | Afrique du Sud |
-| EG | Égypte |
+| ZA | South Africa |
+| EG | Egypt |
 | NG | Nigeria |
 | KE | Kenya |
-| MA | Maroc |
-| DZ | Algérie |
-| ET | Éthiopie |
-| TZ | Tanzanie |
+| MA | Morocco |
+| DZ | Algeria |
+| ET | Ethiopia |
+| TZ | Tanzania |
 
-### Océanie
-| Code | Pays |
+### Oceania
+| Code | Country |
 |------|------|
-| AU | Australie |
-| NZ | Nouvelle-Zélande |
+| AU | Australia |
+| NZ | New Zealand |
 
-## Palettes de Couleurs Recommandées
+## Recommended Color Palettes
 
-### Séquentielle (valeurs positives)
+### Sequential (positive values)
 
-| Usage | Low | High | Aperçu |
+| Usage | Low | High | Preview |
 |-------|-----|------|--------|
-| Bleu corporate | `#f7fbff` | `#08519c` | Clair → Foncé |
-| Vert croissance | `#edf8e9` | `#238b45` | Clair → Foncé |
-| Orange chaleur | `#feedde` | `#d94701` | Clair → Foncé |
-| Violet premium | `#f2f0f7` | `#6a51a3` | Clair → Foncé |
+| Corporate blue | `#f7fbff` | `#08519c` | Light → Dark |
+| Growth green | `#edf8e9` | `#238b45` | Light → Dark |
+| Warm orange | `#feedde` | `#d94701` | Light → Dark |
+| Premium purple | `#f2f0f7` | `#6a51a3` | Light → Dark |
 
-### Pour données négatives/positives
+### For negative/positive data
 
-Pour des données avec valeurs négatives et positives (ex: croissance vs déclin), créer deux cartes séparées ou utiliser des couleurs divergentes manuellement.
+For data with negative and positive values (e.g., growth vs decline), create two separate maps or use divergent colors manually.
 
-## Workflow Typique
+## Typical Workflow
 
-### 1. Préparer les données
+### 1. Prepare the data
 
 ```bash
-# Créer un fichier JSON avec les données
+# Create a JSON file with the data
 cat > data/sales-by-country.json << 'EOF'
 [
   { "code": "FR", "value": 150 },
@@ -230,24 +230,24 @@ cat > data/sales-by-country.json << 'EOF'
 EOF
 ```
 
-### 2. Générer la carte
+### 2. Generate the map
 
 ```bash
 npx tsx src/cli/map-generate.ts \
   --data data/sales-by-country.json \
   --output output/maps/sales-map.svg \
-  --title "Ventes par Pays (M€)" \
-  --legend-title "CA" \
+  --title "Sales by Country (M€)" \
+  --legend-title "Revenue" \
   --color-low "#f7fbff" \
   --color-high "#08519c"
 ```
 
-### 3. Intégrer dans la présentation
+### 3. Integrate into the presentation
 
 ```json
 {
   "type": "content",
-  "title": "Répartition Géographique des Ventes",
+  "title": "Geographic Distribution of Sales",
   "elements": [
     {
       "type": "image",
@@ -258,47 +258,47 @@ npx tsx src/cli/map-generate.ts \
 }
 ```
 
-## Intégration avec data-reader
+## Integration with data-reader
 
-Pour créer une carte à partir de données Excel :
+To create a map from Excel data:
 
 ```bash
-# 1. Extraire les données avec data-reader
-# (Le fichier Excel doit avoir des colonnes "pays" ou "code" et une colonne numérique)
+# 1. Extract data with data-reader
+# (The Excel file must have "country" or "code" columns and a numeric column)
 
-# 2. Transformer en format JSON attendu
-# Structure attendue: [{ "code": "FR", "value": 123 }, ...]
+# 2. Transform into expected JSON format
+# Expected structure: [{ "code": "FR", "value": 123 }, ...]
 
-# 3. Générer la carte
+# 3. Generate the map
 npx tsx src/cli/map-generate.ts --data transformed.json --output map.svg
 ```
 
-## Bonnes Pratiques
+## Best Practices
 
 ### DO ✅
 
-- **Titre clair** : Indiquer ce que représente la carte
-- **Légende explicite** : Unité de mesure dans le titre de légende
-- **Couleurs appropriées** : Bleu/vert pour positif, rouge/orange pour alertes
-- **Région ciblée** : Utiliser `--region` si les données sont concentrées
+- **Clear title**: Indicate what the map represents
+- **Explicit legend**: Unit of measure in legend title
+- **Appropriate colors**: Blue/green for positive, red/orange for alerts
+- **Targeted region**: Use `--region` if data is concentrated
 
 ### DON'T ❌
 
-- **Trop de pays** : Les petits pays deviennent invisibles sur une carte monde
-- **Palette inversée** : Éviter foncé pour faible, clair pour fort
-- **Sans légende** : Toujours afficher l'échelle de valeurs
-- **Données manquantes** : Les pays sans données apparaissent en gris
+- **Too many countries**: Small countries become invisible on a world map
+- **Inverted palette**: Avoid dark for low, light for high
+- **No legend**: Always display value scale
+- **Missing data**: Countries without data appear in gray
 
 ## Limitations
 
 | Limitation | Description |
 |------------|-------------|
-| Pays supportés | ~50 pays principaux (pas tous les pays du monde) |
-| Géométrie | Simplifiée pour lisibilité, pas pour précision géographique |
-| Interactivité | SVG statique, pas de hover/tooltips |
-| Projection | Simplifiée, pas de projection cartographique exacte |
+| Supported countries | ~50 main countries (not all countries in the world) |
+| Geometry | Simplified for readability, not for geographic precision |
+| Interactivity | Static SVG, no hover/tooltips |
+| Projection | Simplified, not exact cartographic projection |
 
-## Structure de Sortie
+## Output Structure
 
 ```
 output/maps/
@@ -307,20 +307,20 @@ output/maps/
 └── asia-growth.svg
 ```
 
-## Dimensions Recommandées pour PPTX
+## Recommended Dimensions for PPTX
 
 | Usage | Dimensions | Ratio |
 |-------|------------|-------|
-| Pleine largeur | 960 x 500 | ~2:1 |
-| Demi-slide | 600 x 400 | 3:2 |
-| Avec texte | 700 x 450 | ~1.5:1 |
+| Full width | 960 x 500 | ~2:1 |
+| Half slide | 600 x 400 | 3:2 |
+| With text | 700 x 450 | ~1.5:1 |
 
 ```bash
-# Carte optimisée pour slide pleine largeur
+# Map optimized for full-width slide
 npx tsx src/cli/map-generate.ts --data data.json --output map.svg \
   --width 960 --height 500
 
-# Carte pour layout deux colonnes
+# Map for two-column layout
 npx tsx src/cli/map-generate.ts --data data.json --output map.svg \
   --width 600 --height 400
 ```

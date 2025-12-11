@@ -1,76 +1,76 @@
 ---
 name: skill-coop-review
-description: Évalue la coopération entre les skills - formats d'échange, orchestration et architecture d'agents
+description: Evaluates cooperation between skills - exchange formats, orchestration and agent architecture
 tags: [architecture, skills, orchestration, review]
 version: 1.0.0
 ---
 
-# Évaluation de la Coopération entre Skills
+# Skill Cooperation Evaluation
 
-## Objectif
-Analyser comment les skills collaborent, évaluer la clarté des formats d'échange, et recommander des patterns d'orchestration inspirés des architectures web d'agents.
+## Objective
+Analyze how skills collaborate, evaluate the clarity of exchange formats, and recommend orchestration patterns inspired by web agent architectures.
 
-## Méthodologie
+## Methodology
 
-### 1. Analyse des Échanges de Données
-- Identifier tous les points d'échange entre skills
-- Vérifier la définition explicite des formats (types TypeScript, schémas JSON)
-- Détecter les couplages implicites ou dépendances cachées
-- Valider la cohérence des interfaces
+### 1. Data Exchange Analysis
+- Identify all exchange points between skills
+- Verify explicit format definitions (TypeScript types, JSON schemas)
+- Detect implicit couplings or hidden dependencies
+- Validate interface consistency
 
-### 2. Évaluation de la Coordination
-- **Où se définit l'orchestration ?**
-  - Dans les fichiers `.claude/` (custom_tools, commands)
-  - Dans le code TypeScript (services, types)
-  - Dans les prompts système
-  
-- **Niveaux d'orchestration :**
-  - **Orchestration déclarative** : Définition dans CLAUDE.md ou front matter
-  - **Orchestration procédurale** : Logique dans les skills individuels
-  - **Orchestration intelligente** : Claude décide du workflow basé sur le contexte
+### 2. Coordination Evaluation
+- **Where is orchestration defined?**
+  - In `.claude/` files (custom_tools, commands)
+  - In TypeScript code (services, types)
+  - In system prompts
 
-### 3. Patterns d'Orchestration Web/Agents
+- **Orchestration levels:**
+  - **Declarative orchestration**: Definition in CLAUDE.md or front matter
+  - **Procedural orchestration**: Logic in individual skills
+  - **Intelligent orchestration**: Claude decides workflow based on context
 
-#### Pattern 1 : Agent Hub (Central Coordinator)
+### 3. Web/Agent Orchestration Patterns
+
+#### Pattern 1: Agent Hub (Central Coordinator)
 ```
-Claude (Orchestrateur Central)
-   ├─> Skill A (données)
-   ├─> Skill B (analyse) ← utilise sortie de A
-   └─> Skill C (visualisation) ← utilise sortie de B
+Claude (Central Orchestrator)
+   ├─> Skill A (data)
+   ├─> Skill B (analysis) ← uses output from A
+   └─> Skill C (visualization) ← uses output from B
 ```
-**Avantages** : Contrôle centralisé, traçabilité
-**Inconvénients** : Claude doit connaître tous les workflows
+**Advantages**: Centralized control, traceability
+**Disadvantages**: Claude must know all workflows
 
-#### Pattern 2 : Agent Pipeline (Chain)
+#### Pattern 2: Agent Pipeline (Chain)
 ```
-Skill A → Skill B → Skill C → Résultat
+Skill A → Skill B → Skill C → Result
 ```
-**Avantages** : Séquence claire, facile à déboguer
-**Inconvénients** : Rigide, peu adaptable
+**Advantages**: Clear sequence, easy to debug
+**Disadvantages**: Rigid, not very adaptable
 
-#### Pattern 3 : Agent Mesh (Peer-to-peer)
+#### Pattern 3: Agent Mesh (Peer-to-peer)
 ```
 Skill A ←→ Skill B
    ↕         ↕
 Skill C ←→ Skill D
 ```
-**Avantages** : Flexible, découplé
-**Inconvénients** : Complexe, risque de cycles
+**Advantages**: Flexible, decoupled
+**Disadvantages**: Complex, risk of cycles
 
-#### Pattern 4 : Event-Driven Agents
+#### Pattern 4: Event-Driven Agents
 ```
 Event Bus
-  ├─ Skill A (émet: data.ready)
-  ├─ Skill B (écoute: data.ready, émet: analysis.done)
-  └─ Skill C (écoute: analysis.done)
+  ├─ Skill A (emits: data.ready)
+  ├─ Skill B (listens: data.ready, emits: analysis.done)
+  └─ Skill C (listens: analysis.done)
 ```
-**Avantages** : Découplage maximal, évolutif
-**Inconvénients** : Difficile à tracer, debugging complexe
+**Advantages**: Maximum decoupling, scalable
+**Disadvantages**: Difficult to trace, complex debugging
 
-### 4. Recommandations pour ce Projet
+### 4. Recommendations for this Project
 
-#### Définition des Contrats (Types)
-Créer des interfaces explicites dans `src/types/`:
+#### Contract Definition (Types)
+Create explicit interfaces in `src/types/`:
 ```typescript
 // src/types/skill-contracts.ts
 export interface SkillInput<T> {
@@ -86,40 +86,40 @@ export interface SkillOutput<T> {
   errors?: string[];
 }
 
-// Contrats spécifiques
+// Specific contracts
 export interface DataAnalysisContract {
   input: SkillInput<{ filePath: string; columns?: string[] }>;
   output: SkillOutput<StatisticsResult>;
 }
 ```
 
-#### Orchestration dans CLAUDE.md
+#### Orchestration in CLAUDE.md
 ```markdown
-## Workflows Prédéfinis
+## Predefined Workflows
 
-### Workflow: Analyse → Visualisation
-1. `data-analyze` → génère `analysis.json`
-2. `chart-render` ← consomme `analysis.json`
+### Workflow: Analysis → Visualization
+1. `data-analyze` → generates `analysis.json`
+2. `chart-render` ← consumes `analysis.json`
 3. Format: `{ type: "statistics", data: StatisticsResult }`
 
-### Workflow: Données → Carte
-1. `data-read` → extrait colonnes lat/lng
-2. `map-generate` ← consomme coordonnées
+### Workflow: Data → Map
+1. `data-read` → extracts lat/lng columns
+2. `map-generate` ← consumes coordinates
 3. Format: `{ locations: Array<{lat, lng, label}> }`
 ```
 
-#### Orchestration Web : Inspiration LangGraph/CrewAI
+#### Web Orchestration: LangGraph/CrewAI Inspiration
 
-**LangGraph Pattern** :
+**LangGraph Pattern**:
 ```python
-# Définition de graphe
+# Graph definition
 graph = StateGraph()
 graph.add_node("read", data_read_agent)
 graph.add_node("analyze", data_analyze_agent)
 graph.add_edge("read", "analyze")
 ```
 
-**Adaptation Claude** :
+**Claude Adaptation**:
 ```typescript
 // src/orchestration/workflow-graph.ts
 export const workflows = {
@@ -133,78 +133,78 @@ export const workflows = {
 }
 ```
 
-#### Découplage des Skills
-**Principe** : Un skill ne doit PAS connaître les autres skills
+#### Skill Decoupling
+**Principle**: A skill must NOT know about other skills
 
-**Mauvais** :
+**Bad**:
 ```typescript
-// Dans DataAnalyzeService
+// In DataAnalyzeService
 const chartService = new ChartGeneratorService();
-chartService.create(this.results); // ❌ Couplage
+chartService.create(this.results); // ❌ Coupling
 ```
 
-**Bon** :
+**Good**:
 ```typescript
-// Dans DataAnalyzeService
+// In DataAnalyzeService
 return {
   type: 'statistics',
   data: this.results,
   suggestedNext: ['chart-render', 'pdf-generate']
-}; // ✅ Découplé
+}; // ✅ Decoupled
 ```
 
-## Checklist d'Évaluation
+## Evaluation Checklist
 
-### Formats d'Échange
-- [ ] Tous les inputs/outputs ont des types TypeScript définis
-- [ ] Les schémas JSON sont documentés (pour les fichiers intermédiaires)
-- [ ] Les formats sont validés à l'exécution (Zod, io-ts)
-- [ ] Documentation des formats dans README ou CLAUDE.md
+### Exchange Formats
+- [ ] All inputs/outputs have defined TypeScript types
+- [ ] JSON schemas are documented (for intermediate files)
+- [ ] Formats are validated at runtime (Zod, io-ts)
+- [ ] Format documentation in README or CLAUDE.md
 
-### Couplage
-- [ ] Aucun import direct entre services de skills différents
-- [ ] Communication via fichiers, API, ou événements
-- [ ] Chaque skill peut fonctionner indépendamment
-- [ ] Tests unitaires sans dépendances croisées
+### Coupling
+- [ ] No direct imports between services from different skills
+- [ ] Communication via files, API, or events
+- [ ] Each skill can function independently
+- [ ] Unit tests without cross-dependencies
 
 ### Orchestration
-- [ ] Workflows courants documentés dans CLAUDE.md
-- [ ] Claude peut composer dynamiquement les skills
-- [ ] Gestion d'erreurs entre étapes définie
-- [ ] Possibilité de paralléliser les skills indépendants
+- [ ] Common workflows documented in CLAUDE.md
+- [ ] Claude can dynamically compose skills
+- [ ] Error handling between steps defined
+- [ ] Ability to parallelize independent skills
 
-### Observabilité
-- [ ] Logs structurés par skill
-- [ ] Traçabilité des données entre skills
-- [ ] Métriques de performance par étape
-- [ ] Debugging facilité (reproduction des workflows)
+### Observability
+- [ ] Structured logs per skill
+- [ ] Data traceability between skills
+- [ ] Performance metrics per step
+- [ ] Facilitated debugging (workflow reproduction)
 
 ## Patterns Anti-Patterns
 
-### ❌ Anti-Pattern : God Skill
-Un skill qui fait tout et appelle les autres
+### ❌ Anti-Pattern: God Skill
+A skill that does everything and calls others
 
-### ❌ Anti-Pattern : Tight Coupling
-Skills qui s'importent mutuellement
+### ❌ Anti-Pattern: Tight Coupling
+Skills that import each other mutually
 
-### ❌ Anti-Pattern : Implicit Contracts
-Formats d'échange non documentés, basés sur des conventions
+### ❌ Anti-Pattern: Implicit Contracts
+Undocumented exchange formats, based on conventions
 
-### ✅ Pattern : Contract-First
-Définir les interfaces avant l'implémentation
+### ✅ Pattern: Contract-First
+Define interfaces before implementation
 
-### ✅ Pattern : Middleware Layer
-Service central pour la communication (event bus, message queue)
+### ✅ Pattern: Middleware Layer
+Central service for communication (event bus, message queue)
 
-### ✅ Pattern : Schema Registry
-Registre central des formats d'échange
+### ✅ Pattern: Schema Registry
+Central registry of exchange formats
 
-## Implémentation Recommandée
+## Recommended Implementation
 
-### Option A : Orchestration Déclarative (Simple)
-Définir les workflows dans `CLAUDE.md`, Claude exécute séquentiellement
+### Option A: Declarative Orchestration (Simple)
+Define workflows in `CLAUDE.md`, Claude executes sequentially
 
-### Option B : Orchestration par Événements (Avancé)
+### Option B: Event-Based Orchestration (Advanced)
 ```typescript
 // src/orchestration/event-bus.ts
 class SkillEventBus {
@@ -213,9 +213,9 @@ class SkillEventBus {
 }
 ```
 
-### Option C : Orchestration par Graphe (Expert)
+### Option C: Graph-Based Orchestration (Expert)
 ```typescript
-// Inspiré de LangGraph
+// Inspired by LangGraph
 class WorkflowGraph {
   addNode(skill: Skill): void;
   addEdge(from: string, to: string, condition?: Function): void;
@@ -223,34 +223,34 @@ class WorkflowGraph {
 }
 ```
 
-## Analyse à Effectuer
+## Analysis to Perform
 
-1. **Scanner le code** :
-   - Trouver tous les imports entre `src/lib/*/`
-   - Identifier les appels directs entre services
+1. **Scan the code**:
+   - Find all imports between `src/lib/*/`
+   - Identify direct calls between services
 
-2. **Vérifier les types** :
-   - Lister tous les types dans `src/types/`
-   - Vérifier quels services les utilisent
-   - Détecter les `any` ou types implicites
+2. **Verify types**:
+   - List all types in `src/types/`
+   - Verify which services use them
+   - Detect `any` or implicit types
 
-3. **Tracer les workflows** :
-   - Identifier les séquences d'appels dans `src/cli/`
-   - Documenter les flux de données
+3. **Trace workflows**:
+   - Identify call sequences in `src/cli/`
+   - Document data flows
 
-4. **Proposer des améliorations** :
-   - Créer les contrats manquants
-   - Découpler les services couplés
-   - Documenter l'orchestration recommandée
+4. **Propose improvements**:
+   - Create missing contracts
+   - Decouple coupled services
+   - Document recommended orchestration
 
-## Livrables
+## Deliverables
 
-1. **Rapport d'analyse** : Matrice de couplage entre skills
-2. **Schémas de contrats** : Interfaces TypeScript pour tous les échanges
-3. **Documentation d'orchestration** : Mise à jour de CLAUDE.md
-4. **Exemples de workflows** : 3-5 cas d'usage documentés
-5. **Architecture recommandée** : Diagramme du pattern optimal
+1. **Analysis report**: Coupling matrix between skills
+2. **Contract schemas**: TypeScript interfaces for all exchanges
+3. **Orchestration documentation**: CLAUDE.md update
+4. **Workflow examples**: 3-5 documented use cases
+5. **Recommended architecture**: Diagram of optimal pattern
 
 ---
 
-**Note** : Cette commande combine analyse statique du code et recommandations architecturales basées sur les best practices des systèmes multi-agents (LangChain, AutoGen, CrewAI, LangGraph).
+**Note**: This command combines static code analysis and architectural recommendations based on best practices from multi-agent systems (LangChain, AutoGen, CrewAI, LangGraph).

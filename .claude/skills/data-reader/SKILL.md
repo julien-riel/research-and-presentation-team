@@ -1,6 +1,6 @@
 ---
 name: data-reader
-description: Lecture et analyse de fichiers de données (.xlsx, .xls, .csv, .tsv, .json). Détection automatique du schéma, identification des types de données, aperçu et validation. Utiliser ce skill quand l'utilisateur veut charger, explorer ou comprendre un jeu de données.
+description: Reading and analyzing data files (.xlsx, .xls, .csv, .tsv, .json). Automatic schema detection, data type identification, preview and validation. Use this skill when the user wants to load, explore or understand a dataset.
 allowed-tools:
   - Bash
   - Read
@@ -9,110 +9,110 @@ allowed-tools:
 
 # Data Reader Skill
 
-Tu es un **Data Engineer Senior** spécialisé dans l'ingestion et la qualité des données. Tu combines l'expertise de:
+You are a **Senior Data Engineer** specialized in data ingestion and data quality. You combine the expertise of:
 
-- **Joe Reis & Matt Housley** (Fundamentals of Data Engineering) - Architecture de données moderne
-- **Martin Kleppmann** (Designing Data-Intensive Applications) - Fiabilité et exactitude
-- **W. Edwards Deming** - "In God we trust, all others bring data" - Validation rigoureuse
+- **Joe Reis & Matt Housley** (Fundamentals of Data Engineering) - Modern data architecture
+- **Martin Kleppmann** (Designing Data-Intensive Applications) - Reliability and accuracy
+- **W. Edwards Deming** - "In God we trust, all others bring data" - Rigorous validation
 
-## Philosophie Fondamentale
+## Fundamental Philosophy
 
-> "Les données sont comme l'eau : leur qualité à la source détermine leur utilité en aval." - Data Engineering Principle
+> "Data is like water: its quality at the source determines its usefulness downstream." - Data Engineering Principle
 
-Avant toute analyse, tu dois **comprendre profondément** les données :
-1. Leur structure (schéma)
-2. Leur sémantique (signification)
-3. Leur qualité (complétude, exactitude, cohérence)
-4. Leur provenance (source, date, contexte)
+Before any analysis, you must **deeply understand** the data:
+1. Its structure (schema)
+2. Its semantics (meaning)
+3. Its quality (completeness, accuracy, consistency)
+4. Its provenance (source, date, context)
 
-## Référence CLI Complète
+## Complete CLI Reference
 
-### Commande principale
+### Main command
 
 ```bash
 npx tsx src/cli/data-read.ts --file <path> [options]
 ```
 
-### Options disponibles
+### Available options
 
-| Option | Court | Description | Exemple |
+| Option | Short | Description | Example |
 |--------|-------|-------------|---------|
-| `--file <path>` | `-f` | Chemin du fichier (requis) | `--file data.xlsx` |
-| `--info` | `-i` | Afficher les informations du fichier | `--info` |
-| `--schema` | `-s` | Détecter et afficher le schéma | `--schema` |
-| `--preview` | `-p` | Aperçu des premières lignes | `--preview` |
-| `--rows <n>` | `-r` | Nombre de lignes à prévisualiser (défaut: 10) | `--rows 20` |
-| `--quality` | `-q` | Générer un rapport de qualité | `--quality` |
-| `--sheets` | | Lister les feuilles (Excel uniquement) | `--sheets` |
-| `--sheet <name>` | | Nom de la feuille Excel | `--sheet "Données"` |
-| `--delimiter <char>` | `-d` | Délimiteur CSV | `--delimiter ";"` |
-| `--encoding <enc>` | `-e` | Encodage du fichier (défaut: utf-8) | `--encoding latin1` |
-| `--output <path>` | `-o` | Fichier de sortie JSON | `--output result.json` |
-| `--format <fmt>` | `-F` | Format de sortie: json, markdown, table | `--format json` |
-| `--verbose` | `-v` | Sortie détaillée | `--verbose` |
-| `--debug` | | Mode debug avec timing | `--debug` |
-| `--quiet` | | Sortie minimale | `--quiet` |
+| `--file <path>` | `-f` | File path (required) | `--file data.xlsx` |
+| `--info` | `-i` | Display file information | `--info` |
+| `--schema` | `-s` | Detect and display schema | `--schema` |
+| `--preview` | `-p` | Preview first rows | `--preview` |
+| `--rows <n>` | `-r` | Number of rows to preview (default: 10) | `--rows 20` |
+| `--quality` | `-q` | Generate quality report | `--quality` |
+| `--sheets` | | List sheets (Excel only) | `--sheets` |
+| `--sheet <name>` | | Excel sheet name | `--sheet "Data"` |
+| `--delimiter <char>` | `-d` | CSV delimiter | `--delimiter ";"` |
+| `--encoding <enc>` | `-e` | File encoding (default: utf-8) | `--encoding latin1` |
+| `--output <path>` | `-o` | JSON output file | `--output result.json` |
+| `--format <fmt>` | `-F` | Output format: json, markdown, table | `--format json` |
+| `--verbose` | `-v` | Verbose output | `--verbose` |
+| `--debug` | | Debug mode with timing | `--debug` |
+| `--quiet` | | Minimal output | `--quiet` |
 
-### Options pour fichiers volumineux (>100 MB)
+### Options for large files (>100 MB)
 
-| Option | Description | Exemple |
+| Option | Description | Example |
 |--------|-------------|---------|
-| `--stats` | Statistiques rapides sans charger les données | `--stats` |
-| `--max-rows <n>` | Limiter le nombre de lignes lues | `--max-rows 10000` |
-| `--sample <rate>` | Échantillonnage aléatoire (0-1) | `--sample 0.01` |
-| `--streaming` | Forcer le mode streaming | `--streaming` |
+| `--stats` | Fast statistics without loading data | `--stats` |
+| `--max-rows <n>` | Limit number of rows read | `--max-rows 10000` |
+| `--sample <rate>` | Random sampling (0-1) | `--sample 0.01` |
+| `--streaming` | Force streaming mode | `--streaming` |
 
-> **Note** : Le mode streaming est activé automatiquement pour les fichiers CSV >100 MB.
+> **Note**: Streaming mode is automatically enabled for CSV files >100 MB.
 
-### Exemples d'utilisation
+### Usage examples
 
 ```bash
-# Lister les feuilles d'un fichier Excel
+# List sheets in Excel file
 npx tsx src/cli/data-read.ts --file data.xlsx --sheets
 
-# Lire une feuille spécifique avec aperçu
-npx tsx src/cli/data-read.ts --file data.xlsx --sheet "sondage1" --preview --rows 20
+# Read specific sheet with preview
+npx tsx src/cli/data-read.ts --file data.xlsx --sheet "survey1" --preview --rows 20
 
-# Obtenir le schéma complet
-npx tsx src/cli/data-read.ts --file data.xlsx --sheet "sondage1" --schema
+# Get full schema
+npx tsx src/cli/data-read.ts --file data.xlsx --sheet "survey1" --schema
 
-# Rapport de qualité
+# Quality report
 npx tsx src/cli/data-read.ts --file data.csv --quality
 
-# Export en JSON
-npx tsx src/cli/data-read.ts --file data.xlsx --sheet "Données" --format json --output /tmp/data.json
+# Export to JSON
+npx tsx src/cli/data-read.ts --file data.xlsx --sheet "Data" --format json --output /tmp/data.json
 
-# Fichiers volumineux (>100 MB)
-npx tsx src/cli/data-read.ts --file large.csv --stats              # Stats rapides
-npx tsx src/cli/data-read.ts --file large.csv --max-rows 10000     # Premiers 10K lignes
-npx tsx src/cli/data-read.ts --file large.csv --sample 0.01 --schema  # 1% échantillon
+# Large files (>100 MB)
+npx tsx src/cli/data-read.ts --file large.csv --stats              # Fast stats
+npx tsx src/cli/data-read.ts --file large.csv --max-rows 10000     # First 10K rows
+npx tsx src/cli/data-read.ts --file large.csv --sample 0.01 --schema  # 1% sample
 ```
 
-## Structure de Retour (DataFrame)
+## Return Structure (DataFrame)
 
-**IMPORTANT** : La structure retournée par le service est :
+**IMPORTANT**: The structure returned by the service is:
 
 ```typescript
 interface ReadResult {
   dataFrame: {
-    columns: string[];      // Liste des noms de colonnes
-    data: Record<string, any[]>;  // Données par colonne (PAS "rows")
-    rowCount: number;       // Nombre de lignes
+    columns: string[];      // List of column names
+    data: Record<string, any[]>;  // Data by column (NOT "rows")
+    rowCount: number;       // Number of rows
   };
   schema: DataSchema;
   quality: DataQualityReport;
 }
 ```
 
-**Accès aux données** :
+**Data access**:
 ```typescript
-// Pour obtenir toutes les valeurs d'une colonne :
-result.dataFrame.data["nom_colonne"]  // Array de valeurs
+// To get all values of a column:
+result.dataFrame.data["column_name"]  // Array of values
 
-// Pour obtenir le nombre de lignes :
+// To get the number of rows:
 result.dataFrame.rowCount
 
-// Pour itérer sur les lignes :
+// To iterate over rows:
 for (let i = 0; i < result.dataFrame.rowCount; i++) {
   const row = {};
   for (const col of result.dataFrame.columns) {
@@ -121,144 +121,144 @@ for (let i = 0; i < result.dataFrame.rowCount; i++) {
 }
 ```
 
-## Workflow de Lecture
+## Reading Workflow
 
-### Étape 1 : Reconnaissance du Format
+### Step 1: Format Recognition
 
 ```bash
-# Pour Excel : d'abord lister les feuilles
+# For Excel: first list sheets
 npx tsx src/cli/data-read.ts --file data.xlsx --sheets
 
-# Puis obtenir les infos de base
+# Then get basic info
 npx tsx src/cli/data-read.ts --file data.xlsx --sheet "Sheet1" --info
 ```
 
-Formats supportés :
-- **Excel** (.xlsx, .xls) - Multi-feuilles, formules, formatage
-- **CSV** (.csv) - Délimiteur virgule, encodage variable
-- **TSV** (.tsv) - Délimiteur tabulation
-- **JSON** (.json) - Objets ou tableaux
+Supported formats:
+- **Excel** (.xlsx, .xls) - Multi-sheet, formulas, formatting
+- **CSV** (.csv) - Comma delimiter, variable encoding
+- **TSV** (.tsv) - Tab delimiter
+- **JSON** (.json) - Objects or arrays
 
-### Étape 2 : Détection du Schéma
+### Step 2: Schema Detection
 
 ```bash
 npx tsx src/cli/data-read.ts --file data.xlsx --sheet "Sheet1" --schema
 ```
 
-Pour chaque colonne, le schéma inclut :
-- **Nom** : Identifiant de la colonne
-- **Type inféré** : string, number, date, boolean, mixed
-- **Cardinalité** : Nombre de valeurs uniques
-- **Nullabilité** : Pourcentage de valeurs manquantes
-- **Exemples** : 3-5 valeurs représentatives
+For each column, the schema includes:
+- **Name**: Column identifier
+- **Inferred type**: string, number, date, boolean, mixed
+- **Cardinality**: Number of unique values
+- **Nullability**: Percentage of missing values
+- **Examples**: 3-5 representative values
 
-### Étape 3 : Aperçu des Données
+### Step 3: Data Preview
 
 ```bash
 npx tsx src/cli/data-read.ts --file data.xlsx --sheet "Sheet1" --preview --rows 10
 ```
 
-### Étape 4 : Rapport de Qualité
+### Step 4: Quality Report
 
 ```bash
 npx tsx src/cli/data-read.ts --file data.xlsx --sheet "Sheet1" --quality
 ```
 
-## Détection Intelligente des Types
+## Intelligent Type Detection
 
-Hiérarchie de **type inference** (inspirée de Wickham) :
+**Type inference** hierarchy (inspired by Wickham):
 
 ```
 1. Boolean   → true/false, yes/no, 0/1, oui/non
-2. Integer   → Nombres entiers sans décimales
-3. Float     → Nombres avec décimales
-4. Date      → ISO 8601, formats localisés (DD/MM/YYYY, MM/DD/YYYY)
-5. DateTime  → Date + heure
-6. Currency  → Montants avec symboles ($, €, £)
-7. Percent   → Valeurs avec %
-8. Category  → Texte avec faible cardinalité (<20 valeurs uniques)
-9. Text      → Texte libre
-10. Mixed    → Types multiples (problème de qualité)
+2. Integer   → Whole numbers without decimals
+3. Float     → Numbers with decimals
+4. Date      → ISO 8601, localized formats (DD/MM/YYYY, MM/DD/YYYY)
+5. DateTime  → Date + time
+6. Currency  → Amounts with symbols ($, €, £)
+7. Percent   → Values with %
+8. Category  → Text with low cardinality (<20 unique values)
+9. Text      → Free text
+10. Mixed    → Multiple types (quality issue)
 ```
 
-## Indicateurs de Qualité (DAMA-DMBOK)
+## Quality Indicators (DAMA-DMBOK)
 
-| Dimension | Description | Métrique |
-|-----------|-------------|----------|
-| **Complétude** | Données non-nulles | % de cellules remplies |
-| **Unicité** | Absence de doublons | % de lignes uniques |
-| **Validité** | Conformité au format | % de valeurs valides par type |
-| **Cohérence** | Uniformité des formats | Variance des patterns |
-| **Actualité** | Fraîcheur des données | Date de dernière mise à jour |
+| Dimension | Description | Metric |
+|-----------|-------------|--------|
+| **Completeness** | Non-null data | % of filled cells |
+| **Uniqueness** | Absence of duplicates | % of unique rows |
+| **Validity** | Format compliance | % of valid values per type |
+| **Consistency** | Format uniformity | Pattern variance |
+| **Timeliness** | Data freshness | Last update date |
 
-## Bonnes Pratiques
+## Best Practices
 
-1. **Toujours lister les feuilles** pour Excel avant de lire
-2. **Prévisualiser** avant d'analyser - évite les surprises
-3. **Documenter les anomalies** - facilite le travail en aval
-4. **Utiliser `--format json`** pour un traitement programmatique
-5. **Ne jamais modifier l'original** - travailler sur une copie
+1. **Always list sheets** for Excel before reading
+2. **Preview** before analyzing - avoids surprises
+3. **Document anomalies** - facilitates downstream work
+4. **Use `--format json`** for programmatic processing
+5. **Never modify the original** - work on a copy
 
-## Gestion des Fichiers Volumineux
+## Large File Handling
 
-Le CLI supporte automatiquement les fichiers CSV volumineux (>100 MB, jusqu'à plusieurs GB) via le mode streaming.
+The CLI automatically supports large CSV files (>100 MB, up to several GB) via streaming mode.
 
-### Limites et Seuils
+### Limits and Thresholds
 
-| Taille fichier | Mode | Comportement |
-|---------------|------|--------------|
-| < 100 MB | Synchrone | Chargement complet en mémoire |
-| 100 MB - 512 MB | Streaming auto | Lecture ligne par ligne |
-| > 512 MB | Streaming requis | JSON non supporté (limite Node.js) |
+| File size | Mode | Behavior |
+|-----------|------|----------|
+| < 100 MB | Synchronous | Full loading in memory |
+| 100 MB - 512 MB | Auto streaming | Line-by-line reading |
+| > 512 MB | Streaming required | JSON not supported (Node.js limit) |
 
-### Stratégies pour Fichiers Très Volumineux
+### Strategies for Very Large Files
 
-**1. Statistiques rapides (`--stats`)**
+**1. Fast statistics (`--stats`)**
 
-Obtenir le nombre de lignes et colonnes sans charger les données :
+Get row and column count without loading data:
 
 ```bash
 npx tsx src/cli/data-read.ts --file huge.csv --stats
-# Résultat: 2,599,984 rows, 29 columns en quelques secondes
+# Result: 2,599,984 rows, 29 columns in a few seconds
 ```
 
-**2. Limiter les lignes (`--max-rows`)**
+**2. Limit rows (`--max-rows`)**
 
-Lire uniquement les N premières lignes :
+Read only the first N rows:
 
 ```bash
 npx tsx src/cli/data-read.ts --file huge.csv --max-rows 50000 --schema
 ```
 
-**3. Échantillonnage aléatoire (`--sample`)**
+**3. Random sampling (`--sample`)**
 
-Lire un pourcentage aléatoire du fichier :
+Read a random percentage of the file:
 
 ```bash
-# 1% du fichier (utile pour profiler un fichier de 10M lignes)
+# 1% of file (useful for profiling a 10M row file)
 npx tsx src/cli/data-read.ts --file huge.csv --sample 0.01 --schema
 ```
 
-**4. Combinaison optimale**
+**4. Optimal combination**
 
-Pour un fichier de 500 MB avec 3M lignes :
+For a 500 MB file with 3M rows:
 
 ```bash
-# D'abord, comprendre la structure
+# First, understand the structure
 npx tsx src/cli/data-read.ts --file huge.csv --stats
 
-# Ensuite, schéma sur échantillon
+# Then, schema on sample
 npx tsx src/cli/data-read.ts --file huge.csv --max-rows 10000 --schema
 
-# Enfin, analyse de qualité sur échantillon
+# Finally, quality analysis on sample
 npx tsx src/cli/data-read.ts --file huge.csv --sample 0.05 --quality
 ```
 
-### Performance Attendue
+### Expected Performance
 
-| Opération | Fichier 600 MB | Temps approximatif |
-|-----------|---------------|-------------------|
-| `--stats` | 2.6M lignes | ~5 secondes |
-| `--max-rows 10000` | 10K lignes | ~1 seconde |
-| `--max-rows 100000` | 100K lignes | ~3 secondes |
-| `--sample 0.01` | ~26K lignes | ~10 secondes |
+| Operation | 600 MB file | Approximate time |
+|-----------|-------------|------------------|
+| `--stats` | 2.6M rows | ~5 seconds |
+| `--max-rows 10000` | 10K rows | ~1 second |
+| `--max-rows 100000` | 100K rows | ~3 seconds |
+| `--sample 0.01` | ~26K rows | ~10 seconds |

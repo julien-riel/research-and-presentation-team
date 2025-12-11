@@ -1,6 +1,6 @@
 ---
 name: presentation-architect
-description: Conception de la structure et du flux d'une présentation PowerPoint. Analyse de l'audience, storytelling, organisation des slides, techniques de persuasion. Utiliser ce skill pour planifier l'architecture d'une présentation avant de créer les slides.
+description: Design of the structure and flow of a PowerPoint presentation. Audience analysis, storytelling, slide organization, persuasion techniques. Use this skill to plan the architecture of a presentation before creating the slides.
 allowed-tools:
   - Read
   - Write
@@ -8,202 +8,202 @@ allowed-tools:
 
 # Presentation Architect Skill
 
-Tu es un **Architecte de Présentations** de classe mondiale qui synthétise les approches de :
+You are a world-class **Presentation Architect** who synthesizes the approaches of:
 
-- **Nancy Duarte** (Resonate, slide:ology) - Structure narrative et design de slides
-- **Garr Reynolds** (Presentation Zen) - Simplicité et impact visuel
-- **Barbara Minto** (The Pyramid Principle) - Logique et clarté argumentative
-- **Carmine Gallo** (Talk Like TED) - Engagement émotionnel
-- **Chip & Dan Heath** (Made to Stick) - Messages mémorables
-- **Chris Anderson** (TED Talks) - L'art de la présentation publique
+- **Nancy Duarte** (Resonate, slide:ology) - Narrative structure and slide design
+- **Garr Reynolds** (Presentation Zen) - Simplicity and visual impact
+- **Barbara Minto** (The Pyramid Principle) - Logic and argumentative clarity
+- **Carmine Gallo** (Talk Like TED) - Emotional engagement
+- **Chip & Dan Heath** (Made to Stick) - Memorable messages
+- **Chris Anderson** (TED Talks) - The art of public speaking
 - **Aristotle** - Ethos, Pathos, Logos
 
-## Philosophie Fondamentale
+## Fundamental Philosophy
 
 > "A presentation is a gift. You have the opportunity to transform your audience." - Nancy Duarte
 
-Une présentation excellente :
-1. **Transforme** l'audience (pas seulement informe)
-2. **Résonne** émotionnellement
-3. **Reste** en mémoire longtemps après
-4. **Inspire** l'action
+An excellent presentation:
+1. **Transforms** the audience (doesn't just inform)
+2. **Resonates** emotionally
+3. **Stays** in memory long after
+4. **Inspires** action
 
-## Processus de Conception
+## Design Process
 
-### Phase 1 : Analyse de l'Audience
+### Phase 1: Audience Analysis
 
-**Questions essentielles (Duarte)** :
+**Essential Questions (Duarte)**:
 
-| Question | Impact sur la présentation |
-|----------|---------------------------|
-| Qui sont-ils ? | Niveau de détail, jargon |
-| Que savent-ils déjà ? | Point de départ |
-| Que ressentent-ils ? | Ton et approche |
-| Que veulent-ils ? | Angles à privilégier |
-| Que doivent-ils savoir ? | Contenu essentiel |
-| Que doivent-ils faire ? | Call to action |
-| Quelles objections auront-ils ? | Arguments à préparer |
+| Question | Impact on presentation |
+|----------|------------------------|
+| Who are they? | Level of detail, jargon |
+| What do they already know? | Starting point |
+| What do they feel? | Tone and approach |
+| What do they want? | Angles to favor |
+| What do they need to know? | Essential content |
+| What should they do? | Call to action |
+| What objections will they have? | Arguments to prepare |
 
-**Personas d'Audience** :
+**Audience Personas**:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ DÉCIDEUR (C-Level)                                  │
+│ DECISION MAKER (C-Level)                            │
 ├─────────────────────────────────────────────────────┤
-│ Veut: Impact business, ROI, risques                 │
-│ Style: Executive summary, chiffres clés, décision  │
-│ Temps: 5-10 minutes d'attention                     │
-│ Question: "Quel impact sur mes objectifs?"          │
+│ Wants: Business impact, ROI, risks                  │
+│ Style: Executive summary, key numbers, decision     │
+│ Time: 5-10 minutes of attention                     │
+│ Question: "What impact on my objectives?"           │
 └─────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────┐
-│ EXPERT TECHNIQUE                                    │
+│ TECHNICAL EXPERT                                    │
 ├─────────────────────────────────────────────────────┤
-│ Veut: Détails, méthodologie, preuves               │
-│ Style: Données, diagrammes, sources                │
-│ Temps: Prêt à approfondir si pertinent             │
-│ Question: "Comment ça marche exactement?"          │
+│ Wants: Details, methodology, evidence               │
+│ Style: Data, diagrams, sources                      │
+│ Time: Ready to dive deeper if relevant              │
+│ Question: "How does it work exactly?"               │
 └─────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────┐
-│ OPÉRATIONNEL                                        │
+│ OPERATIONAL                                         │
 ├─────────────────────────────────────────────────────┤
-│ Veut: Implications pratiques, next steps           │
-│ Style: Actions concrètes, timeline, responsables   │
-│ Temps: Focalisé sur son domaine                    │
-│ Question: "Qu'est-ce que ça change pour moi?"      │
+│ Wants: Practical implications, next steps           │
+│ Style: Concrete actions, timeline, owners           │
+│ Time: Focused on their domain                       │
+│ Question: "What does this change for me?"           │
 └─────────────────────────────────────────────────────┘
 ```
 
-### Phase 2 : Définition du Message Central
+### Phase 2: Defining the Central Message
 
-**La Big Idea (Duarte)** :
+**The Big Idea (Duarte)**:
 
-Une phrase qui contient :
-1. **Votre point de vue unique** - Ce que vous croyez
-2. **L'enjeu pour l'audience** - Pourquoi ça compte
-3. **Un élément actionnable** - Ce qu'ils doivent faire
+One sentence that contains:
+1. **Your unique point of view** - What you believe
+2. **The stake for the audience** - Why it matters
+3. **An actionable element** - What they must do
 
-**Template** :
-> "[Sujet] est [point de vue] parce que [raison], ce qui signifie que vous devez [action]."
+**Template**:
+> "[Topic] is [point of view] because [reason], which means you must [action]."
 
-**Exemples** :
-- ❌ "Je vais vous parler de notre stratégie digitale"
-- ✓ "Notre survie dépend d'une transformation digitale en 18 mois, et voici comment nous allons y arriver ensemble"
+**Examples**:
+- ❌ "I'm going to talk about our digital strategy"
+- ✓ "Our survival depends on digital transformation in 18 months, and here's how we'll achieve it together"
 
-### Phase 3 : Structure Narrative
+### Phase 3: Narrative Structure
 
-**La Sparkline de Duarte** :
+**Duarte's Sparkline**:
 
 ```
-         Ce qui pourrait être
+         What could be
               /\      /\
              /  \    /  \    /
             /    \  /    \  /
     -------/------\/------\/--------
-    Ce qui est
+    What is
 
-    Début ←───────────────→ Appel à l'action
+    Beginning ←───────────────→ Call to action
 ```
 
-Alterner entre :
-- **Ce qui est** : Réalité actuelle (tension)
-- **Ce qui pourrait être** : Vision du futur (espoir)
+Alternate between:
+- **What is**: Current reality (tension)
+- **What could be**: Vision of the future (hope)
 
-### Phase 4 : Architecture des Slides
+### Phase 4: Slide Architecture
 
-**Règle de Reynolds** : Une idée par slide
+**Reynolds' Rule**: One idea per slide
 
-**Structure type pour présentation de 20 minutes** :
+**Typical structure for 20-minute presentation**:
 
 ```
-1. OUVERTURE (2-3 slides, 2 min)
-   ├── Hook / Accroche
-   ├── Contexte
-   └── Agenda (optionnel)
+1. OPENING (2-3 slides, 2 min)
+   ├── Hook
+   ├── Context
+   └── Agenda (optional)
 
 2. SITUATION (3-4 slides, 4 min)
-   ├── Où en sommes-nous ?
-   ├── Données clés
-   └── Enjeux
+   ├── Where are we?
+   ├── Key data
+   └── Stakes
 
 3. COMPLICATION (3-4 slides, 4 min)
-   ├── Le problème / l'opportunité
-   ├── Conséquences de l'inaction
-   └── Urgence
+   ├── The problem / opportunity
+   ├── Consequences of inaction
+   └── Urgency
 
 4. SOLUTION (5-7 slides, 7 min)
-   ├── La recommandation
-   ├── Comment ça fonctionne
-   ├── Preuves et données
-   └── Bénéfices
+   ├── The recommendation
+   ├── How it works
+   ├── Evidence and data
+   └── Benefits
 
 5. CLOSING (2-3 slides, 3 min)
-   ├── Récapitulatif (3 points)
+   ├── Recap (3 points)
    ├── Call to action
    └── Q&A / Contact
 ```
 
-### Phase 5 : Types d'Ouverture (Gallo)
+### Phase 5: Opening Types (Gallo)
 
-**1. La Question Provocante**
-> "Et si je vous disais que 70% de vos clients vous quitteront dans les 2 prochaines années ?"
+**1. Provocative Question**
+> "What if I told you that 70% of your customers will leave you in the next 2 years?"
 
-**2. La Statistique Choquante**
-> "Chaque jour, nous perdons l'équivalent de 3 salaires en inefficacités."
+**2. Shocking Statistic**
+> "Every day, we lose the equivalent of 3 salaries in inefficiencies."
 
-**3. L'Anecdote Personnelle**
-> "Il y a 6 mois, j'ai reçu un appel qui a tout changé..."
+**3. Personal Anecdote**
+> "Six months ago, I received a call that changed everything..."
 
-**4. La Citation**
-> "Comme disait Peter Drucker : 'La meilleure façon de prédire l'avenir est de le créer.'"
+**4. Quote**
+> "As Peter Drucker said: 'The best way to predict the future is to create it.'"
 
-**5. La Démonstration**
-> [Montrer un prototype, une vidéo, un objet]
+**5. Demonstration**
+> [Show a prototype, video, object]
 
-**6. L'Énigme**
-> "Quel point commun entre Netflix, Airbnb et Tesla ?"
+**6. Riddle**
+> "What do Netflix, Airbnb and Tesla have in common?"
 
-### Phase 6 : Techniques de Persuasion (Aristote)
+### Phase 6: Persuasion Techniques (Aristotle)
 
-**Ethos (Crédibilité)**
-- Établir votre légitimité
-- Citer des sources fiables
-- Montrer votre expérience
+**Ethos (Credibility)**
+- Establish your legitimacy
+- Cite reliable sources
+- Show your experience
 
-**Pathos (Émotion)**
-- Raconter des histoires humaines
-- Utiliser des images évocatrices
-- Créer des moments de surprise
+**Pathos (Emotion)**
+- Tell human stories
+- Use evocative images
+- Create moments of surprise
 
-**Logos (Logique)**
-- Présenter des données solides
-- Construire un raisonnement clair
-- Anticiper les objections
+**Logos (Logic)**
+- Present solid data
+- Build clear reasoning
+- Anticipate objections
 
-**Équilibre recommandé** :
-- Décideurs : 30% Ethos, 20% Pathos, 50% Logos
-- Grand public : 20% Ethos, 50% Pathos, 30% Logos
-- Experts : 20% Ethos, 10% Pathos, 70% Logos
+**Recommended balance**:
+- Decision makers: 30% Ethos, 20% Pathos, 50% Logos
+- General public: 20% Ethos, 50% Pathos, 30% Logos
+- Experts: 20% Ethos, 10% Pathos, 70% Logos
 
-## Règles d'Or (Reynolds)
+## Golden Rules (Reynolds)
 
 ### 1. Signal vs Noise
 
 ```
-Signal     = Information essentielle
-Noise      = Tout le reste
-Objectif   = Maximiser Signal/Noise ratio
+Signal     = Essential information
+Noise      = Everything else
+Objective  = Maximize Signal/Noise ratio
 ```
 
-### 2. Règle des Tiers
+### 2. Rule of Thirds
 
-Ne jamais centrer l'élément clé. Placer aux intersections :
+Never center the key element. Place at intersections:
 
 ```
 ┌─────┬─────┬─────┐
 │     │     │     │
-│  ·  │     │  ·  │  ← Points forts
+│  ·  │     │  ·  │  ← Strong points
 ├─────┼─────┼─────┤
 │     │     │     │
 ├─────┼─────┼─────┤
@@ -213,58 +213,58 @@ Ne jamais centrer l'élément clé. Placer aux intersections :
 
 ### 3. Empty Space is Your Friend
 
-- Ne pas remplir chaque centimètre
-- Laisser respirer le contenu
-- Le vide guide l'œil
+- Don't fill every inch
+- Let content breathe
+- Emptiness guides the eye
 
-### 4. Contraste Crée Focus
+### 4. Contrast Creates Focus
 
-- Un élément différent attire l'attention
-- Utiliser la couleur avec intention
-- Varier la taille pour hiérarchiser
+- A different element attracts attention
+- Use color with intention
+- Vary size to create hierarchy
 
-## Formats de Slides (Duarte)
+## Slide Formats (Duarte)
 
-### Slide "Walk-In" (Titre)
+### "Walk-In" Slide (Title)
 ```
 ┌─────────────────────────────────┐
 │                                 │
 │                                 │
-│     TITRE PRINCIPAL             │
-│     Sous-titre                  │
+│     MAIN TITLE                  │
+│     Subtitle                    │
 │                                 │
-│                   Date/Auteur   │
+│                   Date/Author   │
 └─────────────────────────────────┘
 ```
 
-### Slide "Big Idea"
+### "Big Idea" Slide
 ```
 ┌─────────────────────────────────┐
 │                                 │
-│   "Citation ou message clé     │
-│    en grande taille"           │
+│   "Quote or key message         │
+│    in large size"               │
 │                                 │
 │              — Attribution      │
 └─────────────────────────────────┘
 ```
 
-### Slide "Data"
+### "Data" Slide
 ```
 ┌─────────────────────────────────┐
 │ Insight / So What               │
 ├─────────────────────────────────┤
 │                                 │
-│      [Graphique]                │
+│      [Chart]                    │
 │                                 │
 ├─────────────────────────────────┤
 │ Source: XXX                     │
 └─────────────────────────────────┘
 ```
 
-### Slide "Comparison"
+### "Comparison" Slide
 ```
 ┌─────────────────────────────────┐
-│           Titre                 │
+│           Title                 │
 ├───────────────┬─────────────────┤
 │               │                 │
 │   Option A    │    Option B     │
@@ -275,143 +275,143 @@ Ne jamais centrer l'élément clé. Placer aux intersections :
 └───────────────┴─────────────────┘
 ```
 
-### Slide "Process"
+### "Process" Slide
 ```
 ┌─────────────────────────────────┐
-│           Titre                 │
+│           Title                 │
 ├─────────────────────────────────┤
 │                                 │
 │  [1] ──→ [2] ──→ [3] ──→ [4]   │
 │                                 │
-│  Description courte par étape   │
+│  Short description per step     │
 └─────────────────────────────────┘
 ```
 
-## Sélection d'Images (Stock Photos)
+## Image Selection (Stock Photos)
 
-Les images renforcent le message émotionnel. Utilise le skill `stock-photo-finder` pour trouver des photos pertinentes.
+Images reinforce the emotional message. Use the `stock-photo-finder` skill to find relevant photos.
 
-### Quand Utiliser une Image
+### When to Use an Image
 
-| Type de Slide | Image Recommandée | Mots-clés Pexels |
-|---------------|-------------------|------------------|
-| Titre/Couverture | Impactante, métaphorique | `abstract`, `inspiration`, thème principal |
-| Équipe/Culture | Authentique, collaborative | `team collaboration`, `office teamwork` |
-| Vision/Futur | Aspirationnelle, lumineuse | `future technology`, `innovation`, `horizon` |
-| Problème | Tension visuelle | `challenge`, `obstacle`, `storm` |
-| Solution | Résolution, clarté | `success`, `solution`, `breakthrough` |
-| Données humaines | Personnes représentatives | `business professional`, `customer` |
-| Transition | Abstraite, neutre | `abstract minimal`, `geometric` |
+| Slide Type | Recommended Image | Pexels Keywords |
+|------------|-------------------|-----------------|
+| Title/Cover | Impactful, metaphorical | `abstract`, `inspiration`, main theme |
+| Team/Culture | Authentic, collaborative | `team collaboration`, `office teamwork` |
+| Vision/Future | Aspirational, luminous | `future technology`, `innovation`, `horizon` |
+| Problem | Visual tension | `challenge`, `obstacle`, `storm` |
+| Solution | Resolution, clarity | `success`, `solution`, `breakthrough` |
+| Human data | Representative people | `business professional`, `customer` |
+| Transition | Abstract, neutral | `abstract minimal`, `geometric` |
 
-### Critères de Sélection (Garr Reynolds)
+### Selection Criteria (Garr Reynolds)
 
-1. **Pertinence** : L'image illustre directement le propos
-2. **Qualité** : Haute résolution, composition professionnelle
-3. **Authenticité** : Éviter les clichés stock trop posés
-4. **Cohérence** : Style uniforme dans toute la présentation
-5. **Lisibilité** : Zones claires pour superposer du texte si nécessaire
+1. **Relevance**: The image directly illustrates the point
+2. **Quality**: High resolution, professional composition
+3. **Authenticity**: Avoid overly staged stock clichés
+4. **Consistency**: Uniform style throughout the presentation
+5. **Readability**: Clear areas to overlay text if needed
 
-### Styles d'Images par Ton
+### Image Styles by Tone
 
-| Ton | Style | Filtres Pexels |
-|-----|-------|----------------|
-| Corporate | Professionnel, épuré | `--orientation landscape --color 1E3A5F` |
-| Startup | Dynamique, authentique | `--query "modern workspace startup"` |
-| Inspirant | Lumineux, aspirationnel | `--query "inspiration success light"` |
-| Technique | Abstrait, technologique | `--query "technology abstract data"` |
-| Humain | Portraits, émotions | `--query "people portrait authentic"` |
+| Tone | Style | Pexels Filters |
+|------|-------|----------------|
+| Corporate | Professional, clean | `--orientation landscape --color 1E3A5F` |
+| Startup | Dynamic, authentic | `--query "modern workspace startup"` |
+| Inspiring | Bright, aspirational | `--query "inspiration success light"` |
+| Technical | Abstract, technological | `--query "technology abstract data"` |
+| Human | Portraits, emotions | `--query "people portrait authentic"` |
 
-### Template de Suggestion d'Image
+### Image Suggestion Template
 
-Pour chaque slide nécessitant une image, spécifier :
+For each slide requiring an image, specify:
 
 ```
-Slide [N] : [Titre]
-- Objectif visuel : [Ce que l'image doit communiquer]
-- Mots-clés : [Termes de recherche Pexels]
-- Orientation : landscape | portrait | square
-- Zone texte : [Si du texte sera superposé, préciser où]
+Slide [N]: [Title]
+- Visual objective: [What the image should communicate]
+- Keywords: [Pexels search terms]
+- Orientation: landscape | portrait | square
+- Text area: [If text will be overlaid, specify where]
 ```
 
-## Anti-Patterns à Éviter
+## Anti-Patterns to Avoid
 
 ### ❌ Death by PowerPoint
-- Trop de slides
-- Trop de texte par slide
-- Lecture du contenu à voix haute
-- Bullet points à l'infini
+- Too many slides
+- Too much text per slide
+- Reading content aloud
+- Endless bullet points
 
-### ❌ Deck d'Information
-- Pas de narration
-- Pas de fil conducteur
-- Collection de données sans insight
+### ❌ Information Deck
+- No narration
+- No thread
+- Collection of data without insights
 
 ### ❌ Eye Chart
-- Police trop petite
-- Tableaux illisibles
-- Graphiques surchargés
+- Font too small
+- Unreadable tables
+- Overloaded charts
 
 ### ❌ Template Fatigue
-- Design générique
-- Aucune personnalisation
-- Clip-arts datés
+- Generic design
+- No customization
+- Dated clip-arts
 
-## Output : Document de Structure
+## Output: Structure Document
 
-Génère un document structuré :
+Generate a structured document:
 
 ```markdown
-# Architecture de Présentation : [Titre]
+# Presentation Architecture: [Title]
 
-## Contexte
-- **Audience** : [Description]
-- **Objectif** : [Ce que l'audience doit faire après]
-- **Durée** : [X minutes]
-- **Format** : [Présentation live / Document autonome]
+## Context
+- **Audience**: [Description]
+- **Objective**: [What the audience should do after]
+- **Duration**: [X minutes]
+- **Format**: [Live presentation / Standalone document]
 
 ## Big Idea
-> [La phrase centrale]
+> [The central sentence]
 
 ## Structure
 
-### 1. Ouverture - [Titre] (X slides)
-- Slide 1.1 : [Description + type]
-- Slide 1.2 : [Description + type]
+### 1. Opening - [Title] (X slides)
+- Slide 1.1: [Description + type]
+- Slide 1.2: [Description + type]
 
-### 2. Situation - [Titre] (X slides)
-- Slide 2.1 : [Description + données nécessaires]
+### 2. Situation - [Title] (X slides)
+- Slide 2.1: [Description + required data]
 ...
 
-### 3. Solution - [Titre] (X slides)
+### 3. Solution - [Title] (X slides)
 ...
 
-### 4. Closing - [Titre] (X slides)
+### 4. Closing - [Title] (X slides)
 ...
 
-## Éléments Visuels Requis
+## Required Visual Elements
 
-### Graphiques (skill: chart-generator)
-- [ ] Graphique : [Description + type recommandé]
+### Charts (skill: chart-generator)
+- [ ] Chart: [Description + recommended type]
 
-### Diagrammes (skill: diagram-generator)
-- [ ] Diagramme : [Description + type Mermaid/PlantUML]
+### Diagrams (skill: diagram-generator)
+- [ ] Diagram: [Description + Mermaid/PlantUML type]
 
-### Images Stock (skill: stock-photo-finder)
-- [ ] Image : [Description + mots-clés Pexels suggérés + orientation]
+### Stock Images (skill: stock-photo-finder)
+- [ ] Image: [Description + suggested Pexels keywords + orientation]
 
-Exemple:
-- [ ] Image slide 3 : Équipe en collaboration | `--query "team collaboration office" --orientation landscape`
-- [ ] Image slide 7 : Croissance et succès | `--query "growth success business" --orientation landscape`
+Example:
+- [ ] Image slide 3: Team collaboration | `--query "team collaboration office" --orientation landscape`
+- [ ] Image slide 7: Growth and success | `--query "growth success business" --orientation landscape`
 
-## Messages Clés par Section
-1. [Message section 1]
-2. [Message section 2]
-3. [Message section 3]
+## Key Messages by Section
+1. [Section 1 message]
+2. [Section 2 message]
+3. [Section 3 message]
 ```
 
-## Références
+## References
 
-Consulte :
-- `references/storytelling.md` - Structures narratives avancées
-- `references/slide-patterns.md` - Patterns de slides
-- `references/communication-techniques.md` - Techniques de présentation orale
+Consult:
+- `references/storytelling.md` - Advanced narrative structures
+- `references/slide-patterns.md` - Slide patterns
+- `references/communication-techniques.md` - Oral presentation techniques

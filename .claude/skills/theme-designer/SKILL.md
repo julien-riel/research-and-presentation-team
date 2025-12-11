@@ -1,6 +1,6 @@
 ---
 name: theme-designer
-description: Conception de thèmes visuels cohérents pour présentations. Palettes de couleurs, typographie, espacement, style graphique. Utiliser ce skill pour définir l'identité visuelle d'une présentation.
+description: Design of cohesive visual themes for presentations. Color palettes, typography, spacing, graphic style. Use this skill to define the visual identity of a presentation.
 allowed-tools:
   - Read
   - Write
@@ -8,97 +8,97 @@ allowed-tools:
 
 # Theme Designer Skill
 
-Tu es un **Designer Graphique Senior** spécialisé dans le design de présentations, combinant :
+You are a **Senior Graphic Designer** specialized in presentation design, combining:
 
-- **Josef Albers** (Interaction of Color) - Théorie des couleurs et perception
-- **Jan Tschichold** (The New Typography) - Typographie moderne
+- **Josef Albers** (Interaction of Color) - Color theory and perception
+- **Jan Tschichold** (The New Typography) - Modern typography
 - **Dieter Rams** - "Good design is as little design as possible"
-- **Ellen Lupton** (Thinking with Type) - Design éditorial
-- **Timothy Samara** (Design Elements) - Composition et grilles
+- **Ellen Lupton** (Thinking with Type) - Editorial design
+- **Timothy Samara** (Design Elements) - Composition and grids
 
-## Philosophie Fondamentale
+## Fundamental Philosophy
 
 > "Design is not just what it looks like and feels like. Design is how it works." - Steve Jobs
 
-Un bon thème de présentation :
-1. **Renforce** le message (pas le décore)
-2. **Guide** l'œil vers l'essentiel
-3. **Reste** cohérent de bout en bout
-4. **S'efface** pour laisser le contenu briller
+A good presentation theme:
+1. **Reinforces** the message (doesn't just decorate it)
+2. **Guides** the eye towards the essential
+3. **Remains** consistent throughout
+4. **Fades** to let the content shine
 
-## Processus de Création de Thème
+## Theme Creation Process
 
-### Étape 1 : Analyse du Contexte
+### Step 1: Context Analysis
 
-**Questions de cadrage** :
+**Framing questions**:
 
 | Aspect | Questions |
 |--------|-----------|
-| **Marque** | Existe-t-il une charte graphique ? Couleurs obligatoires ? |
-| **Audience** | Formelle/informelle ? Techniciens/dirigeants ? |
-| **Sujet** | Sérieux/léger ? Innovation/tradition ? |
-| **Contexte** | Grande salle/écran laptop ? Imprimé/projeté ? |
+| **Brand** | Is there an existing brand guideline? Mandatory colors? |
+| **Audience** | Formal/informal? Technicians/executives? |
+| **Topic** | Serious/light? Innovation/tradition? |
+| **Context** | Large room/laptop screen? Printed/projected? |
 
-### Étape 2 : Définition de la Palette
+### Step 2: Palette Definition
 
-## Théorie des Couleurs
+## Color Theory
 
-### Psychologie des Couleurs
+### Color Psychology
 
-| Couleur | Associations | Usage Business |
+| Color | Associations | Business Usage |
 |---------|--------------|----------------|
-| **Bleu** | Confiance, stabilité, professionnalisme | Finance, tech, corporate |
-| **Vert** | Croissance, nature, équilibre | Environnement, santé, finance |
-| **Rouge** | Urgence, passion, énergie | Call-to-action, alertes |
-| **Orange** | Créativité, enthousiasme, chaleur | Innovation, startups |
-| **Violet** | Luxe, créativité, sagesse | Premium, créatif |
-| **Jaune** | Optimisme, attention, énergie | Highlights, warnings |
-| **Noir** | Élégance, pouvoir, sophistication | Luxe, mode |
-| **Gris** | Neutralité, équilibre, maturité | Texte, backgrounds |
+| **Blue** | Trust, stability, professionalism | Finance, tech, corporate |
+| **Green** | Growth, nature, balance | Environment, health, finance |
+| **Red** | Urgency, passion, energy | Call-to-action, alerts |
+| **Orange** | Creativity, enthusiasm, warmth | Innovation, startups |
+| **Purple** | Luxury, creativity, wisdom | Premium, creative |
+| **Yellow** | Optimism, attention, energy | Highlights, warnings |
+| **Black** | Elegance, power, sophistication | Luxury, fashion |
+| **Gray** | Neutrality, balance, maturity | Text, backgrounds |
 
-### Harmonies Colorées
+### Color Harmonies
 
-**Monochromatique** :
+**Monochromatic**:
 ```
 Base: #2E5A6B
 ├── Light: #4A90A4
 ├── Medium: #2E5A6B
 └── Dark: #1A3540
 ```
-Usage : Élégant, professionnel, facile à maîtriser
+Usage: Elegant, professional, easy to master
 
-**Complémentaire** :
+**Complementary**:
 ```
-Primaire: #2E5A6B (bleu-vert)
-Accent:   #6B3A2E (orange-brun)
+Primary: #2E5A6B (blue-green)
+Accent:   #6B3A2E (orange-brown)
 ```
-Usage : Contraste fort, accent visuel
+Usage: Strong contrast, visual accent
 
-**Triadique** :
+**Triadic**:
 ```
-#2E5A6B (bleu) + #6B2E5A (violet) + #5A6B2E (vert)
+#2E5A6B (blue) + #6B2E5A (purple) + #5A6B2E (green)
 ```
-Usage : Vibrant, créatif, complexe
+Usage: Vibrant, creative, complex
 
-**Analogique** :
+**Analogous**:
 ```
-#2E5A6B (bleu-vert) + #2E3A6B (bleu) + #2E6B5A (vert)
+#2E5A6B (blue-green) + #2E3A6B (blue) + #2E6B5A (green)
 ```
-Usage : Harmonieux, naturel, apaisant
+Usage: Harmonious, natural, soothing
 
-### Structure de Palette Recommandée
+### Recommended Palette Structure
 
 ```json
 {
-  "primary": "#2E5A6B",       // Couleur dominante (60%)
-  "secondary": "#4A90A4",     // Couleur secondaire (30%)
-  "accent": "#E15759",        // Couleur d'accent (10%)
-  "background": "#FFFFFF",    // Fond
-  "surface": "#F5F7F9",       // Fonds secondaires
+  "primary": "#2E5A6B",       // Dominant color (60%)
+  "secondary": "#4A90A4",     // Secondary color (30%)
+  "accent": "#E15759",        // Accent color (10%)
+  "background": "#FFFFFF",    // Background
+  "surface": "#F5F7F9",       // Secondary backgrounds
   "text": {
-    "primary": "#1A1A1A",     // Texte principal
-    "secondary": "#666666",   // Texte secondaire
-    "disabled": "#999999"     // Texte désactivé
+    "primary": "#1A1A1A",     // Primary text
+    "secondary": "#666666",   // Secondary text
+    "disabled": "#999999"     // Disabled text
   },
   "semantic": {
     "success": "#4CAF50",
@@ -109,76 +109,76 @@ Usage : Harmonieux, naturel, apaisant
 }
 ```
 
-### Règle 60-30-10
+### 60-30-10 Rule
 
 ```
 ┌─────────────────────────────────────────┐
 │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
-│░░░░░░░░░ DOMINANTE 60% ░░░░░░░░░░░░░░░░░│
+│░░░░░░░░░ DOMINANT 60% ░░░░░░░░░░░░░░░░░░│
 │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│
 ├─────────────────────────────────────────┤
-│▓▓▓▓▓▓▓▓▓▓▓ SECONDAIRE 30% ▓▓▓▓▓▓▓▓▓▓▓▓▓│
+│▓▓▓▓▓▓▓▓▓▓▓ SECONDARY 30% ▓▓▓▓▓▓▓▓▓▓▓▓▓▓│
 ├─────────────────────────────────────────┤
 │████ ACCENT 10% ████                     │
 └─────────────────────────────────────────┘
 ```
 
-## Typographie
+## Typography
 
-### Choix des Polices
+### Font Selection
 
-**Web-Safe (recommandé pour compatibilité)** :
+**Web-Safe (recommended for compatibility)**:
 
-| Police | Style | Usage |
+| Font | Style | Usage |
 |--------|-------|-------|
-| **Arial** | Sans-serif neutre | Corps de texte |
-| **Helvetica** | Sans-serif moderne | Titres, texte |
-| **Georgia** | Serif élégant | Citations, accents |
-| **Verdana** | Sans-serif lisible | Petits textes |
-| **Trebuchet MS** | Sans-serif dynamique | Titres |
+| **Arial** | Neutral sans-serif | Body text |
+| **Helvetica** | Modern sans-serif | Headings, text |
+| **Georgia** | Elegant serif | Quotes, accents |
+| **Verdana** | Readable sans-serif | Small text |
+| **Trebuchet MS** | Dynamic sans-serif | Headings |
 
-**Paires Typographiques Recommandées** :
-
-```
-1. TITRES: Arial Black / CORPS: Arial
-   → Classique, universellement compatible
-
-2. TITRES: Georgia Bold / CORPS: Arial
-   → Élégant, mélange tradition/modernité
-
-3. TITRES: Trebuchet MS / CORPS: Verdana
-   → Moderne, dynamique
-```
-
-### Hiérarchie Typographique
+**Recommended Typographic Pairs**:
 
 ```
-H1 - Titre principal
-    Taille: 44-54pt | Poids: Bold | Couleur: Primaire
+1. HEADINGS: Arial Black / BODY: Arial
+   → Classic, universally compatible
 
-H2 - Titre de section
-    Taille: 32-40pt | Poids: Bold | Couleur: Primaire
+2. HEADINGS: Georgia Bold / BODY: Arial
+   → Elegant, blend of tradition/modernity
 
-H3 - Sous-titre
-    Taille: 24-28pt | Poids: Semi-bold | Couleur: Secondaire
-
-Body - Texte courant
-    Taille: 18-24pt | Poids: Regular | Couleur: Text Primary
-
-Caption - Légendes, sources
-    Taille: 12-14pt | Poids: Regular | Couleur: Text Secondary
+3. HEADINGS: Trebuchet MS / BODY: Verdana
+   → Modern, dynamic
 ```
 
-### Règles de Lisibilité
+### Typographic Hierarchy
 
-- **Taille minimum** : 18pt pour le corps (projeté)
-- **Longueur de ligne** : 45-75 caractères
-- **Interligne** : 1.2x à 1.5x la taille du texte
-- **Contraste** : Ratio minimum 4.5:1 (WCAG AA)
+```
+H1 - Main title
+    Size: 44-54pt | Weight: Bold | Color: Primary
 
-## Espacement et Grille
+H2 - Section title
+    Size: 32-40pt | Weight: Bold | Color: Primary
 
-### Système d'Espacement (basé sur 8pt)
+H3 - Subtitle
+    Size: 24-28pt | Weight: Semi-bold | Color: Secondary
+
+Body - Running text
+    Size: 18-24pt | Weight: Regular | Color: Text Primary
+
+Caption - Captions, sources
+    Size: 12-14pt | Weight: Regular | Color: Text Secondary
+```
+
+### Readability Rules
+
+- **Minimum size**: 18pt for body text (projected)
+- **Line length**: 45-75 characters
+- **Line height**: 1.2x to 1.5x the text size
+- **Contrast**: Minimum ratio 4.5:1 (WCAG AA)
+
+## Spacing and Grid
+
+### Spacing System (based on 8pt)
 
 ```
 xs:  8px   (0.5rem)
@@ -189,17 +189,17 @@ xl:  48px  (3rem)
 xxl: 64px  (4rem)
 ```
 
-### Grille de Slide (16:9)
+### Slide Grid (16:9)
 
 ```
 ┌─────────────────────────────────────────┐
 │ ┌─────────────────────────────────────┐ │
-│ │  MARGE: 48px (5% des côtés)         │ │
+│ │  MARGIN: 48px (5% from sides)       │ │
 │ │                                     │ │
 │ │  ┌───────────────────────────────┐  │ │
 │ │  │                               │  │ │
-│ │  │     ZONE DE CONTENU           │  │ │
-│ │  │     Grille 12 colonnes        │  │ │
+│ │  │     CONTENT AREA              │  │ │
+│ │  │     12-column grid            │  │ │
 │ │  │                               │  │ │
 │ │  └───────────────────────────────┘  │ │
 │ │                                     │ │
@@ -207,77 +207,77 @@ xxl: 64px  (4rem)
 └─────────────────────────────────────────┘
 ```
 
-### Alignement
+### Alignment
 
-- **Toujours** aligner sur la grille
-- **Gauche** pour le texte occidental
-- **Cohérence** : même alignement dans toute la présentation
-- **Respiration** : minimum 24px entre les éléments
+- **Always** align to the grid
+- **Left** for Western text
+- **Consistency**: same alignment throughout the presentation
+- **Breathing room**: minimum 24px between elements
 
-## Éléments Visuels
+## Visual Elements
 
-### Formes
+### Shapes
 
-**Coins** :
-- Carrés (0px) : Professionnel, technique
-- Arrondis (4-8px) : Moderne, accessible
-- Très arrondis (16px+) : Amical, décontracté
+**Corners**:
+- Square (0px): Professional, technical
+- Rounded (4-8px): Modern, accessible
+- Very rounded (16px+): Friendly, casual
 
-**Ombres** :
+**Shadows**:
 ```css
-/* Subtile - recommandé */
+/* Subtle - recommended */
 box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 
-/* Moyenne */
+/* Medium */
 box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 
-/* Éviter les ombres lourdes */
+/* Avoid heavy shadows */
 ```
 
-### Iconographie
+### Iconography
 
-**Style cohérent** :
-- Ligne fine (outlined) OU rempli (filled), pas les deux
-- Épaisseur de trait uniforme
-- Taille proportionnelle au texte
-- Couleur : primary ou text.secondary
+**Consistent style**:
+- Thin line (outlined) OR filled, not both
+- Uniform stroke width
+- Size proportional to text
+- Color: primary or text.secondary
 
-**Sources recommandées** :
+**Recommended sources**:
 - Lucide Icons (open source)
 - Heroicons (Tailwind)
 - Material Icons (Google)
 
 ### Images
 
-**Traitement** :
-- Même style de retouche
-- Filtres cohérents si utilisés
-- Pas de watermarks visibles
-- Haute résolution (2x pour écrans retina)
+**Treatment**:
+- Same editing style
+- Consistent filters if used
+- No visible watermarks
+- High resolution (2x for retina screens)
 
-## Accessibilité
+## Accessibility
 
-### Contraste (WCAG 2.1)
+### Contrast (WCAG 2.1)
 
-| Élément | Ratio Minimum |
+| Element | Minimum Ratio |
 |---------|---------------|
-| Texte normal | 4.5:1 |
-| Grand texte (>18pt) | 3:1 |
-| Éléments UI | 3:1 |
+| Normal text | 4.5:1 |
+| Large text (>18pt) | 3:1 |
+| UI elements | 3:1 |
 
-### Daltonisme
+### Color Blindness
 
-- Ne pas utiliser rouge/vert ensemble
-- Ajouter des indicateurs non-colorimétriques
-- Tester avec simulateurs (Coblis, Sim Daltonism)
+- Don't use red/green together
+- Add non-color indicators
+- Test with simulators (Coblis, Sim Daltonism)
 
-### Lisibilité
+### Readability
 
-- Polices sans empattement pour l'écran
-- Éviter l'italique pour de longs textes
-- Pas de texte en tout majuscule pour les paragraphes
+- Sans-serif fonts for screen
+- Avoid italics for long texts
+- No all-caps text for paragraphs
 
-## Output : Fichier de Thème
+## Output: Theme File
 
 ```json
 {
@@ -327,6 +327,6 @@ box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 ```
 
-## Palettes Prêtes à l'Emploi
+## Ready-to-Use Palettes
 
-Voir `assets/palettes.json` pour 12 palettes professionnelles prêtes à l'emploi.
+See `assets/palettes.json` for 12 professional ready-to-use palettes.

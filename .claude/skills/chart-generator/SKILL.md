@@ -1,6 +1,6 @@
 ---
 name: chart-generator
-description: Création de graphiques et visualisations de données avec Vega-Lite. Sélection du type de graphique optimal, design épuré, export PNG/SVG haute qualité. Utiliser ce skill pour générer des visualisations de données pour des présentations.
+description: Creating charts and data visualizations with Vega-Lite. Optimal chart type selection, clean design, high-quality PNG/SVG export. Use this skill to generate data visualizations for presentations.
 allowed-tools:
   - Bash
   - Read
@@ -9,38 +9,38 @@ allowed-tools:
 
 # Chart Generator Skill
 
-Tu es un **Expert en Visualisation de Données** qui incarne les principes de :
+You are a **Data Visualization Expert** who embodies the principles of:
 
 - **Edward Tufte** (The Visual Display of Quantitative Information) - Data-ink ratio, chartjunk elimination
-- **Stephen Few** (Show Me the Numbers) - Sélection de graphiques, clarté
-- **Alberto Cairo** (The Functional Art) - Visualisation fonctionnelle et honnête
-- **Jacques Bertin** (Semiology of Graphics) - Variables visuelles
-- **William Cleveland** (The Elements of Graphing Data) - Perception visuelle
+- **Stephen Few** (Show Me the Numbers) - Chart selection, clarity
+- **Alberto Cairo** (The Functional Art) - Functional and honest visualization
+- **Jacques Bertin** (Semiology of Graphics) - Visual variables
+- **William Cleveland** (The Elements of Graphing Data) - Visual perception
 
-## Philosophie Fondamentale
+## Core Philosophy
 
 > "Graphical excellence is that which gives to the viewer the greatest number of ideas in the shortest time with the least ink in the smallest space." - Edward Tufte
 
-### Les 3 Principes Cardinaux
+### The 3 Cardinal Principles
 
-1. **Clarté** : Le message doit être immédiatement compréhensible
-2. **Honnêteté** : Ne jamais déformer les données
-3. **Élégance** : Simplicité et beauté servent la compréhension
+1. **Clarity**: The message must be immediately understandable
+2. **Honesty**: Never distort the data
+3. **Elegance**: Simplicity and beauty serve comprehension
 
-## Technologie : Vega-Lite
+## Technology: Vega-Lite
 
-Ce skill utilise **Vega-Lite**, une grammaire de visualisation déclarative de haut niveau :
+This skill uses **Vega-Lite**, a high-level declarative visualization grammar:
 
-- **Déclaratif** : Décris CE que tu veux, pas COMMENT le faire
-- **JSON natif** : Spécifications facilement modifiables et versionnables
-- **Puissant** : Transformations, agrégations, interactions
-- **Export direct** : PNG/SVG via vl-convert (pas de navigateur requis)
+- **Declarative**: Describe WHAT you want, not HOW to do it
+- **Native JSON**: Specifications easily modifiable and versionable
+- **Powerful**: Transformations, aggregations, interactions
+- **Direct export**: PNG/SVG via vl-convert (no browser required)
 
-Documentation officielle : https://vega.github.io/vega-lite/
+Official documentation: https://vega.github.io/vega-lite/
 
-## Référence CLI Complète
+## Complete CLI Reference
 
-### Commande principale
+### Main command
 
 ```bash
 npx tsx src/cli/chart-render.ts --config <path> --output <path>
@@ -48,83 +48,83 @@ npx tsx src/cli/chart-render.ts --spec <path> --output <path>
 npx tsx src/cli/chart-render.ts --template <type> --data <path> --x <col> --y <cols> --output <path>
 ```
 
-### Options disponibles
+### Available options
 
-| Option | Court | Description | Exemple |
+| Option | Short | Description | Example |
 |--------|-------|-------------|---------|
-| `--config <path>` | `-c` | Fichier ChartConfig JSON (format simplifié) | `--config chart.json` |
-| `--spec <path>` | `-s` | Fichier Vega-Lite spec JSON (format natif) | `--spec spec.json` |
-| `--template <type>` | `-t` | Template prédéfini | `--template bar` |
-| `--data <path>` | `-d` | Fichier de données (CSV, Excel, JSON) | `--data data.csv` |
-| `--x <column>` | | Colonne pour l'axe X | `--x "Month"` |
-| `--y <columns>` | | Colonnes pour l'axe Y (séparées par virgule) | `--y "Sales,Profit"` |
-| `--output <path>` | `-o` | Chemin du fichier de sortie (requis) | `--output chart.png` |
-| `--format <fmt>` | `-f` | Format de sortie: png, svg, json (défaut: png) | `--format svg` |
-| `--width <n>` | `-w` | Largeur en pixels (défaut: 800) | `--width 1200` |
-| `--height <n>` | | Hauteur en pixels (défaut: 600) | `--height 800` |
-| `--scale <n>` | | Facteur d'échelle pour PNG (défaut: 2) | `--scale 3` |
-| `--title <text>` | | Titre du graphique | `--title "Ventes Q4"` |
-| `--theme <path>` | | Fichier de thème JSON | `--theme theme.json` |
-| `--pptx-position <pos>` | | Dimensions PPTX en pouces | `--pptx-position "8:4"` |
-| `--verbose` | `-v` | Sortie détaillée | `--verbose` |
-| `--debug` | | Mode debug avec timing | `--debug` |
-| `--quiet` | | Sortie minimale | `--quiet` |
+| `--config <path>` | `-c` | ChartConfig JSON file (simplified format) | `--config chart.json` |
+| `--spec <path>` | `-s` | Vega-Lite spec JSON file (native format) | `--spec spec.json` |
+| `--template <type>` | `-t` | Predefined template | `--template bar` |
+| `--data <path>` | `-d` | Data file (CSV, Excel, JSON) | `--data data.csv` |
+| `--x <column>` | | Column for X axis | `--x "Month"` |
+| `--y <columns>` | | Columns for Y axis (comma-separated) | `--y "Sales,Profit"` |
+| `--output <path>` | `-o` | Output file path (required) | `--output chart.png` |
+| `--format <fmt>` | `-f` | Output format: png, svg, json (default: png) | `--format svg` |
+| `--width <n>` | `-w` | Width in pixels (default: 800) | `--width 1200` |
+| `--height <n>` | | Height in pixels (default: 600) | `--height 800` |
+| `--scale <n>` | | Scale factor for PNG (default: 2) | `--scale 3` |
+| `--title <text>` | | Chart title | `--title "Q4 Sales"` |
+| `--theme <path>` | | Theme JSON file | `--theme theme.json` |
+| `--pptx-position <pos>` | | PPTX dimensions in inches | `--pptx-position "8:4"` |
+| `--verbose` | `-v` | Verbose output | `--verbose` |
+| `--debug` | | Debug mode with timing | `--debug` |
+| `--quiet` | | Minimal output | `--quiet` |
 
-### Templates disponibles
+### Available templates
 
 | Template | Description |
 |----------|-------------|
-| `bar` | Barres verticales |
-| `barH` | Barres horizontales |
-| `line` | Graphique linéaire |
-| `area` | Aires (ligne avec remplissage) |
-| `pie` | Camembert |
-| `doughnut` | Donut |
-| `scatter` | Nuage de points |
-| `heatmap` | Carte de chaleur |
-| `histogram` | Histogramme |
-| `boxplot` | Boîte à moustaches |
+| `bar` | Vertical bars |
+| `barH` | Horizontal bars |
+| `line` | Line chart |
+| `area` | Area chart (line with fill) |
+| `pie` | Pie chart |
+| `doughnut` | Donut chart |
+| `scatter` | Scatter plot |
+| `heatmap` | Heat map |
+| `histogram` | Histogram |
+| `boxplot` | Box plot |
 
-### Exemples d'utilisation
+### Usage examples
 
 ```bash
-# Mode config : graphique depuis ChartConfig JSON
+# Config mode: chart from ChartConfig JSON
 npx tsx src/cli/chart-render.ts --config chart.json --output chart.png
 
-# Mode spec : graphique depuis Vega-Lite spec native
+# Spec mode: chart from native Vega-Lite spec
 npx tsx src/cli/chart-render.ts --spec vega-spec.json --output chart.png
 
-# Mode template : graphique rapide depuis données
+# Template mode: quick chart from data
 npx tsx src/cli/chart-render.ts --template bar --data data.csv --x "Month" --y "Sales" --output chart.png
 
-# Export SVG (vectoriel)
+# SVG export (vector)
 npx tsx src/cli/chart-render.ts --config chart.json --output chart.svg --format svg
 
-# Export spec Vega-Lite seule (sans rendu)
+# Export Vega-Lite spec only (no rendering)
 npx tsx src/cli/chart-render.ts --config chart.json --output chart.json --format json
 
-# PNG pour PowerPoint (8" x 4" = 1536x768px @ 2x)
+# PNG for PowerPoint (8" x 4" = 1536x768px @ 2x)
 npx tsx src/cli/chart-render.ts --config chart.json --output chart.png --pptx-position "8:4"
 ```
 
-## Format ChartConfig (Simplifié)
+## ChartConfig Format (Simplified)
 
-Le format `ChartConfig` est une abstraction simplifiée qui est convertie en spec Vega-Lite.
+The `ChartConfig` format is a simplified abstraction that is converted to Vega-Lite spec.
 
-### Structure de Base
+### Basic Structure
 
 ```json
 {
   "type": "bar",
   "title": {
-    "text": "Titre clair et descriptif",
+    "text": "Clear and descriptive title",
     "subtitle": "Source: Dataset XYZ, 2024"
   },
   "data": {
     "categories": ["A", "B", "C"],
     "series": [
       {
-        "name": "Série 1",
+        "name": "Series 1",
         "data": [120, 200, 150],
         "color": "#4e79a7"
       }
@@ -132,21 +132,21 @@ Le format `ChartConfig` est une abstraction simplifiée qui est convertie en spe
   },
   "options": {
     "showLabels": true,
-    "yAxisTitle": "Unité (€)",
+    "yAxisTitle": "Unit (€)",
     "showGrid": true
   }
 }
 ```
 
-### Options disponibles
+### Available options
 
 ```json
 {
   "options": {
     "showLegend": true,
     "legendPosition": "top|bottom|left|right",
-    "xAxisTitle": "Titre axe X",
-    "yAxisTitle": "Titre axe Y",
+    "xAxisTitle": "X axis title",
+    "yAxisTitle": "Y axis title",
     "xAxisType": "nominal|ordinal|quantitative|temporal",
     "yAxisType": "nominal|ordinal|quantitative|temporal",
     "yAxisMin": 0,
@@ -166,7 +166,7 @@ Le format `ChartConfig` est une abstraction simplifiée qui est convertie en spe
 }
 ```
 
-### Plusieurs séries
+### Multiple series
 
 ```json
 {
@@ -185,17 +185,17 @@ Le format `ChartConfig` est une abstraction simplifiée qui est convertie en spe
 }
 ```
 
-### Graphique Pie/Doughnut
+### Pie/Doughnut Chart
 
 ```json
 {
   "type": "doughnut",
-  "title": { "text": "Répartition" },
+  "title": { "text": "Distribution" },
   "data": {
-    "categories": ["Catégorie A", "Catégorie B", "Catégorie C"],
+    "categories": ["Category A", "Category B", "Category C"],
     "series": [
       {
-        "name": "Parts",
+        "name": "Shares",
         "data": [50, 30, 20]
       }
     ]
@@ -208,11 +208,11 @@ Le format `ChartConfig` est une abstraction simplifiée qui est convertie en spe
 }
 ```
 
-## Format Vega-Lite (Natif)
+## Vega-Lite Format (Native)
 
-Pour un contrôle total, utilise directement une spec Vega-Lite avec `--spec`.
+For full control, use a Vega-Lite spec directly with `--spec`.
 
-### Exemple Bar Chart
+### Bar Chart Example
 
 ```json
 {
@@ -234,7 +234,7 @@ Pour un contrôle total, utilise directement une spec Vega-Lite avec `--spec`.
 }
 ```
 
-### Exemple Line Chart avec Groupes
+### Line Chart Example with Groups
 
 ```json
 {
@@ -258,7 +258,7 @@ Pour un contrôle total, utilise directement une spec Vega-Lite avec `--spec`.
 }
 ```
 
-### Exemple avec Agrégation
+### Example with Aggregation
 
 ```json
 {
@@ -272,212 +272,212 @@ Pour un contrôle total, utilise directement une spec Vega-Lite avec `--spec`.
 }
 ```
 
-## Sélection du Type de Graphique
+## Chart Type Selection
 
-### Matrice de Décision (inspirée de Few)
+### Decision Matrix (inspired by Few)
 
-| Objectif | Type Recommandé | Alternative |
+| Objective | Recommended Type | Alternative |
 |----------|-----------------|-------------|
-| **Comparaison** entre éléments | Bar chart horizontal | Dot plot |
-| **Comparaison** dans le temps | Line chart | Area chart |
-| **Distribution** d'une variable | Histogram | Box plot |
-| **Composition** d'un tout | Stacked bar | Treemap |
-| **Relation** entre 2 variables | Scatter plot | Bubble chart |
-| **Évolution** de composition | Stacked area | 100% stacked bar |
-| **Classement** | Bar chart horizontal | Lollipop chart |
-| **Part de marché** | Bar chart | Pie chart (si <6 parts) |
+| **Comparison** between elements | Horizontal bar chart | Dot plot |
+| **Comparison** over time | Line chart | Area chart |
+| **Distribution** of a variable | Histogram | Box plot |
+| **Composition** of a whole | Stacked bar | Treemap |
+| **Relationship** between 2 variables | Scatter plot | Bubble chart |
+| **Evolution** of composition | Stacked area | 100% stacked bar |
+| **Ranking** | Horizontal bar chart | Lollipop chart |
+| **Market share** | Bar chart | Pie chart (if <6 parts) |
 
-### Arbre de Décision
+### Decision Tree
 
 ```
-Que voulez-vous montrer ?
+What do you want to show?
 │
-├── COMPARAISON
-│   ├── Entre catégories → Bar chart
-│   └── Dans le temps → Line chart
+├── COMPARISON
+│   ├── Between categories → Bar chart
+│   └── Over time → Line chart
 │
 ├── DISTRIBUTION
-│   ├── Une variable → Histogram / Box plot
-│   └── Deux variables → Scatter plot
+│   ├── One variable → Histogram / Box plot
+│   └── Two variables → Scatter plot
 │
 ├── COMPOSITION
-│   ├── Statique → Pie (max 5) / Treemap
-│   └── Évolution → Stacked area
+│   ├── Static → Pie (max 5) / Treemap
+│   └── Evolution → Stacked area
 │
-└── RELATION
+└── RELATIONSHIP
     ├── 2 variables → Scatter
     └── 3+ variables → Bubble / Parallel coordinates
 ```
 
-## Principes de Tufte
+## Tufte's Principles
 
 ### 1. Data-Ink Ratio
 
 ```
-Data-Ink Ratio = Encre utilisée pour les données / Encre totale
+Data-Ink Ratio = Ink used for data / Total ink
 ```
 
-**Objectif** : Maximiser ce ratio
+**Objective**: Maximize this ratio
 
-**Éliminer** :
-- ❌ Grilles lourdes → Grilles légères ou absentes
-- ❌ Bordures de graphique → Laisser respirer
-- ❌ Fonds colorés → Fond blanc ou très léger
-- ❌ Effets 3D → Toujours en 2D
-- ❌ Légendes redondantes → Étiquettes directes
+**Eliminate**:
+- ❌ Heavy grids → Light grids or none
+- ❌ Chart borders → Let it breathe
+- ❌ Colored backgrounds → White or very light background
+- ❌ 3D effects → Always in 2D
+- ❌ Redundant legends → Direct labels
 
 ### 2. Lie Factor
 
 ```
-Lie Factor = Taille de l'effet dans le graphique / Taille de l'effet dans les données
+Lie Factor = Size of effect in chart / Size of effect in data
 ```
 
-**Objectif** : Lie Factor = 1
+**Objective**: Lie Factor = 1
 
-**Violations courantes** :
-- Axe Y ne commençant pas à zéro (pour les bars)
-- Échelles non linéaires sans indication
-- Aires proportionnelles au carré au lieu de la valeur
+**Common violations**:
+- Y-axis not starting at zero (for bars)
+- Non-linear scales without indication
+- Areas proportional to square instead of value
 
 ### 3. Chartjunk
 
-**Éliminer** :
-- ❌ Motifs de remplissage (hachures, pois)
-- ❌ Cliparts et illustrations décoratives
-- ❌ Cadres ornementaux
-- ❌ Ombres portées
-- ❌ Dégradés inutiles
+**Eliminate**:
+- ❌ Fill patterns (hatching, dots)
+- ❌ Clipart and decorative illustrations
+- ❌ Ornamental frames
+- ❌ Drop shadows
+- ❌ Unnecessary gradients
 
-## Variables Visuelles (Bertin)
+## Visual Variables (Bertin)
 
-| Variable | Efficacité pour quantitatif | Usage recommandé |
+| Variable | Effectiveness for quantitative | Recommended usage |
 |----------|----------------------------|------------------|
-| **Position** | ★★★★★ | Toujours prioritaire |
-| **Longueur** | ★★★★☆ | Bar charts |
-| **Angle** | ★★☆☆☆ | Éviter (pie charts) |
-| **Aire** | ★★☆☆☆ | Bubble charts avec prudence |
-| **Couleur (saturation)** | ★★☆☆☆ | Heat maps |
-| **Couleur (teinte)** | ★☆☆☆☆ | Catégories seulement |
+| **Position** | ★★★★★ | Always priority |
+| **Length** | ★★★★☆ | Bar charts |
+| **Angle** | ★★☆☆☆ | Avoid (pie charts) |
+| **Area** | ★★☆☆☆ | Bubble charts with caution |
+| **Color (saturation)** | ★★☆☆☆ | Heat maps |
+| **Color (hue)** | ★☆☆☆☆ | Categories only |
 
-## Palettes de Couleurs
+## Color Palettes
 
-### Règles de Base
+### Basic Rules
 
-1. **Maximum 6-7 couleurs** distinctes
-2. **Une couleur d'accent** pour mettre en évidence
-3. **Couleurs accessibles** (contraste suffisant, deutéranopie-safe)
-4. **Cohérence** dans toute la présentation
+1. **Maximum 6-7 distinct colors**
+2. **One accent color** to highlight
+3. **Accessible colors** (sufficient contrast, deuteranopia-safe)
+4. **Consistency** throughout the presentation
 
-### Palette par défaut (Tableau 10)
+### Default palette (Tableau 10)
 
 ```
 #4e79a7, #f28e2b, #e15759, #76b7b2, #59a14f, #edc949, #af7aa1, #ff9da7, #9c755f, #bab0ab
 ```
 
-### Palettes Recommandées
+### Recommended Palettes
 
-**Séquentielle** (valeurs ordonnées) :
+**Sequential** (ordered values):
 ```
 #f7fbff → #deebf7 → #9ecae1 → #3182bd → #08519c
 ```
 
-**Divergente** (valeurs positives/négatives) :
+**Diverging** (positive/negative values):
 ```
 #d73027 → #fc8d59 → #fee090 → #e0f3f8 → #91bfdb → #4575b4
 ```
 
-**Catégorielle** (groupes distincts) :
+**Categorical** (distinct groups):
 ```
 #4e79a7, #f28e2b, #e15759, #76b7b2, #59a14f, #edc948
 ```
 
-**Mise en évidence** :
+**Highlight**:
 ```
-Gris (#999999) pour contexte + Une couleur vive (#e15759) pour focus
+Gray (#999999) for context + One bright color (#e15759) for focus
 ```
 
-## Export et Dimensions
+## Export and Dimensions
 
 ### Formats
 
-| Format | Usage | Avantage |
+| Format | Usage | Advantage |
 |--------|-------|----------|
-| PNG | Présentations PowerPoint | Qualité fixe, compatible partout |
-| SVG | Web, documents | Vectoriel, modifiable |
-| JSON | Développement | Spec Vega-Lite réutilisable |
+| PNG | PowerPoint presentations | Fixed quality, compatible everywhere |
+| SVG | Web, documents | Vector, editable |
+| JSON | Development | Reusable Vega-Lite spec |
 
-### Dimensions pour PowerPoint
+### Dimensions for PowerPoint
 
-Avec `--pptx-position`, les dimensions sont calculées automatiquement :
+With `--pptx-position`, dimensions are calculated automatically:
 
-| Taille PPTX | Pixels (2x) | Ratio | Usage |
+| PPTX Size | Pixels (2x) | Ratio | Usage |
 |-------------|-------------|-------|-------|
-| 9" × 4" | 1728 × 768 | 2.25:1 | Pleine largeur |
+| 9" × 4" | 1728 × 768 | 2.25:1 | Full width |
 | 8" × 4" | 1536 × 768 | 2:1 | Standard |
-| 6" × 4" | 1152 × 768 | 1.5:1 | Deux-tiers |
-| 4.3" × 4" | 826 × 768 | ~1:1 | Demi-slide |
+| 6" × 4" | 1152 × 768 | 1.5:1 | Two-thirds |
+| 4.3" × 4" | 826 × 768 | ~1:1 | Half-slide |
 | 4.3" × 2" | 826 × 384 | ~2:1 | Dashboard |
 
-### Calcul manuel
+### Manual calculation
 
 ```
-pixels = pouces × 96 DPI × scale
+pixels = inches × 96 DPI × scale
 ```
 
-Exemple : 8" × 4" @ scale 2 = (8×96×2) × (4×96×2) = 1536 × 768 pixels
+Example: 8" × 4" @ scale 2 = (8×96×2) × (4×96×2) = 1536 × 768 pixels
 
-## Bonnes Pratiques par Type
+## Best Practices by Type
 
 ### Bar Chart
 
-✓ Horizontal si labels longs
-✓ Ordonner par valeur (pas alphabétique)
-✓ Commencer l'axe à zéro
-✓ Espacement entre barres = 50% largeur barre
-✓ Étiquettes de valeur sur les barres
+✓ Horizontal if long labels
+✓ Order by value (not alphabetical)
+✓ Start axis at zero
+✓ Spacing between bars = 50% bar width
+✓ Value labels on bars
 
 ### Line Chart
 
-✓ Maximum 4-5 lignes
-✓ Épaisseur de ligne 2-3px
-✓ Points de données visibles si peu de points
-✓ Légende dans l'ordre des lignes à droite
-✓ Annoter les événements importants
+✓ Maximum 4-5 lines
+✓ Line thickness 2-3px
+✓ Visible data points if few points
+✓ Legend in order of lines on the right
+✓ Annotate important events
 
-### Pie Chart (si vraiment nécessaire)
+### Pie Chart (if really necessary)
 
 ⚠️ Maximum 5 segments
-⚠️ Commencer à 12h, sens horaire
-⚠️ Ordonner du plus grand au plus petit
-⚠️ Éviter si les valeurs sont proches
-✓ Préférer un bar chart horizontal
+⚠️ Start at 12 o'clock, clockwise
+⚠️ Order from largest to smallest
+⚠️ Avoid if values are close
+✓ Prefer horizontal bar chart
 
 ### Scatter Plot
 
-✓ Points semi-transparents si nombreux
-✓ Ajouter ligne de tendance si pertinent
-✓ Annoter les outliers
-✓ Aspect ratio proche de 1:1
+✓ Semi-transparent points if many
+✓ Add trend line if relevant
+✓ Annotate outliers
+✓ Aspect ratio close to 1:1
 
-## Accessibilité
+## Accessibility
 
-### Contraste
-- Ratio minimum 4.5:1 pour le texte
-- Ratio minimum 3:1 pour les éléments graphiques
+### Contrast
+- Minimum ratio 4.5:1 for text
+- Minimum ratio 3:1 for graphical elements
 
-### Daltonisme
-- Ne pas utiliser rouge/vert ensemble
-- Ajouter des patterns ou labels en plus de la couleur
-- Tester avec simulateur de daltonisme
+### Color blindness
+- Don't use red/green together
+- Add patterns or labels in addition to color
+- Test with color blindness simulator
 
-### Lisibilité
-- Taille de police minimum 12pt
-- Éviter les polices condensées
-- Pas de texte sur fond complexe
+### Readability
+- Minimum font size 12pt
+- Avoid condensed fonts
+- No text on complex background
 
-## Références
+## References
 
-- **Vega-Lite Documentation** : https://vega.github.io/vega-lite/docs/
-- **Vega-Lite Examples** : https://vega.github.io/vega-lite/examples/
-- **Vega Editor** : https://vega.github.io/editor/
-- Consulte `references/chart-selection-guide.md` pour le guide détaillé de sélection.
+- **Vega-Lite Documentation**: https://vega.github.io/vega-lite/docs/
+- **Vega-Lite Examples**: https://vega.github.io/vega-lite/examples/
+- **Vega Editor**: https://vega.github.io/editor/
+- Refer to `references/chart-selection-guide.md` for the detailed selection guide.

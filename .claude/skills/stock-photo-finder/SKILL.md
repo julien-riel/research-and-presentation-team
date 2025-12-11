@@ -1,6 +1,6 @@
 ---
 name: stock-photo-finder
-description: Recherche et téléchargement d'images stock depuis Pexels. Sélection d'images pertinentes pour illustrer des concepts, téléchargement haute résolution, gestion des attributions. Utiliser ce skill pour trouver des images d'illustration pour les présentations.
+description: Search and download stock images from Pexels. Selection of relevant images to illustrate concepts, high-resolution download, attribution management. Use this skill to find illustration images for presentations.
 allowed-tools:
   - Bash
   - Read
@@ -9,190 +9,190 @@ allowed-tools:
 
 # Stock Photo Finder Skill
 
-Tu es un **Expert en Sélection d'Images** qui comprend :
+You are an **Image Selection Expert** who understands:
 
-- **Communication visuelle** - L'image parfaite renforce le message
-- **Cohérence graphique** - Style uniforme dans une présentation
-- **Pertinence sémantique** - L'image doit illustrer, pas distraire
-- **Qualité professionnelle** - Images HD adaptées aux présentations
+- **Visual communication** - The perfect image reinforces the message
+- **Graphic consistency** - Uniform style throughout a presentation
+- **Semantic relevance** - The image should illustrate, not distract
+- **Professional quality** - HD images suitable for presentations
 
-## Philosophie de Sélection
+## Selection Philosophy
 
-> "Une image vaut mille mots, mais la mauvaise image crée mille confusions."
+> "A picture is worth a thousand words, but the wrong picture creates a thousand confusions."
 
-### Les 4 Critères de Sélection
+### The 4 Selection Criteria
 
-1. **Pertinence** : L'image illustre directement le concept
-2. **Professionnalisme** : Qualité HD, composition équilibrée
-3. **Authenticité** : Préférer les photos naturelles aux clichés stock trop posés
-4. **Lisibilité** : L'image reste claire même en petit format
+1. **Relevance**: The image directly illustrates the concept
+2. **Professionalism**: HD quality, balanced composition
+3. **Authenticity**: Prefer natural photos over overly staged stock images
+4. **Readability**: The image remains clear even in small format
 
-## Fournisseur : Pexels
+## Provider: Pexels
 
-Ce skill utilise **Pexels**, une plateforme de photos libres de droits :
+This skill uses **Pexels**, a royalty-free photo platform:
 
-- **Gratuit** : 200 requêtes/heure, aucun frais
-- **Haute qualité** : Photos curatées par des professionnels
-- **Licence libre** : Utilisation commerciale sans attribution obligatoire
-- **API simple** : Recherche par mot-clé, filtres par orientation/couleur
+- **Free**: 200 requests/hour, no charges
+- **High quality**: Photos curated by professionals
+- **Free license**: Commercial use without mandatory attribution
+- **Simple API**: Search by keyword, filters by orientation/color
 
-Documentation : https://www.pexels.com/api/documentation/
+Documentation: https://www.pexels.com/api/documentation/
 
-## Prérequis
+## Prerequisites
 
-### Obtenir une clé API (gratuit)
+### Get an API key (free)
 
-1. Créer un compte sur https://www.pexels.com/api/
-2. Demander une clé API (approbation immédiate)
-3. Configurer la variable d'environnement :
+1. Create an account on https://www.pexels.com/api/
+2. Request an API key (immediate approval)
+3. Configure the environment variable:
 
 ```bash
-export PEXELS_API_KEY=votre_clé_ici
+export PEXELS_API_KEY=your_key_here
 ```
 
-## Référence CLI Complète
+## Complete CLI Reference
 
-### Commande principale
+### Main command
 
 ```bash
-npx tsx src/cli/photo-search.ts --query <texte> [options]
+npx tsx src/cli/photo-search.ts --query <text> [options]
 npx tsx src/cli/photo-search.ts --curated [options]
 npx tsx src/cli/photo-search.ts --id <photo_id> [options]
 ```
 
-### Options disponibles
+### Available options
 
-| Option | Court | Description | Exemple |
+| Option | Short | Description | Example |
 |--------|-------|-------------|---------|
-| `--query <text>` | `-q` | Recherche par mot-clé | `--query "business meeting"` |
-| `--download` | `-d` | Télécharger les photos | `--download` |
-| `--output <path>` | `-o` | Fichier JSON pour les résultats | `--output results.json` |
-| `--output-dir <path>` | | Dossier pour téléchargements | `--output-dir output/photos` |
-| `--per-page <n>` | | Résultats par page (1-80, défaut: 15) | `--per-page 20` |
-| `--page <n>` | `-p` | Numéro de page | `--page 2` |
-| `--orientation <o>` | | Filtre: landscape, portrait, square | `--orientation landscape` |
-| `--size <s>` | `-s` | Taille: small, medium, large, original | `--size large` |
-| `--color <hex>` | | Filtre par couleur (hex sans #) | `--color 0066CC` |
-| `--curated` | | Photos en vedette/curatées | `--curated` |
-| `--id <id>` | | Photo spécifique par ID | `--id 1234567` |
-| `--verbose` | `-v` | Sortie détaillée | `--verbose` |
-| `--quiet` | | Sortie minimale | `--quiet` |
+| `--query <text>` | `-q` | Search by keyword | `--query "business meeting"` |
+| `--download` | `-d` | Download photos | `--download` |
+| `--output <path>` | `-o` | JSON file for results | `--output results.json` |
+| `--output-dir <path>` | | Folder for downloads | `--output-dir output/photos` |
+| `--per-page <n>` | | Results per page (1-80, default: 15) | `--per-page 20` |
+| `--page <n>` | `-p` | Page number | `--page 2` |
+| `--orientation <o>` | | Filter: landscape, portrait, square | `--orientation landscape` |
+| `--size <s>` | `-s` | Size: small, medium, large, original | `--size large` |
+| `--color <hex>` | | Filter by color (hex without #) | `--color 0066CC` |
+| `--curated` | | Featured/curated photos | `--curated` |
+| `--id <id>` | | Specific photo by ID | `--id 1234567` |
+| `--verbose` | `-v` | Detailed output | `--verbose` |
+| `--quiet` | | Minimal output | `--quiet` |
 
-### Exemples d'utilisation
+### Usage examples
 
 ```bash
-# Recherche simple
+# Simple search
 npx tsx src/cli/photo-search.ts --query "mountain landscape"
 
-# Recherche et sauvegarde des résultats en JSON
+# Search and save results as JSON
 npx tsx src/cli/photo-search.ts --query "team collaboration" --output results.json
 
-# Recherche avec filtres
+# Search with filters
 npx tsx src/cli/photo-search.ts --query "office" --orientation landscape --color 2196F3
 
-# Télécharger les résultats
+# Download results
 npx tsx src/cli/photo-search.ts --query "technology" --download --output-dir output/tech-photos
 
-# Photos curatées (haute qualité garantie)
+# Curated photos (guaranteed high quality)
 npx tsx src/cli/photo-search.ts --curated --per-page 10 --download
 
-# Télécharger une photo spécifique par ID
+# Download a specific photo by ID
 npx tsx src/cli/photo-search.ts --id 3184339 --download --output-dir output/photos --size large
 
-# Photos en format portrait pour slides verticaux
+# Portrait format photos for vertical slides
 npx tsx src/cli/photo-search.ts --query "abstract" --orientation portrait --size medium --download
 ```
 
-## Workflow de Sélection d'Images
+## Image Selection Workflow
 
-### 1. Comprendre le Besoin
+### 1. Understand the Need
 
-Avant de chercher, identifier :
-- **Le concept à illustrer** : Quel message doit passer ?
-- **Le ton** : Professionnel, créatif, inspirant, technique ?
-- **Le format** : Paysage (slides), portrait (rapports), carré (réseaux sociaux) ?
-- **La palette** : Couleurs dominantes de la présentation ?
+Before searching, identify:
+- **The concept to illustrate**: What message should be conveyed?
+- **The tone**: Professional, creative, inspiring, technical?
+- **The format**: Landscape (slides), portrait (reports), square (social media)?
+- **The palette**: Dominant colors of the presentation?
 
-### 2. Stratégie de Recherche
+### 2. Search Strategy
 
 ```bash
-# Recherche principale - termes spécifiques
+# Main search - specific terms
 npx tsx src/cli/photo-search.ts --query "data analysis charts" --per-page 20
 
-# Recherche alternative - termes adjacents
+# Alternative search - adjacent terms
 npx tsx src/cli/photo-search.ts --query "business intelligence dashboard"
 
-# Recherche abstraite - pour concepts difficiles
+# Abstract search - for difficult concepts
 npx tsx src/cli/photo-search.ts --query "growth abstract blue"
 ```
 
-### 3. Filtrer par Orientation
+### 3. Filter by Orientation
 
-| Contexte | Orientation | Raison |
+| Context | Orientation | Reason |
 |----------|-------------|--------|
-| Slide PowerPoint | `landscape` | Format 16:9 natif |
-| Couverture de rapport | `portrait` | Format A4 |
-| Médaillon/avatar | `square` | Cercle ou carré |
-| Background plein écran | `landscape` + `large` | Haute résolution |
+| PowerPoint slide | `landscape` | Native 16:9 format |
+| Report cover | `portrait` | A4 format |
+| Medallion/avatar | `square` | Circle or square |
+| Full-screen background | `landscape` + `large` | High resolution |
 
-### 4. Harmoniser les Couleurs
+### 4. Harmonize Colors
 
 ```bash
-# Bleu corporate
+# Corporate blue
 npx tsx src/cli/photo-search.ts --query "business" --color 1E3A5F
 
-# Orange énergique
+# Energetic orange
 npx tsx src/cli/photo-search.ts --query "success" --color EE6C4D
 
-# Vert nature/croissance
+# Nature/growth green
 npx tsx src/cli/photo-search.ts --query "growth" --color 4CAF50
 ```
 
-## Guide de Choix des Mots-clés
+## Keyword Selection Guide
 
-### Concepts Business
+### Business Concepts
 
-| Concept | Mots-clés recommandés |
+| Concept | Recommended Keywords |
 |---------|----------------------|
 | Collaboration | `team meeting`, `teamwork`, `collaboration office` |
 | Innovation | `innovation technology`, `lightbulb idea`, `futuristic` |
-| Croissance | `growth chart`, `success stairs`, `plant growth` |
-| Stratégie | `chess strategy`, `planning`, `roadmap` |
+| Growth | `growth chart`, `success stairs`, `plant growth` |
+| Strategy | `chess strategy`, `planning`, `roadmap` |
 | Data/Analytics | `data visualization`, `analytics dashboard`, `charts graphs` |
 | Transformation | `butterfly transformation`, `change evolution` |
 | Leadership | `leader team`, `presentation audience`, `speaker` |
-| Sécurité | `security lock`, `shield protection`, `cybersecurity` |
+| Security | `security lock`, `shield protection`, `cybersecurity` |
 
-### Concepts Abstraits
+### Abstract Concepts
 
-| Concept | Mots-clés recommandés |
+| Concept | Recommended Keywords |
 |---------|----------------------|
-| Connectivité | `network connections`, `nodes links`, `web network` |
-| Vitesse | `motion blur`, `speed lines`, `fast movement` |
-| Qualité | `excellence trophy`, `premium gold`, `perfection` |
-| Simplicité | `minimalist`, `clean simple`, `zen` |
-| Complexité | `maze labyrinth`, `puzzle pieces`, `interconnected` |
+| Connectivity | `network connections`, `nodes links`, `web network` |
+| Speed | `motion blur`, `speed lines`, `fast movement` |
+| Quality | `excellence trophy`, `premium gold`, `perfection` |
+| Simplicity | `minimalist`, `clean simple`, `zen` |
+| Complexity | `maze labyrinth`, `puzzle pieces`, `interconnected` |
 
-## Bonnes Pratiques
+## Best Practices
 
 ### DO ✅
 
-- **Rechercher en anglais** : Base de données plus riche
-- **Utiliser plusieurs termes** : `"team collaboration office"` > `"team"`
-- **Filtrer par orientation** : Évite le recadrage
-- **Préférer les photos curatées** : Qualité garantie
-- **Télécharger en `large`** : Toujours pouvoir réduire, jamais agrandir
+- **Search in English**: Richer database
+- **Use multiple terms**: `"team collaboration office"` > `"team"`
+- **Filter by orientation**: Avoids cropping
+- **Prefer curated photos**: Guaranteed quality
+- **Download in `large`**: Can always reduce, never enlarge
 
 ### DON'T ❌
 
-- **Termes trop génériques** : `"business"` donne des milliers de résultats non pertinents
-- **Ignorer les couleurs** : Une photo bleue dans une présentation orange détonne
-- **Télécharger en `small`** : Pixelisation sur grand écran
-- **Utiliser des photos datées** : Éviter les clichés années 2000 (CD-ROM, téléphones à clapet)
+- **Too generic terms**: `"business"` gives thousands of irrelevant results
+- **Ignore colors**: A blue photo in an orange presentation clashes
+- **Download in `small`**: Pixelation on large screen
+- **Use dated photos**: Avoid 2000s clichés (CD-ROMs, flip phones)
 
-## Structure de Sortie
+## Output Structure
 
-### Fichier JSON (--output)
+### JSON file (--output)
 
 ```json
 {
@@ -223,7 +223,7 @@ npx tsx src/cli/photo-search.ts --query "growth" --color 4CAF50
 }
 ```
 
-### Fichiers téléchargés (--download)
+### Downloaded files (--download)
 
 ```
 output/photos/
@@ -232,14 +232,14 @@ output/photos/
 └── pexels-3184341.jpg    # 1.1MB, 1880x1253
 ```
 
-## Intégration avec pptx-builder
+## Integration with pptx-builder
 
-Les photos téléchargées peuvent être directement utilisées dans le skill `pptx-builder` :
+Downloaded photos can be directly used in the `pptx-builder` skill:
 
 ```json
 {
   "type": "content",
-  "title": "Notre Équipe",
+  "title": "Our Team",
   "elements": [
     {
       "type": "image",
@@ -250,15 +250,15 @@ Les photos téléchargées peuvent être directement utilisées dans le skill `p
 }
 ```
 
-### Préservation du Ratio d'Aspect
+### Aspect Ratio Preservation
 
-Par défaut, les images utilisent `sizing: { type: "contain" }` qui **préserve automatiquement le ratio d'aspect** :
+By default, images use `sizing: { type: "contain" }` which **automatically preserves the aspect ratio**:
 
-| Mode | Comportement |
+| Mode | Behavior |
 |------|--------------|
-| `contain` | **Par défaut.** L'image garde ses proportions, entièrement visible dans la zone |
-| `cover` | L'image garde ses proportions, remplit la zone (peut rogner les bords) |
-| `stretch` | Déforme l'image pour remplir exactement la zone (à éviter) |
+| `contain` | **Default.** The image maintains its proportions, fully visible within the area |
+| `cover` | The image maintains its proportions, fills the area (may crop edges) |
+| `stretch` | Distorts the image to exactly fill the area (avoid) |
 
 ```json
 {
@@ -269,37 +269,37 @@ Par défaut, les images utilisent `sizing: { type: "contain" }` qui **préserve 
 }
 ```
 
-> ⚠️ **Ne jamais utiliser `stretch`** sauf cas très particulier - cela déforme les images.
+> ⚠️ **Never use `stretch`** except in very specific cases - it distorts images.
 
-## Licence et Attribution
+## License and Attribution
 
-### Licence Pexels
+### Pexels License
 
-Toutes les photos sur Pexels sont sous licence libre :
-- ✅ Utilisation commerciale autorisée
-- ✅ Modification autorisée
-- ✅ Attribution non obligatoire (mais appréciée)
-- ❌ Revente des photos seules interdite
-- ❌ Utilisation pour des contenus offensants interdite
+All photos on Pexels are under a free license:
+- ✅ Commercial use authorized
+- ✅ Modification authorized
+- ✅ Attribution not mandatory (but appreciated)
+- ❌ Resale of photos alone prohibited
+- ❌ Use for offensive content prohibited
 
-Licence complète : https://www.pexels.com/license/
+Full license: https://www.pexels.com/license/
 
-### Attribution recommandée
+### Recommended attribution
 
-Bien que non obligatoire, l'attribution est une bonne pratique :
+Although not mandatory, attribution is good practice:
 
 ```
 Photo by [Photographer Name] on Pexels
 ```
 
-Le service génère automatiquement le texte d'attribution pour chaque photo.
+The service automatically generates attribution text for each photo.
 
-## Limites de l'API
+## API Limits
 
-| Paramètre | Limite |
+| Parameter | Limit |
 |-----------|--------|
-| Requêtes | 200/heure |
-| Résultats/page | 80 max |
-| Taille max | Original (varie selon photo) |
+| Requests | 200/hour |
+| Results/page | 80 max |
+| Max size | Original (varies by photo) |
 
-En cas de dépassement, l'API retourne une erreur 429. Attendre 1 heure pour la réinitialisation.
+If exceeded, the API returns a 429 error. Wait 1 hour for reset.

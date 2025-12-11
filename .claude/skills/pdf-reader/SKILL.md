@@ -1,6 +1,6 @@
 ---
 name: pdf-reader
-description: Lecture et extraction de contenu depuis des fichiers PDF volumineux. Extraction de texte, métadonnées, recherche, tables. Utiliser ce skill pour lire des PDFs trop volumineux pour la lecture native de Claude ou pour extraire des données structurées.
+description: Reading and extracting content from large PDF files. Text extraction, metadata, search, tables. Use this skill to read PDFs that are too large for Claude's native reading or to extract structured data.
 allowed-tools:
   - Bash
   - Read
@@ -9,88 +9,88 @@ allowed-tools:
 
 # PDF Reader Skill
 
-Tu es un **Expert en Extraction de Documents PDF** qui maîtrise :
+You are a **PDF Document Extraction Expert** who masters:
 
-- **Extraction de texte** depuis des PDFs complexes
-- **Analyse de métadonnées** pour comprendre l'origine et la structure
-- **Recherche plein-texte** avec contexte
-- **Détection de tableaux** par heuristiques
+- **Text extraction** from complex PDFs
+- **Metadata analysis** to understand origin and structure
+- **Full-text search** with context
+- **Table detection** using heuristics
 
-## Références et Expertise
+## References and Expertise
 
-### Standards et Spécifications
+### Standards and Specifications
 
-- **PDF Reference** (Adobe) - Standard ISO 32000-2:2020
-- **Web Content Accessibility Guidelines (WCAG 2.1)** - Pour l'extraction accessible
-- **Document Engineering** (Glushko & McGrath) - Principes de structure documentaire
-- **Unicode Technical Report #50** - Orientation et direction du texte
+- **PDF Reference** (Adobe) - ISO 32000-2:2020 Standard
+- **Web Content Accessibility Guidelines (WCAG 2.1)** - For accessible extraction
+- **Document Engineering** (Glushko & McGrath) - Document structure principles
+- **Unicode Technical Report #50** - Text orientation and direction
 
-### Philosophie
+### Philosophy
 
-> « Un document bien extrait préserve non seulement le texte, mais aussi la structure
-> et l'intention de l'auteur original. »
+> "A well-extracted document preserves not only the text, but also the structure
+> and intent of the original author."
 > — Robert J. Glushko, *Document Engineering*
 
-### Principes d'Extraction
+### Extraction Principles
 
-1. **Fidélité** : Préserver l'ordre de lecture logique, pas visuel
-2. **Structure** : Maintenir la hiérarchie (titres, paragraphes, listes)
-3. **Contexte** : Les métadonnées informent l'interprétation du contenu
-4. **Intégrité** : Signaler les pertes d'information (images, formulaires)
+1. **Fidelity**: Preserve logical reading order, not visual
+2. **Structure**: Maintain hierarchy (headings, paragraphs, lists)
+3. **Context**: Metadata informs content interpretation
+4. **Integrity**: Signal information loss (images, forms)
 
-## Quand Utiliser ce Skill
+## When to Use This Skill
 
-| Situation | Utiliser ce skill ? |
-|-----------|---------------------|
-| PDF < 10 MB, lecture simple | Non - Claude lit nativement |
-| PDF > 20 MB ou très volumineux | **Oui** - Extraction programmatique |
-| Extraction de pages spécifiques | **Oui** - Option `--pages` |
-| Recherche de texte dans le PDF | **Oui** - Option `--search` |
-| Extraction de tableaux | **Oui** - Option `--tables` |
-| Métadonnées uniquement (rapide) | **Oui** - Option `--metadata` |
-| Statistiques (mots, pages) | **Oui** - Option `--summary` |
+| Situation | Use this skill? |
+|-----------|-----------------|
+| PDF < 10 MB, simple reading | No - Claude reads natively |
+| PDF > 20 MB or very large | **Yes** - Programmatic extraction |
+| Specific page extraction | **Yes** - `--pages` option |
+| Text search within PDF | **Yes** - `--search` option |
+| Table extraction | **Yes** - `--tables` option |
+| Metadata only (fast) | **Yes** - `--metadata` option |
+| Statistics (words, pages) | **Yes** - `--summary` option |
 
-## Référence CLI Complète
+## Complete CLI Reference
 
-### Commande principale
+### Main command
 
 ```bash
 npx tsx src/cli/pdf-read.ts --file <path> [options]
 ```
 
-### Options disponibles
+### Available options
 
-| Option | Court | Description | Exemple |
+| Option | Short | Description | Example |
 |--------|-------|-------------|---------|
-| `--file <path>` | `-f` | Chemin vers le fichier PDF (requis) | `--file report.pdf` |
-| `--metadata` | `-m` | Afficher uniquement les métadonnées (rapide) | `--metadata` |
-| `--summary` | `-s` | Afficher les statistiques du document | `--summary` |
-| `--pages <range>` | `-p` | Extraire des pages spécifiques | `--pages 1-5` |
-| `--search <term>` | | Rechercher du texte dans le PDF | `--search "revenue"` |
-| `--tables` | `-t` | Tenter d'extraire les tableaux | `--tables` |
-| `--format <fmt>` | `-F` | Format de sortie: json, markdown, table | `--format json` |
-| `--verbose` | `-v` | Sortie détaillée | `--verbose` |
-| `--debug` | | Mode debug avec timing | `--debug` |
-| `--quiet` | | Sortie minimale | `--quiet` |
+| `--file <path>` | `-f` | Path to PDF file (required) | `--file report.pdf` |
+| `--metadata` | `-m` | Display only metadata (fast) | `--metadata` |
+| `--summary` | `-s` | Display document statistics | `--summary` |
+| `--pages <range>` | `-p` | Extract specific pages | `--pages 1-5` |
+| `--search <term>` | | Search for text in the PDF | `--search "revenue"` |
+| `--tables` | `-t` | Attempt to extract tables | `--tables` |
+| `--format <fmt>` | `-F` | Output format: json, markdown, table | `--format json` |
+| `--verbose` | `-v` | Detailed output | `--verbose` |
+| `--debug` | | Debug mode with timing | `--debug` |
+| `--quiet` | | Minimal output | `--quiet` |
 
-### Formats de plage de pages
+### Page range formats
 
-| Format | Description | Exemple |
+| Format | Description | Example |
 |--------|-------------|---------|
-| `N` | Page unique | `--pages 5` (page 5 uniquement) |
-| `N-M` | Plage de pages | `--pages 1-10` (pages 1 à 10) |
-| `N-` | De la page N à la fin | `--pages 50-` (page 50 jusqu'à la fin) |
+| `N` | Single page | `--pages 5` (page 5 only) |
+| `N-M` | Page range | `--pages 1-10` (pages 1 to 10) |
+| `N-` | From page N to end | `--pages 50-` (page 50 to end) |
 
-## Exemples d'Utilisation
+## Usage Examples
 
-### Métadonnées (opération rapide)
+### Metadata (fast operation)
 
 ```bash
-# Voir les métadonnées sans lire tout le contenu
+# View metadata without reading all content
 npx tsx src/cli/pdf-read.ts --file rapport-annuel.pdf --metadata
 ```
 
-Sortie :
+Output:
 ```
 PDF Metadata
 ────────────────────────────────────
@@ -102,13 +102,13 @@ Creation Date  : 2024-03-15T10:30:00.000Z
 PDF Version    : 1.7
 ```
 
-### Statistiques du document
+### Document statistics
 
 ```bash
 npx tsx src/cli/pdf-read.ts --file document.pdf --summary
 ```
 
-Sortie :
+Output:
 ```
 PDF Summary
 ────────────────────────────────────
@@ -121,26 +121,26 @@ Lines          : 1,245
 Avg Words/Page : 277
 ```
 
-### Extraction de pages spécifiques
+### Specific page extraction
 
 ```bash
-# Pages 1 à 5
+# Pages 1 to 5
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --pages 1-5
 
-# Page unique
+# Single page
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --pages 10
 
-# Pages 50 jusqu'à la fin
+# Pages 50 to end
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --pages 50-
 ```
 
-### Recherche de texte
+### Text search
 
 ```bash
 npx tsx src/cli/pdf-read.ts --file contrat.pdf --search "clause résiliation"
 ```
 
-Sortie :
+Output:
 ```
 Search Results for "clause résiliation"
 ────────────────────────────────────────
@@ -151,13 +151,13 @@ Page  Position  Context
 23    2100      ...modification de la clause résiliation nécessite...
 ```
 
-### Extraction de tableaux
+### Table extraction
 
 ```bash
 npx tsx src/cli/pdf-read.ts --file finances.pdf --tables --format json
 ```
 
-Sortie JSON :
+JSON output:
 ```json
 [
   {
@@ -171,169 +171,169 @@ Sortie JSON :
 ]
 ```
 
-### Extraction complète en JSON
+### Complete JSON extraction
 
 ```bash
 npx tsx src/cli/pdf-read.ts --file document.pdf --format json > output.json
 ```
 
-## Workflow Typique
+## Typical Workflow
 
-### 1. Exploration rapide
+### 1. Quick exploration
 
 ```bash
-# Étape 1 : Vérifier les métadonnées
+# Step 1: Check metadata
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --metadata
 
-# Étape 2 : Voir les statistiques
+# Step 2: View statistics
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --summary
 ```
 
-### 2. Extraction ciblée
+### 2. Targeted extraction
 
 ```bash
-# Extraire l'introduction (pages 1-5)
+# Extract introduction (pages 1-5)
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --pages 1-5 > intro.txt
 
-# Extraire les données financières (pages 20-30)
+# Extract financial data (pages 20-30)
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --pages 20-30 --tables --format json > finances.json
 ```
 
-### 3. Recherche d'information
+### 3. Information search
 
 ```bash
-# Trouver toutes les mentions d'un terme
+# Find all mentions of a term
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --search "croissance"
 
-# Puis extraire le contexte des pages pertinentes
+# Then extract context from relevant pages
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --pages 12-15
 ```
 
-## Intégration avec les Autres Skills
+## Integration with Other Skills
 
-### Avec data-analyst
+### With data-analyst
 
 ```bash
-# 1. Extraire les tableaux du PDF
+# 1. Extract tables from PDF
 npx tsx src/cli/pdf-read.ts --file rapport.pdf --tables --format json > data/tables.json
 
-# 2. Invoquer data-analyst pour analyser les données extraites
+# 2. Invoke data-analyst to analyze extracted data
 ```
 
-### Avec presentation-architect
+### With presentation-architect
 
 ```bash
-# 1. Extraire le contenu clé
+# 1. Extract key content
 npx tsx src/cli/pdf-read.ts --file etude.pdf --pages 1-20 > content.txt
 
-# 2. Utiliser le contenu pour structurer la présentation
+# 2. Use content to structure the presentation
 ```
 
-## Structure des Données Retournées
+## Structure of Returned Data
 
-### Métadonnées (PdfMetadata)
+### Metadata (PdfMetadata)
 
 ```typescript
 {
-  title?: string;           // Titre du document
-  author?: string;          // Auteur
-  subject?: string;         // Sujet
-  keywords?: string;        // Mots-clés
-  creator?: string;         // Application créatrice
-  producer?: string;        // Générateur PDF
-  creationDate?: Date;      // Date de création
-  modificationDate?: Date;  // Date de modification
-  pageCount: number;        // Nombre de pages
-  version?: string;         // Version PDF
+  title?: string;           // Document title
+  author?: string;          // Author
+  subject?: string;         // Subject
+  keywords?: string;        // Keywords
+  creator?: string;         // Creator application
+  producer?: string;        // PDF generator
+  creationDate?: Date;      // Creation date
+  modificationDate?: Date;  // Modification date
+  pageCount: number;        // Number of pages
+  version?: string;         // PDF version
 }
 ```
 
-### Contenu extrait (PdfContent)
+### Extracted content (PdfContent)
 
 ```typescript
 {
-  text: string;             // Texte brut complet
-  pages: string[];          // Texte par page
-  metadata: PdfMetadata;    // Métadonnées
+  text: string;             // Complete raw text
+  pages: string[];          // Text by page
+  metadata: PdfMetadata;    // Metadata
   info: {
-    path: string;           // Chemin du fichier
-    size: number;           // Taille en bytes
+    path: string;           // File path
+    size: number;           // Size in bytes
   }
 }
 ```
 
-### Tableau extrait (ExtractedTable)
+### Extracted table (ExtractedTable)
 
 ```typescript
 {
-  headers: string[];        // En-têtes (première ligne)
-  rows: string[][];         // Lignes de données
-  pageNumber?: number;      // Page source
+  headers: string[];        // Headers (first row)
+  rows: string[][];         // Data rows
+  pageNumber?: number;      // Source page
 }
 ```
 
-## Limitations et Bonnes Pratiques
+## Limitations and Best Practices
 
 ### Limitations
 
 | Limitation | Description |
 |------------|-------------|
-| PDFs scannés | Pas d'OCR - seuls les PDFs avec texte natif sont supportés |
-| Tables complexes | Détection heuristique - peut manquer des tables complexes |
-| Mise en page | Le texte est extrait linéairement, la mise en page est perdue |
-| Formulaires | Les champs de formulaire ne sont pas extraits |
+| Scanned PDFs | No OCR - only PDFs with native text are supported |
+| Complex tables | Heuristic detection - may miss complex tables |
+| Layout | Text is extracted linearly, layout is lost |
+| Forms | Form fields are not extracted |
 
-### Bonnes Pratiques
+### Best Practices
 
-**DO** :
-- Toujours commencer par `--metadata` pour évaluer le document
-- Utiliser `--pages` pour les PDFs volumineux
-- Exporter en `--format json` pour traitement programmatique
-- Combiner avec d'autres skills pour l'analyse
+**DO**:
+- Always start with `--metadata` to evaluate the document
+- Use `--pages` for large PDFs
+- Export with `--format json` for programmatic processing
+- Combine with other skills for analysis
 
-**DON'T** :
-- Extraire un PDF de 500 pages sans filtrer les pages
-- S'attendre à une extraction parfaite des tableaux
-- Utiliser sur des PDFs scannés sans OCR préalable
+**DON'T**:
+- Extract a 500-page PDF without filtering pages
+- Expect perfect table extraction
+- Use on scanned PDFs without prior OCR
 
-## Gestion de la Mémoire
+## Memory Management
 
-Le service utilise des streams pour lire les fichiers (chunks de 64KB), ce qui le rend efficace pour les fichiers volumineux :
+The service uses streams to read files (64KB chunks), making it efficient for large files:
 
 ```
-Fichier PDF
+PDF File
     ↓ (stream 64KB chunks)
-Buffer en mémoire
+Memory buffer
     ↓ (pdfjs-dist)
-Texte extrait
+Extracted text
 ```
 
-Pour les très gros fichiers (> 100 MB), préférer l'extraction par plages de pages :
+For very large files (> 100 MB), prefer extraction by page ranges:
 
 ```bash
-# Au lieu de
+# Instead of
 npx tsx src/cli/pdf-read.ts --file huge.pdf
 
-# Préférer
+# Prefer
 npx tsx src/cli/pdf-read.ts --file huge.pdf --pages 1-50 > part1.txt
 npx tsx src/cli/pdf-read.ts --file huge.pdf --pages 51-100 > part2.txt
 ```
 
-## Dépannage
+## Troubleshooting
 
 ### "PDF file not found"
 
-Vérifier le chemin du fichier. Utiliser un chemin absolu si nécessaire.
+Check the file path. Use an absolute path if necessary.
 
-### Texte illisible ou caractères manquants
+### Unreadable text or missing characters
 
-Le PDF peut utiliser des polices embarquées non standard. Essayer avec `--verbose` pour voir les détails.
+The PDF may use non-standard embedded fonts. Try with `--verbose` to see details.
 
-### Aucun tableau détecté
+### No table detected
 
-La détection de tableaux est heuristique. Les tableaux avec bordures graphiques ou mise en page complexe peuvent ne pas être détectés.
+Table detection is heuristic. Tables with graphic borders or complex layout may not be detected.
 
-### Extraction lente
+### Slow extraction
 
-- Utiliser `--metadata` ou `--summary` pour des opérations rapides
-- Limiter avec `--pages` pour extraire uniquement ce qui est nécessaire
+- Use `--metadata` or `--summary` for fast operations
+- Limit with `--pages` to extract only what is necessary
