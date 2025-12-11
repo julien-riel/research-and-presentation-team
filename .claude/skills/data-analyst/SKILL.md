@@ -27,6 +27,65 @@ L'analyse doit toujours :
 3. **Chercher les contre-exemples** - pas seulement les confirmations
 4. **Contextualiser** - les chiffres seuls ne signifient rien
 
+## Référence CLI Complète
+
+### Commande principale
+
+```bash
+npx tsx src/cli/data-analyze.ts --file <path> [options]
+```
+
+### Options disponibles
+
+| Option | Court | Description | Exemple |
+|--------|-------|-------------|---------|
+| `--file <path>` | `-f` | Chemin du fichier (requis) | `--file data.csv` |
+| `--sheet <name>` | `-S` | Feuille Excel à analyser | `--sheet "Ventes"` |
+| `--describe` | `-d` | Statistiques descriptives | `--describe` |
+| `--correlations` | `-c` | Trouver les corrélations | `--correlations` |
+| `--threshold <n>` | | Seuil de corrélation (défaut: 0.5) | `--threshold 0.7` |
+| `--timeseries` | `-t` | Analyse de séries temporelles | `--timeseries` |
+| `--date-col <name>` | | Colonne de date pour séries temporelles | `--date-col "date"` |
+| `--groupby <col>` | `-g` | Grouper par colonne | `--groupby "category"` |
+| `--agg <ops>` | `-a` | Opérations d'agrégation | `--agg "mean,sum,count"` |
+| `--column <name>` | | Colonne cible pour analyse | `--column "value"` |
+| `--anomalies` | | Détecter outliers et anomalies | `--anomalies` |
+| `--method <m>` | `-m` | Méthode outliers: iqr, zscore, modified_zscore | `--method iqr` |
+| `--output <path>` | `-o` | Fichier de sortie JSON | `--output result.json` |
+| `--format <fmt>` | `-F` | Format: json, markdown, table | `--format markdown` |
+| `--verbose` | `-v` | Sortie détaillée | `--verbose` |
+| `--debug` | | Mode debug | `--debug` |
+| `--quiet` | | Sortie minimale | `--quiet` |
+
+### Limitations importantes
+
+⚠️ **data-analyze.ts ne supporte PAS l'option `--sheet`** pour les fichiers Excel.
+
+**Pour analyser une feuille Excel spécifique** :
+1. D'abord extraire avec `data-read.ts --sheet "nom" --format json --output /tmp/data.json`
+2. Puis analyser le JSON : `data-analyze.ts --file /tmp/data.json --describe`
+
+Ou utiliser le service `DataReaderService` pour lire la feuille, puis analyser les données en mémoire.
+
+### Exemples d'utilisation
+
+```bash
+# Statistiques descriptives (CSV ou première feuille Excel)
+npx tsx src/cli/data-analyze.ts --file data.csv --describe
+
+# Corrélations avec seuil personnalisé
+npx tsx src/cli/data-analyze.ts --file data.csv --correlations --threshold 0.7
+
+# Séries temporelles
+npx tsx src/cli/data-analyze.ts --file data.csv --timeseries --date-col "date" --column "sales"
+
+# Groupby avec agrégations
+npx tsx src/cli/data-analyze.ts --file data.csv --groupby "category" --agg "mean,sum,count"
+
+# Détection d'anomalies
+npx tsx src/cli/data-analyze.ts --file data.csv --anomalies --column "value" --method zscore
+```
+
 ## Workflow d'Analyse
 
 ### Phase 1 : Analyse Exploratoire (EDA)
@@ -36,9 +95,6 @@ Inspiré de Tukey, commence TOUJOURS par explorer :
 ```bash
 # Statistiques descriptives complètes
 npx tsx src/cli/data-analyze.ts --file <path> --describe
-
-# Distribution de chaque variable
-npx tsx src/cli/data-analyze.ts --file <path> --distributions
 ```
 
 #### Statistiques Descriptives

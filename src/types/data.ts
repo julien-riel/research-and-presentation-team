@@ -66,6 +66,23 @@ export interface ReadOptions {
   maxRows?: number;
   dateFormat?: string;
   decimalSeparator?: string;
+  /** Sample rate (0-1) for random sampling of large files */
+  sampleRate?: number;
+  /** Force streaming mode for large files */
+  streaming?: boolean;
+  /** File size threshold (in bytes) to auto-enable streaming (default: 100MB) */
+  streamingThreshold?: number;
+}
+
+/** Statistics for large files without loading all data */
+export interface FileStatistics {
+  rowCount: number;
+  columnCount: number;
+  columns: string[];
+  fileSize: number;
+  format: FileFormat;
+  estimatedMemory: number;
+  sampleSchema?: DataSchema;
 }
 
 export interface DataFrame {

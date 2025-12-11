@@ -3,6 +3,7 @@
  * Data Reader CLI
  *
  * Read and analyze data files (Excel, CSV, JSON)
+ * Supports large files (>100MB) via automatic streaming
  *
  * Usage:
  *   npx tsx src/cli/data-read.ts --file <path> [options]
@@ -20,6 +21,10 @@
  *   --encoding <enc>    File encoding (default: utf-8)
  *   --output <path>     Output file for results (JSON)
  *   --format <fmt>      Output format: json, markdown, table (default: auto)
+ *   --stats             Get file statistics only (fast, no data loading)
+ *   --sample <rate>     Sample rate (0-1) for large files (e.g., 0.1 = 10%)
+ *   --max-rows <n>      Maximum rows to read (for large files)
+ *   --streaming         Force streaming mode (auto-enabled for files >100MB)
  *   --verbose           Verbose output
  *   --debug             Debug mode
  *   --quiet             Minimal output
@@ -56,6 +61,10 @@ interface CliArgs extends CommonArgs {
   sheet?: string;
   delimiter?: string;
   encoding?: string;
+  stats?: boolean;
+  sample?: number;
+  'max-rows'?: number;
+  streaming?: boolean;
 }
 
 function parseArguments(): CliArgs {
@@ -73,6 +82,10 @@ function parseArguments(): CliArgs {
       encoding: { type: 'string', short: 'e' },
       output: { type: 'string', short: 'o' },
       help: { type: 'boolean', short: 'h' },
+      stats: { type: 'boolean' },
+      sample: { type: 'string' },
+      'max-rows': { type: 'string' },
+      streaming: { type: 'boolean' },
       ...COMMON_CLI_OPTIONS,
     },
     strict: true,
@@ -81,6 +94,8 @@ function parseArguments(): CliArgs {
   return {
     ...values,
     rows: values.rows ? parseInt(values.rows, 10) : 10,
+    sample: values.sample ? parseFloat(values.sample) : undefined,
+    'max-rows': values['max-rows'] ? parseInt(values['max-rows'], 10) : undefined,
     format: values.format as OutputFormat | undefined,
   } as CliArgs;
 }
@@ -88,6 +103,7 @@ function parseArguments(): CliArgs {
 function showHelp(): void {
   console.log(`
 Data Reader CLI - Read and analyze data files
+Supports large files (>100MB) via automatic streaming
 
 Usage:
   npx tsx src/cli/data-read.ts --file <path> [options]
@@ -110,12 +126,23 @@ Options:
       --quiet             Minimal output
   -h, --help              Show this help message
 
+Large File Options:
+      --stats             Get file statistics only (fast, no full data loading)
+      --sample <rate>     Sample rate 0-1 for large files (e.g., 0.1 = 10%)
+      --max-rows <n>      Maximum rows to read
+      --streaming         Force streaming mode (auto-enabled for files >100MB)
+
 Examples:
   npx tsx src/cli/data-read.ts --file data.xlsx --info
   npx tsx src/cli/data-read.ts --file data.csv --schema --preview
   npx tsx src/cli/data-read.ts --file data.xlsx --sheet "Sheet1" --quality
   npx tsx src/cli/data-read.ts --file data.xlsx --sheets
   npx tsx src/cli/data-read.ts --file data.csv --format json --output results.json
+
+  # Large files (>100MB):
+  npx tsx src/cli/data-read.ts --file large.csv --stats          # Quick stats
+  npx tsx src/cli/data-read.ts --file large.csv --max-rows 10000 # First 10K rows
+  npx tsx src/cli/data-read.ts --file large.csv --sample 0.01    # 1% sample
 `);
 }
 
@@ -153,31 +180,88 @@ async function main(): Promise<void> {
 
     const reader = new DataReaderService();
     const output: Record<string, unknown> = {};
+    const fileStats = statSync(args.file);
+    const isLargeFile = fileStats.size > 100 * 1024 * 1024; // >100MB
 
     // Default to info if no action specified
-    if (!args.info && !args.schema && !args.preview && !args.quality && !args.sheets) {
+    if (!args.info && !args.schema && !args.preview && !args.quality && !args.sheets && !args.stats) {
       args.info = true;
     }
 
     logger.debug(`Processing file: ${args.file}`);
 
+    // Warn about large files
+    if (isLargeFile && !args.stats && !args['max-rows'] && !args.sample) {
+      logger.warn(`Large file detected (${formatBytes(fileStats.size)}). Consider using --stats, --max-rows, or --sample.`);
+    }
+
     // File info
     if (args.info) {
-      const stats = statSync(args.file);
       const ext = extname(args.file).toLowerCase();
       const name = basename(args.file);
 
-      const fileInfo = {
+      const fileInfo: Record<string, string | number> = {
         File: name,
         Path: args.file,
-        Size: formatBytes(stats.size),
+        Size: formatBytes(fileStats.size),
         Format: getFormatName(ext),
-        Modified: stats.mtime.toISOString().split('T')[0],
+        Modified: fileStats.mtime.toISOString().split('T')[0],
       };
+
+      // Add large file indicator
+      if (isLargeFile) {
+        fileInfo['Mode'] = 'Streaming (auto-enabled for large files)';
+      }
 
       formatter.keyValue(fileInfo, 'File Information');
       output.fileInfo = fileInfo;
       logger.blank();
+    }
+
+    // Quick stats for large files (no data loading)
+    if (args.stats) {
+      const progress = new Progress('Getting file statistics', !args.quiet);
+      progress.start();
+
+      try {
+        const stats = await reader.getFileStatistics(args.file, {
+          sheet: args.sheet,
+          delimiter: args.delimiter,
+          encoding: args.encoding as BufferEncoding,
+        });
+        progress.succeed(`Found ${stats.rowCount.toLocaleString()} rows, ${stats.columnCount} columns`);
+
+        const statsInfo = {
+          'Total Rows': stats.rowCount.toLocaleString(),
+          'Columns': stats.columnCount,
+          'File Size': formatBytes(stats.fileSize),
+          'Format': stats.format.toUpperCase(),
+          'Est. Memory': formatBytes(stats.estimatedMemory),
+        };
+
+        formatter.keyValue(statsInfo, 'File Statistics');
+        logger.blank();
+
+        if (stats.columns.length > 0) {
+          logger.section('Columns');
+          logger.info(stats.columns.join(', '));
+          logger.blank();
+        }
+
+        if (stats.sampleSchema) {
+          logger.section('Schema (from sample)');
+          formatter.table(
+            ['Name', 'Type', 'Nullable'],
+            stats.sampleSchema.columns.map((col) => [col.name, col.type, col.nullable ? 'Yes' : 'No']),
+          );
+          logger.blank();
+        }
+
+        output.statistics = stats;
+      } catch (e) {
+        progress.fail('Failed to get statistics');
+        throw new CliError(`Error getting statistics: ${(e as Error).message}`);
+      }
     }
 
     // List sheets for Excel files
@@ -213,16 +297,27 @@ async function main(): Promise<void> {
       if (args.sheet) options.sheet = args.sheet;
       if (args.delimiter) options.delimiter = args.delimiter;
       if (args.encoding) options.encoding = args.encoding as BufferEncoding;
-      if (args.rows) options.maxRows = args.preview ? args.rows : undefined;
+      if (args.streaming) options.streaming = args.streaming;
+      if (args.sample) options.sampleRate = args.sample;
 
-      const progress = new Progress('Reading file', !args.quiet);
+      // Determine max rows: explicit --max-rows or --rows for preview
+      if (args['max-rows']) {
+        options.maxRows = args['max-rows'];
+      } else if (args.preview && args.rows) {
+        options.maxRows = args.rows;
+      }
+
+      const modeInfo = args.sample ? ` (${(args.sample * 100).toFixed(0)}% sample)` :
+                       options.maxRows ? ` (max ${options.maxRows.toLocaleString()} rows)` : '';
+      const progress = new Progress(`Reading file${modeInfo}`, !args.quiet);
       progress.start();
 
       logger.debug(`Read options: ${JSON.stringify(options)}`);
 
       try {
         const result = await reader.read(args.file, options);
-        progress.succeed(`Read ${result.dataFrame.rowCount} rows, ${result.schema.columns.length} columns`);
+        const sampledInfo = args.sample ? ' (sampled)' : '';
+        progress.succeed(`Read ${result.dataFrame.rowCount.toLocaleString()} rows, ${result.schema.columns.length} columns${sampledInfo}`);
 
         logger.debug(`Read completed in ${formatDuration(Date.now() - startTime)}`);
 

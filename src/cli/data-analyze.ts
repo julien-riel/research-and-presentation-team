@@ -47,6 +47,7 @@ import {
 
 interface CliArgs extends CommonArgs {
   file?: string;
+  sheet?: string;
   describe?: boolean;
   correlations?: boolean;
   threshold?: number;
@@ -63,6 +64,7 @@ function parseArguments(): CliArgs {
   const { values } = parseArgs({
     options: {
       file: { type: 'string', short: 'f' },
+      sheet: { type: 'string', short: 'S' },
       describe: { type: 'boolean', short: 'd' },
       correlations: { type: 'boolean', short: 'c' },
       threshold: { type: 'string' },
@@ -82,6 +84,7 @@ function parseArguments(): CliArgs {
 
   return {
     file: values.file as string | undefined,
+    sheet: values.sheet as string | undefined,
     describe: values.describe as boolean | undefined,
     correlations: values.correlations as boolean | undefined,
     threshold: values.threshold ? parseFloat(values.threshold as string) : 0.5,
@@ -110,6 +113,7 @@ Usage:
 
 Options:
   -f, --file <path>        Path to the data file (required)
+  -S, --sheet <name>       Sheet name for Excel files
   -d, --describe           Descriptive statistics for all numeric columns
   -c, --correlations       Find significant correlations
       --threshold <n>      Correlation threshold (default: 0.5)
@@ -134,6 +138,7 @@ Examples:
   npx tsx src/cli/data-analyze.ts --file data.csv --groupby "category" --agg "mean,sum"
   npx tsx src/cli/data-analyze.ts --file data.csv --anomalies --column "value"
   npx tsx src/cli/data-analyze.ts --file data.csv --describe --format json
+  npx tsx src/cli/data-analyze.ts --file data.xlsx --sheet "Sales" --describe
 `);
 }
 
@@ -180,8 +185,9 @@ async function main(): Promise<void> {
     const progress = new Progress('Loading data', !args.quiet);
     progress.start();
 
-    const { dataFrame } = await reader.read(args.file);
-    progress.succeed(`Loaded ${dataFrame.rowCount} rows, ${dataFrame.columns.length} columns`);
+    const readOptions = args.sheet ? { sheet: args.sheet } : {};
+    const { dataFrame } = await reader.read(args.file, readOptions);
+    progress.succeed(`Loaded ${dataFrame.rowCount} rows, ${dataFrame.columns.length} columns${args.sheet ? ` from sheet "${args.sheet}"` : ''}`);
     logger.blank();
 
     logger.debug(`Data loaded in ${formatDuration(Date.now() - startTime)}`);

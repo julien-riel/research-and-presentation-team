@@ -10,7 +10,11 @@
  */
 
 import PptxGenJSModule from 'pptxgenjs';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import {
+  getImageDimensions,
+  calculateCenteredPosition,
+} from '../utils/pptx-dimensions.js';
 import type {
   Background,
   BuildResult,
@@ -266,12 +270,20 @@ export class PptxBuilderService {
     // Apply background
     this.applyBackground(slide, spec.background || { color: this.theme.colors.primary });
 
+    // Calculate positions based on whether we have subtitle and author/date
+    // 16:9 slide is 10" x 5.625" in pptxgenjs
+    const hasSubtitle = !!spec.subtitle;
+    const hasFooter = !!(spec.author || spec.date);
+
+    // Title positioning - centered vertically, adjusted if subtitle exists
+    const titleY = hasSubtitle ? 1.8 : 2.2;
+
     // Add title
     slide.addText(spec.title, {
       x: 0.5,
-      y: 2.5,
-      w: '90%',
-      h: 1.5,
+      y: titleY,
+      w: 9,
+      h: 1.2,
       fontSize: parseInt(this.theme.typography.sizes.h1),
       fontFace: this.theme.typography.fontFamily.heading,
       color: 'FFFFFF',
@@ -280,13 +292,13 @@ export class PptxBuilderService {
       valign: 'middle',
     });
 
-    // Add subtitle
+    // Add subtitle - positioned below title with proper spacing
     if (spec.subtitle) {
       slide.addText(spec.subtitle, {
         x: 0.5,
-        y: 4,
-        w: '90%',
-        h: 0.75,
+        y: titleY + 1.3,
+        w: 9,
+        h: 0.7,
         fontSize: parseInt(this.theme.typography.sizes.h2),
         fontFace: this.theme.typography.fontFamily.body,
         color: 'FFFFFF',
@@ -295,13 +307,13 @@ export class PptxBuilderService {
       });
     }
 
-    // Add author and date at bottom
-    if (spec.author || spec.date) {
+    // Add author and date at bottom - keep within slide bounds (max y ~4.5 for 16:9)
+    if (hasFooter) {
       const bottomText = [spec.author, spec.date].filter(Boolean).join(' | ');
       slide.addText(bottomText, {
         x: 0.5,
-        y: 5.5,
-        w: '90%',
+        y: 4.5,
+        w: 9,
         h: 0.5,
         fontSize: parseInt(this.theme.typography.sizes.body),
         fontFace: this.theme.typography.fontFamily.body,
@@ -340,12 +352,17 @@ export class PptxBuilderService {
       });
     }
 
+    // Calculate widths based on whether we have a section number
+    const hasNumber = spec.number !== undefined;
+    const titleX = hasNumber ? 2.5 : 0.5;
+    const titleW = hasNumber ? 7 : 9;
+
     // Add title
     slide.addText(spec.title, {
-      x: spec.number !== undefined ? 2.5 : 0.5,
-      y: 2.5,
-      w: spec.number !== undefined ? '75%' : '90%',
-      h: 1.5,
+      x: titleX,
+      y: 2.2,
+      w: titleW,
+      h: 1.2,
       fontSize: parseInt(this.theme.typography.sizes.h1),
       fontFace: this.theme.typography.fontFamily.heading,
       color: 'FFFFFF',
@@ -356,10 +373,10 @@ export class PptxBuilderService {
     // Add subtitle if present
     if (spec.subtitle) {
       slide.addText(spec.subtitle, {
-        x: spec.number !== undefined ? 2.5 : 0.5,
-        y: 4,
-        w: spec.number !== undefined ? '75%' : '90%',
-        h: 0.75,
+        x: titleX,
+        y: 3.5,
+        w: titleW,
+        h: 0.7,
         fontSize: parseInt(this.theme.typography.sizes.h3),
         fontFace: this.theme.typography.fontFamily.body,
         color: 'FFFFFF',
@@ -380,11 +397,11 @@ export class PptxBuilderService {
     // Apply background
     this.applyBackground(slide, spec.background || { color: this.theme.colors.background });
 
-    // Add title bar
+    // Add title bar (10 inches is full width of 16:9 slide)
     slide.addShape('rect', {
       x: 0,
       y: 0,
-      w: '100%',
+      w: 10,
       h: 1,
       fill: { color: this.theme.colors.primary.replace('#', '') },
     });
@@ -393,7 +410,7 @@ export class PptxBuilderService {
     slide.addText(spec.title, {
       x: 0.5,
       y: 0.2,
-      w: '90%',
+      w: 9,
       h: 0.6,
       fontSize: parseInt(this.theme.typography.sizes.h2),
       fontFace: this.theme.typography.fontFamily.heading,
@@ -421,11 +438,11 @@ export class PptxBuilderService {
     // Apply background
     this.applyBackground(slide, spec.background || { color: this.theme.colors.background });
 
-    // Add title bar
+    // Add title bar (10 inches is full width of 16:9 slide)
     slide.addShape('rect', {
       x: 0,
       y: 0,
-      w: '100%',
+      w: 10,
       h: 1,
       fill: { color: this.theme.colors.primary.replace('#', '') },
     });
@@ -434,7 +451,7 @@ export class PptxBuilderService {
     slide.addText(spec.title, {
       x: 0.5,
       y: 0.2,
-      w: '90%',
+      w: 9,
       h: 0.6,
       fontSize: parseInt(this.theme.typography.sizes.h2),
       fontFace: this.theme.typography.fontFamily.heading,
@@ -521,12 +538,12 @@ export class PptxBuilderService {
       color: this.theme.colors.accent.replace('#', ''),
     });
 
-    // Add quote text
+    // Add quote text (7.5 inches = 75% of 10 inch width)
     slide.addText(spec.quote, {
       x: 1.5,
       y: 1.5,
-      w: '75%',
-      h: 3,
+      w: 7.5,
+      h: 2.5,
       fontSize: parseInt(this.theme.typography.sizes.h2),
       fontFace: 'Georgia',
       color: this.theme.colors.text.primary.replace('#', ''),
@@ -537,8 +554,8 @@ export class PptxBuilderService {
     // Add author
     slide.addText(`— ${spec.author}`, {
       x: 1.5,
-      y: 4.5,
-      w: '75%',
+      y: 4.2,
+      w: 7.5,
       h: 0.5,
       fontSize: parseInt(this.theme.typography.sizes.body),
       fontFace: this.theme.typography.fontFamily.body,
@@ -549,8 +566,8 @@ export class PptxBuilderService {
     if (spec.title) {
       slide.addText(spec.title, {
         x: 1.5,
-        y: 5,
-        w: '75%',
+        y: 4.7,
+        w: 7.5,
         h: 0.4,
         fontSize: parseInt(this.theme.typography.sizes.caption),
         fontFace: this.theme.typography.fontFamily.body,
@@ -709,7 +726,13 @@ export class PptxBuilderService {
   }
 
   /**
-   * Add image element
+   * Add image element with automatic centering for contain mode
+   *
+   * For 'contain' mode: reads actual image dimensions and calculates
+   * centered position to avoid top-left alignment issues with pptxgenjs.
+   *
+   * For 'cover' mode: uses pptxgenjs native handling (centers and crops).
+   * For 'stretch' mode: stretches image to fill the container.
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private addImageElement(slide: any, element: ImageElement): void {
@@ -737,6 +760,38 @@ export class PptxBuilderService {
       return;
     }
 
+    const sizingType = element.sizing?.type || 'contain';
+
+    // For 'contain' mode, calculate centered position manually
+    // This fixes pptxgenjs behavior where 'contain' positions image at top-left
+    if (sizingType === 'contain') {
+      const buffer = readFileSync(element.path);
+      const dimensions = getImageDimensions(buffer);
+
+      if (dimensions) {
+        // Calculate centered position based on actual image ratio
+        const centered = calculateCenteredPosition(element.position, dimensions);
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const imageOptions: any = {
+          path: element.path,
+          x: centered.x,
+          y: centered.y,
+          w: centered.w,
+          h: centered.h,
+        };
+
+        if (element.altText) {
+          imageOptions.altText = element.altText;
+        }
+
+        slide.addImage(imageOptions);
+        return;
+      }
+      // Fall through to default behavior if dimensions couldn't be read
+    }
+
+    // Default behavior for 'cover', 'stretch', or when dimensions unavailable
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const imageOptions: any = {
       path: element.path,
@@ -746,11 +801,11 @@ export class PptxBuilderService {
       h: element.position.h,
     };
 
-    if (element.sizing?.type === 'contain') {
-      imageOptions.sizing = { type: 'contain', w: element.position.w, h: element.position.h };
-    } else if (element.sizing?.type === 'cover') {
+    if (sizingType === 'cover') {
+      // Cover mode: pptxgenjs handles centering and cropping correctly
       imageOptions.sizing = { type: 'cover', w: element.position.w, h: element.position.h };
     }
+    // For 'stretch', no sizing option = image stretches to fill
 
     if (element.altText) {
       imageOptions.altText = element.altText;

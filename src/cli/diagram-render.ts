@@ -2,28 +2,38 @@
 /**
  * Diagram Renderer CLI
  *
- * Generate diagrams using Mermaid with PNG/SVG export support
+ * Generate diagrams using Kroki API (supports Mermaid, PlantUML, GraphViz, D2, and more)
  *
  * Usage:
- *   npx tsx src/cli/diagram-render.ts --type <mermaid|plantuml> --input <path> --output <path>
+ *   npx tsx src/cli/diagram-render.ts --type <type> --input <path> --output <path>
+ *   npx tsx src/cli/diagram-render.ts --type mermaid --input flow.mmd --output flow.png
  *
  * Options:
- *   --type <type>        Diagram type: mermaid or plantuml (required)
- *   --input <path>       Input file path (.mmd or .puml)
- *   --code <string>      Inline diagram code
- *   --output <path>      Output image path (required)
- *   --format <fmt>       Output format: png, svg, html (default: png)
- *   --theme <theme>      Mermaid theme: default, forest, dark, neutral
- *   --width <n>          Image width (default: 1200)
- *   --height <n>         Image height (default: 800)
- *   --scale <n>          Scale factor (default: 2)
- *   --verbose            Verbose output
- *   --debug              Debug mode
- *   --quiet              Minimal output
+ *   --type <type>           Diagram type: mermaid, plantuml, graphviz, d2, etc.
+ *   --input <path>          Input file path
+ *   --code <string>         Inline diagram code
+ *   --output <path>         Output image path (required)
+ *   --format <fmt>          Output format: png, svg (default: png)
+ *   --server <url>          Kroki server URL (default: https://kroki.io)
+ *   --verbose               Verbose output
+ *   --debug                 Debug mode
+ *   --quiet                 Minimal output
  */
 
 import { parseArgs } from 'node:util';
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { extname } from 'node:path';
+import {
+  KrokiService,
+  type KrokiDiagramType,
+  type KrokiOutputFormat,
+  type ImageDimensions,
+} from '../lib/rendering/KrokiService.js';
+
+/** PPTX optimal ratio range (landscape, for 16:9 slides) */
+const PPTX_MIN_RATIO = 1.5;
+const PPTX_MAX_RATIO = 3.0;
+const PPTX_OPTIMAL_RATIO = 2.25; // ~9" x 4" content area
 import {
   Logger,
   Progress,
@@ -34,21 +44,14 @@ import {
   COMMON_CLI_OPTIONS,
   type CommonArgs,
 } from './utils/index.js';
-import {
-  ImageRenderService,
-  closeImageRenderService,
-} from '../lib/rendering/ImageRenderService.js';
 
 interface CliArgs extends Omit<CommonArgs, 'format'> {
   type?: string;
   input?: string;
   code?: string;
   output?: string;
-  imageFormat?: string;
-  theme?: string;
-  width?: number;
-  height?: number;
-  scale?: number;
+  outputFormat?: string;
+  server?: string;
 }
 
 function parseArguments(): CliArgs {
@@ -58,11 +61,8 @@ function parseArguments(): CliArgs {
       input: { type: 'string', short: 'i' },
       code: { type: 'string', short: 'c' },
       output: { type: 'string', short: 'o' },
-      'image-format': { type: 'string', short: 'f' },
-      theme: { type: 'string' },
-      width: { type: 'string', short: 'w' },
-      height: { type: 'string', short: 'H' },
-      scale: { type: 'string', short: 's' },
+      format: { type: 'string', short: 'f' },
+      server: { type: 'string', short: 's' },
       help: { type: 'boolean', short: 'h' },
       ...COMMON_CLI_OPTIONS,
     },
@@ -71,91 +71,122 @@ function parseArguments(): CliArgs {
 
   return {
     ...values,
-    width: values.width ? parseInt(values.width as string) : 1200,
-    height: values.height ? parseInt(values.height as string) : 800,
-    scale: values.scale ? parseFloat(values.scale as string) : 2,
-    imageFormat: (values['image-format'] as string) || 'png',
+    outputFormat: (values.format as string) || 'png',
   } as CliArgs;
 }
 
 function showHelp(): void {
   console.log(`
-Diagram Renderer CLI - Generate diagrams using Mermaid with PNG/SVG export
+Diagram Renderer CLI - Generate diagrams using Kroki API
+
+Kroki is a unified API that renders diagrams from text.
+No local dependencies needed - diagrams are rendered server-side.
 
 Usage:
   npx tsx src/cli/diagram-render.ts --type <type> --input <path> --output <path>
+  npx tsx src/cli/diagram-render.ts --type mermaid --code "graph TD; A-->B" --output flow.png
 
 Options:
-  -t, --type <type>        Diagram type: mermaid or plantuml (required)
-  -i, --input <path>       Input file path (.mmd, .mermaid, .puml, .plantuml)
-  -c, --code <string>      Inline diagram code (alternative to --input)
-  -o, --output <path>      Output image path (required)
-  -f, --format <fmt>       Output format: png, svg, html (default: png)
-      --theme <theme>      Mermaid theme: default, forest, dark, neutral
-  -w, --width <n>          Image width in pixels (default: 1200)
-  -H, --height <n>         Image height in pixels (default: 800)
-  -s, --scale <n>          Scale factor for resolution (default: 2)
-  -v, --verbose            Verbose output
-      --debug              Debug mode with timing
-      --quiet              Minimal output
-  -h, --help               Show this help message
+  -t, --type <type>         Diagram type (see list below)
+  -i, --input <path>        Input file path (.mmd, .puml, .dot, .d2, etc.)
+  -c, --code <string>       Inline diagram code (alternative to --input)
+  -o, --output <path>       Output image path (required)
+  -f, --format <fmt>        Output format: png, svg (default: png)
+  -s, --server <url>        Kroki server URL (default: https://kroki.io)
+  -v, --verbose             Verbose output
+      --debug               Debug mode with timing
+      --quiet               Minimal output
+  -h, --help                Show this help message
 
-Mermaid Diagram Types:
-  - flowchart (graph TD/LR/etc.)
-  - sequenceDiagram
-  - classDiagram
-  - stateDiagram-v2
-  - erDiagram
-  - gantt
-  - pie
-  - mindmap
-  - timeline
+Diagram Types:
+  Popular:
+    mermaid     - Flowcharts, sequence diagrams, mind maps, etc.
+    plantuml    - UML diagrams (class, sequence, activity, etc.)
+    graphviz    - Graph visualization (DOT language)
+    d2          - Modern diagram scripting language
+    excalidraw  - Hand-drawn style diagrams
+
+  UML & Architecture:
+    c4plantuml  - C4 model architecture diagrams
+    structurizr - Architecture as code
+    nomnoml     - Simple UML diagrams
+
+  Specialized:
+    erd         - Entity-relationship diagrams
+    bpmn        - Business process diagrams
+    ditaa       - ASCII art diagrams
+    svgbob      - ASCII to SVG
+
+  Network & Sequence:
+    seqdiag     - Sequence diagrams
+    blockdiag   - Block diagrams
+    nwdiag      - Network diagrams
+    actdiag     - Activity diagrams
+    packetdiag  - Packet diagrams
+    rackdiag    - Rack diagrams
+
+  Other:
+    wavedrom    - Digital timing diagrams
+    bytefield   - Byte field diagrams
+    pikchr      - PIC-like diagrams
+    vega        - Vega visualization
+    vegalite    - Vega-Lite visualization
+
+File Extensions (auto-detected):
+  .mmd, .mermaid  → mermaid
+  .puml, .pu      → plantuml
+  .dot, .gv       → graphviz
+  .d2             → d2
+  .excalidraw     → excalidraw
+  .erd            → erd
+  .bpmn           → bpmn
 
 Examples:
-  # Render Mermaid to PNG
+  # Render Mermaid diagram to PNG
   npx tsx src/cli/diagram-render.ts --type mermaid --input diagram.mmd --output diagram.png
 
-  # Inline code with dark theme
-  npx tsx src/cli/diagram-render.ts --type mermaid --code "graph TD; A-->B" --output flow.png --theme dark
+  # Inline code (useful for simple diagrams)
+  npx tsx src/cli/diagram-render.ts --type mermaid --code "graph TD; A-->B-->C" --output flow.png
 
   # Export as SVG
   npx tsx src/cli/diagram-render.ts --type mermaid --input diagram.mmd --output diagram.svg --format svg
 
-  # High resolution
-  npx tsx src/cli/diagram-render.ts --type mermaid --input diagram.mmd --output diagram.png --scale 3
+  # PlantUML class diagram
+  npx tsx src/cli/diagram-render.ts --type plantuml --input classes.puml --output classes.png
 
-  # HTML preview (fallback)
-  npx tsx src/cli/diagram-render.ts --type mermaid --input diagram.mmd --output diagram.html --format html
+  # GraphViz diagram
+  npx tsx src/cli/diagram-render.ts --type graphviz --input graph.dot --output graph.png
+
+  # D2 diagram
+  npx tsx src/cli/diagram-render.ts --type d2 --input arch.d2 --output arch.svg --format svg
+
+  # Use self-hosted Kroki server
+  npx tsx src/cli/diagram-render.ts --type mermaid --input diagram.mmd --output diagram.png --server http://localhost:8000
+
+Note: Kroki.io is free for public use. For high-volume or private diagrams,
+consider self-hosting: https://github.com/yuzutech/kroki
 `);
 }
 
-function generateMermaidPreviewHtml(code: string, theme: string = 'default'): string {
-  return `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Mermaid Preview</title>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-  <style>
-    body { margin: 0; padding: 20px; background: #f5f5f5; font-family: Arial, sans-serif; }
-    .mermaid { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    h1 { font-size: 16px; color: #333; margin-bottom: 10px; }
-    .info { margin-top: 10px; font-size: 12px; color: #666; }
-  </style>
-</head>
-<body>
-  <h1>Mermaid Diagram Preview</h1>
-  <div class="mermaid">
-${code}
-  </div>
-  <div class="info">
-    Generated with Presentation Team - Diagram Renderer
-  </div>
-  <script>
-    mermaid.initialize({ startOnLoad: true, theme: '${theme}' });
-  </script>
-</body>
-</html>`;
+/**
+ * Infer diagram type from file extension
+ */
+function inferDiagramType(filePath: string): KrokiDiagramType | null {
+  const ext = extname(filePath).toLowerCase();
+  return KrokiService.getDiagramTypeFromExtension(ext);
+}
+
+/**
+ * Validate diagram type
+ */
+function validateDiagramType(type: string): KrokiDiagramType {
+  const supportedTypes = KrokiService.getSupportedTypes();
+  if (!supportedTypes.includes(type as KrokiDiagramType)) {
+    throw new CliError(
+      `Unknown diagram type: ${type}\n  Supported types: ${supportedTypes.join(', ')}`
+    );
+  }
+  return type as KrokiDiagramType;
 }
 
 async function main(): Promise<void> {
@@ -170,10 +201,6 @@ async function main(): Promise<void> {
   const logger = new Logger(getVerbosity(args));
 
   try {
-    if (!args.type) {
-      throw new CliError('--type is required (mermaid or plantuml). Use --help for usage information.');
-    }
-
     if (!args.output) {
       throw new CliError('--output is required. Use --help for usage information.');
     }
@@ -184,7 +211,9 @@ async function main(): Promise<void> {
 
     logger.debug(`Starting diagram generation at ${new Date().toISOString()}`);
 
+    // Load diagram code
     let diagramCode: string;
+    let inferredType: KrokiDiagramType | null = null;
 
     if (args.input) {
       if (!existsSync(args.input)) {
@@ -195,93 +224,116 @@ async function main(): Promise<void> {
       progress.start();
 
       diagramCode = readFileSync(args.input, 'utf-8');
-      progress.succeed(`Loaded from ${args.input}`);
+      inferredType = inferDiagramType(args.input);
 
+      progress.succeed(`Loaded from ${args.input}`);
       logger.verbose(`  Lines: ${diagramCode.split('\n').length}`);
       logger.verbose(`  Size: ${diagramCode.length} characters`);
+      if (inferredType) {
+        logger.verbose(`  Inferred type: ${inferredType}`);
+      }
     } else {
       diagramCode = args.code!;
       logger.verbose(`Using inline code (${diagramCode.length} characters)`);
     }
 
+    // Determine diagram type
+    let diagramType: KrokiDiagramType;
+    if (args.type) {
+      diagramType = validateDiagramType(args.type);
+    } else if (inferredType) {
+      diagramType = inferredType;
+      logger.info(`Auto-detected diagram type: ${diagramType}`);
+    } else {
+      throw new CliError(
+        '--type is required when using --code or when file extension is not recognized.\n' +
+          '  Use --help to see supported diagram types.'
+      );
+    }
+
+    // Determine output format
+    const outputFormat = (args.outputFormat || 'png') as KrokiOutputFormat;
+    if (!['png', 'svg', 'pdf', 'jpeg'].includes(outputFormat)) {
+      throw new CliError(`Unsupported output format: ${outputFormat}. Use png, svg, pdf, or jpeg.`);
+    }
+
     logger.section('Diagram Generation');
-    logger.info(`Type: ${args.type}`);
+    logger.info(`Type: ${diagramType}`);
     logger.info(`Output: ${args.output}`);
-    logger.info(`Format: ${args.imageFormat}`);
-    logger.info(`Size: ${args.width}x${args.height} @ ${args.scale}x`);
-    if (args.theme) {
-      logger.info(`Theme: ${args.theme}`);
+    logger.info(`Format: ${outputFormat}`);
+    if (args.server) {
+      logger.info(`Server: ${args.server}`);
     }
     logger.blank();
 
-    if (args.type === 'mermaid') {
-      const progress = new Progress('Generating diagram', !args.quiet);
-      progress.start();
+    // Initialize Kroki service
+    const kroki = new KrokiService({
+      serverUrl: args.server,
+    });
 
-      if (args.imageFormat === 'html') {
-        // HTML preview (fallback, no browser needed)
-        const html = generateMermaidPreviewHtml(diagramCode, args.theme);
-        writeFileSync(args.output, html);
-        progress.succeed('HTML preview generated');
-
-        logger.blank();
-        logger.info(`Output: ${args.output}`);
-        logger.info('Open the HTML file in a browser to view the diagram.');
-      } else if (args.imageFormat === 'svg') {
-        // SVG export using Playwright
-        const renderService = new ImageRenderService();
-
-        try {
-          await renderService.saveMermaidSvg(
-            diagramCode,
-            args.output,
-            args.theme || 'default'
-          );
-          progress.succeed('SVG generated');
-          logger.blank();
-          logger.info(`Output: ${args.output}`);
-        } finally {
-          await renderService.close();
-        }
+    // Check server availability (optional, but helpful for debugging)
+    if (args.debug) {
+      const healthProgress = new Progress('Checking Kroki server', !args.quiet);
+      healthProgress.start();
+      const isHealthy = await kroki.healthCheck();
+      if (isHealthy) {
+        healthProgress.succeed('Kroki server is available');
       } else {
-        // PNG export using Playwright
-        const renderService = new ImageRenderService();
-
-        try {
-          await renderService.renderMermaid(diagramCode, args.output, {
-            width: args.width,
-            height: args.height,
-            scale: args.scale,
-            format: 'png',
-            theme: args.theme || 'default',
-          });
-          progress.succeed('PNG generated');
-          logger.blank();
-          logger.info(`Output: ${args.output}`);
-          logger.info(`Resolution: ${args.width! * args.scale!}x${args.height! * args.scale!} pixels`);
-        } finally {
-          await renderService.close();
-        }
+        healthProgress.fail('Kroki server might be unavailable');
+        logger.warn('Continuing anyway...');
       }
-    } else if (args.type === 'plantuml') {
-      logger.warn('PlantUML rendering requires Java to be installed.');
-      logger.info('');
-      logger.info('Alternative: Use Mermaid for most diagram types.');
-      logger.info('Mermaid supports: flowcharts, sequence, class, state, ER, gantt, pie, mindmap');
-      throw new CliError('PlantUML support requires Java installation. Consider using Mermaid instead.');
-    } else {
-      throw new CliError(`Unknown diagram type: ${args.type}. Use 'mermaid' or 'plantuml'.`);
     }
+
+    // Render diagram
+    const renderProgress = new Progress('Rendering diagram', !args.quiet);
+    renderProgress.start();
+
+    let dimensions: ImageDimensions | undefined;
+
+    try {
+      const result = await kroki.renderToFile(diagramType, diagramCode, args.output, {
+        format: outputFormat,
+      });
+      dimensions = result.dimensions;
+      renderProgress.succeed(`Diagram saved to ${args.output}`);
+    } catch (error) {
+      renderProgress.fail('Failed to render diagram');
+      const message = error instanceof Error ? error.message : String(error);
+      throw new CliError(`Kroki rendering failed: ${message}`);
+    }
+
+    logger.blank();
+    logger.info(`Output: ${args.output}`);
+
+    // Display dimensions for PNG
+    if (dimensions) {
+      logger.info(`Dimensions: ${dimensions.width} x ${dimensions.height} px`);
+      logger.info(`Ratio: ${dimensions.ratio}:1`);
+
+      // Check ratio for PPTX compatibility
+      if (dimensions.ratio < PPTX_MIN_RATIO) {
+        logger.warn(`⚠️  Ratio too vertical (${dimensions.ratio}:1) for PPTX slides.`);
+        logger.warn(`   Optimal range: ${PPTX_MIN_RATIO}:1 to ${PPTX_MAX_RATIO}:1`);
+        logger.warn(`   Tip: Use 'flowchart LR' instead of 'flowchart TB' for horizontal layout.`);
+      } else if (dimensions.ratio > PPTX_MAX_RATIO) {
+        logger.warn(`⚠️  Ratio too wide (${dimensions.ratio}:1) for PPTX slides.`);
+        logger.warn(`   Optimal range: ${PPTX_MIN_RATIO}:1 to ${PPTX_MAX_RATIO}:1`);
+        logger.warn(`   Tip: Add more vertical elements or use subgraphs to balance the layout.`);
+      } else {
+        logger.info(`✓ Ratio OK for PPTX (optimal: ~${PPTX_OPTIMAL_RATIO}:1)`);
+      }
+    }
+
+    logger.blank();
+    logger.info('The diagram is ready for use.');
 
     logger.debug(`Total execution time: ${formatDuration(Date.now() - startTime)}`);
   } catch (error) {
-    await closeImageRenderService();
     handleError(error, logger);
   }
 }
 
-main().catch(async (error) => {
-  await closeImageRenderService();
+main().catch((error) => {
   console.error('Unexpected error:', error.message);
   process.exit(1);
 });

@@ -15,17 +15,58 @@ Tu es un **Expert en Production de Présentations** qui maîtrise :
 - Les standards **Office Open XML** (OOXML) pour PowerPoint
 - Les **meilleures pratiques** de mise en page et d'accessibilité
 
-## Commandes CLI
+## Référence CLI Complète
+
+### Commande principale
 
 ```bash
-# Générer une présentation à partir d'un fichier de spécification
+npx tsx src/cli/pptx-build.ts --spec <path> --output <path>
+```
+
+### Options disponibles
+
+| Option | Court | Description | Exemple |
+|--------|-------|-------------|---------|
+| `--spec <path>` | `-s` | Fichier de spécification JSON (requis) | `--spec presentation.json` |
+| `--theme <path>` | `-t` | Fichier de thème JSON | `--theme theme.json` |
+| `--output <path>` | `-o` | Chemin du fichier PPTX de sortie (requis) | `--output slides.pptx` |
+| `--quick` | `-q` | Mode rapide interactif | `--quick` |
+| `--title <text>` | | Titre (pour mode quick) | `--title "Ma Présentation"` |
+| `--verbose` | `-v` | Sortie détaillée | `--verbose` |
+| `--debug` | | Mode debug avec timing | `--debug` |
+| `--quiet` | | Sortie minimale | `--quiet` |
+
+### Types de slides disponibles
+
+| Type | Description |
+|------|-------------|
+| `title` | Slide titre avec titre principal, sous-titre, auteur, date |
+| `section` | Diviseur de section avec numéro et titre |
+| `content` | Slide de contenu avec titre et éléments |
+| `two-column` | Layout à deux colonnes |
+| `quote` | Slide citation avec attribution |
+
+### Types d'éléments dans les slides
+
+| Élément | Description |
+|---------|-------------|
+| `text` | Bloc de texte avec style |
+| `bullets` | Liste à puces |
+| `table` | Tableau avec en-têtes |
+| `image` | Image depuis un chemin de fichier |
+| `chart` | Graphique intégré |
+
+### Exemples d'utilisation
+
+```bash
+# Générer une présentation depuis une spécification JSON
 npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx
 
-# Générer avec un thème personnalisé
+# Avec un thème personnalisé séparé
 npx tsx src/cli/pptx-build.ts --spec presentation.json --theme theme.json --output output.pptx
 
-# Prévisualiser (génère des thumbnails)
-npx tsx src/cli/pptx-build.ts --spec presentation.json --preview
+# Mode verbose pour debugging
+npx tsx src/cli/pptx-build.ts --spec presentation.json --output output.pptx --verbose
 ```
 
 ## Format de Spécification
@@ -46,12 +87,138 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --preview
     "rtlMode": false
   },
   "theme": {
-    "colors": { ... },
-    "typography": { ... }
+    "colors": {
+      "primary": "#1E3A5F",
+      "secondary": "#4A90A4",
+      "accent": "#2E7D32",
+      "background": "#FFFFFF",
+      "surface": "#F5F5F5",
+      "text": {
+        "primary": "#333333",
+        "secondary": "#666666"
+      }
+    },
+    "typography": {
+      "fontFamily": {
+        "heading": "Arial",
+        "body": "Arial"
+      },
+      "sizes": {
+        "h1": "44",
+        "h2": "32",
+        "h3": "24",
+        "body": "18",
+        "caption": "14"
+      }
+    }
   },
   "slides": [
     { ... }
   ]
+}
+```
+
+### Format du Thème (ThemeColors et ThemeTypography)
+
+**IMPORTANT** : Le thème doit respecter exactement cette structure. Ne pas utiliser de valeurs simplifiées.
+
+#### ThemeColors (obligatoire)
+
+```json
+{
+  "colors": {
+    "primary": "#1E3A5F",
+    "secondary": "#4A90A4",
+    "accent": "#2E7D32",
+    "background": "#FFFFFF",
+    "surface": "#F5F5F5",
+    "text": {
+      "primary": "#333333",
+      "secondary": "#666666"
+    }
+  }
+}
+```
+
+| Propriété | Description | Exemple |
+|-----------|-------------|---------|
+| `primary` | Couleur principale (titres, headers) | `#1E3A5F` |
+| `secondary` | Couleur secondaire (accents légers) | `#4A90A4` |
+| `accent` | Couleur d'accent (mise en évidence) | `#2E7D32` |
+| `background` | Fond des slides | `#FFFFFF` |
+| `surface` | Fond des éléments (cartes, boîtes) | `#F5F5F5` |
+| `text.primary` | Couleur du texte principal | `#333333` |
+| `text.secondary` | Couleur du texte secondaire | `#666666` |
+
+⚠️ **Attention** : `text` doit être un objet avec `primary` et `secondary`, pas une chaîne simple.
+
+#### ThemeTypography (obligatoire)
+
+```json
+{
+  "typography": {
+    "fontFamily": {
+      "heading": "Arial",
+      "body": "Arial"
+    },
+    "sizes": {
+      "h1": "44",
+      "h2": "32",
+      "h3": "24",
+      "body": "18",
+      "caption": "14"
+    }
+  }
+}
+```
+
+| Propriété | Description | Exemple |
+|-----------|-------------|---------|
+| `fontFamily.heading` | Police pour les titres | `Arial`, `Calibri` |
+| `fontFamily.body` | Police pour le texte | `Arial`, `Calibri` |
+| `sizes.h1` | Taille titre niveau 1 | `"44"` |
+| `sizes.h2` | Taille titre niveau 2 | `"32"` |
+| `sizes.h3` | Taille titre niveau 3 | `"24"` |
+| `sizes.body` | Taille texte corps | `"18"` |
+| `sizes.caption` | Taille légendes/notes | `"14"` |
+
+⚠️ **Attention** : Les tailles sont des chaînes (`"44"`), pas des nombres.
+
+#### Palettes de Couleurs Recommandées
+
+**Corporate Blue** (professionnel)
+```json
+{
+  "primary": "#1E3A5F",
+  "secondary": "#4A90A4",
+  "accent": "#2E7D32",
+  "background": "#FFFFFF",
+  "surface": "#F5F5F5",
+  "text": { "primary": "#333333", "secondary": "#666666" }
+}
+```
+
+**Modern Dark** (présentations impactantes)
+```json
+{
+  "primary": "#2D3436",
+  "secondary": "#636E72",
+  "accent": "#00B894",
+  "background": "#FFFFFF",
+  "surface": "#DFE6E9",
+  "text": { "primary": "#2D3436", "secondary": "#636E72" }
+}
+```
+
+**Tech Green** (innovation, tech)
+```json
+{
+  "primary": "#00695C",
+  "secondary": "#4DB6AC",
+  "accent": "#FF6F00",
+  "background": "#FFFFFF",
+  "surface": "#E0F2F1",
+  "text": { "primary": "#263238", "secondary": "#546E7A" }
 }
 ```
 
@@ -137,6 +304,81 @@ npx tsx src/cli/pptx-build.ts --spec presentation.json --preview
   ]
 }
 ```
+
+**Options de sizing pour les images** :
+
+| Type | Comportement |
+|------|--------------|
+| `contain` | **Par défaut**. Préserve le ratio d'aspect, l'image est entièrement visible dans la zone |
+| `cover` | Préserve le ratio d'aspect, remplit la zone (peut rogner) |
+| `stretch` | Étire l'image pour remplir exactement la zone (peut déformer) |
+
+⚠️ **Important** : Par défaut, les images utilisent `contain` pour préserver leur ratio d'aspect et éviter les déformations. Utilisez `stretch` uniquement si vous voulez explicitement déformer l'image.
+
+### Intégration des Images Stock (skill: stock-photo-finder)
+
+Les images téléchargées via `stock-photo-finder` sont prêtes à l'emploi :
+
+```bash
+# Télécharger une image pour la présentation
+npx tsx src/cli/photo-search.ts --query "team collaboration" --orientation landscape --download --output-dir output/photos
+```
+
+**Utilisation dans la spécification :**
+
+```json
+{
+  "type": "content",
+  "title": "Notre Équipe",
+  "elements": [
+    {
+      "type": "image",
+      "path": "output/photos/pexels-3184339.jpg",
+      "position": { "x": 0.5, "y": 1.2, "w": 9, "h": 4.5 },
+      "sizing": { "type": "cover" }
+    }
+  ],
+  "notes": "Photo by Fox on Pexels"
+}
+```
+
+**Types de slides avec images stock :**
+
+| Usage | Sizing | Position recommandée |
+|-------|--------|----------------------|
+| Image plein slide (background) | `cover` | `{ "x": 0, "y": 0, "w": 10, "h": 5.625 }` |
+| Image avec titre | `contain` | `{ "x": 0.5, "y": 1.2, "w": 9, "h": 4.2 }` |
+| Image demi-slide (gauche) | `cover` | `{ "x": 0, "y": 0, "w": 5, "h": 5.625 }` |
+| Image demi-slide (droite) | `cover` | `{ "x": 5, "y": 0, "w": 5, "h": 5.625 }` |
+| Vignette/médaillon | `cover` | `{ "x": 7, "y": 1.5, "w": 2.5, "h": 2.5 }` |
+
+**Slide avec texte sur image (overlay) :**
+
+```json
+{
+  "type": "content",
+  "title": "",
+  "background": {
+    "image": "output/photos/pexels-3184339.jpg"
+  },
+  "elements": [
+    {
+      "type": "shape",
+      "shape": "rect",
+      "position": { "x": 0, "y": 3.5, "w": 10, "h": 2.125 },
+      "style": { "fill": "000000", "transparency": 50 }
+    },
+    {
+      "type": "text",
+      "content": "Notre Vision pour 2025",
+      "position": { "x": 0.5, "y": 4, "w": 9, "h": 1 },
+      "style": { "fontSize": 36, "color": "#FFFFFF", "bold": true }
+    }
+  ]
+}
+```
+
+> 💡 **Astuce** : Inclure l'attribution dans les notes du présentateur pour respecter les bonnes pratiques.
 
 #### 5. Slide avec Graphique
 

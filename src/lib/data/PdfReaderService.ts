@@ -8,9 +8,117 @@
  * - Page-by-page extraction
  */
 
-import { readFileSync, existsSync } from 'node:fs';
-// @ts-ignore - pdf-parse has no type declarations
-import pdfParse from 'pdf-parse';
+import { existsSync, statSync, createReadStream } from 'node:fs';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - pdfjs-dist ESM import
+import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
+
+/**
+ * PDF metadata info type from pdfjs-dist
+ */
+interface PdfInfo {
+  Title?: string;
+  Author?: string;
+  Subject?: string;
+  Keywords?: string;
+  Creator?: string;
+  Producer?: string;
+  CreationDate?: string;
+  ModDate?: string;
+  PDFFormatVersion?: string;
+  [key: string]: unknown;
+}
+
+/**
+ * Text item from pdfjs-dist
+ */
+interface TextItem {
+  str: string;
+  dir?: string;
+  transform?: number[];
+  width?: number;
+  height?: number;
+  fontName?: string;
+  hasEOL?: boolean;
+}
+
+/**
+ * Read file as buffer using streams (memory efficient for large files)
+ */
+async function readFileAsBuffer(filePath: string): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    const stream = createReadStream(filePath, { highWaterMark: 64 * 1024 }); // 64KB chunks
+
+    stream.on('data', (chunk: Buffer | string) => {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    });
+
+    stream.on('end', () => {
+      resolve(Buffer.concat(chunks));
+    });
+
+    stream.on('error', (err) => {
+      reject(err);
+    });
+  });
+}
+
+/**
+ * Parse PDF using pdfjs-dist directly
+ */
+async function parsePdf(
+  dataBuffer: Buffer,
+  options: { maxPages?: number } = {}
+): Promise<{
+  text: string;
+  numpages: number;
+  info: PdfInfo;
+  version?: string;
+}> {
+  // Convert Buffer to Uint8Array
+  const uint8Array = new Uint8Array(dataBuffer.buffer, dataBuffer.byteOffset, dataBuffer.byteLength);
+
+  const loadingTask = pdfjsLib.getDocument({
+    data: uint8Array,
+    useSystemFonts: true,
+  });
+
+  const pdfDocument = await loadingTask.promise;
+  const numPages = pdfDocument.numPages;
+  const maxPages = options.maxPages || numPages;
+
+  // Get metadata
+  const metadata = await pdfDocument.getMetadata().catch(() => ({ info: {}, metadata: null }));
+  const info = (metadata.info || {}) as PdfInfo;
+
+  // Extract text page by page
+  const pages: string[] = [];
+  for (let i = 1; i <= Math.min(numPages, maxPages); i++) {
+    try {
+      const page = await pdfDocument.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = (textContent.items as unknown[])
+        .filter((item): item is TextItem =>
+          typeof item === 'object' && item !== null && 'str' in item
+        )
+        .map((item) => item.str)
+        .join(' ');
+      pages.push(pageText);
+    } catch {
+      pages.push('');
+    }
+  }
+
+  const text = pages.join('\f'); // Use form feed as page separator
+
+  return {
+    text,
+    numpages: numPages,
+    info,
+    version: info.PDFFormatVersion,
+  };
+}
 
 /**
  * PDF metadata
@@ -104,28 +212,26 @@ export class PdfReaderService {
     }
 
     const opts = { ...DEFAULT_OPTIONS, ...options };
-    const dataBuffer = readFileSync(filePath);
+    const fileStats = statSync(filePath);
+    const dataBuffer = await readFileAsBuffer(filePath);
 
-    const pdfOptions: Record<string, unknown> = {};
-    if (opts.maxPages > 0) {
-      pdfOptions.max = opts.maxPages;
-    }
+    const data = await parsePdf(dataBuffer, {
+      maxPages: opts.maxPages > 0 ? opts.maxPages : undefined,
+    });
 
-    const data = await pdfParse(dataBuffer, pdfOptions);
-
-    // Parse info from pdf-parse
-    const info = data.info || {};
+    // Parse info from pdfjs-dist
+    const info = data.info;
     const metadata: PdfMetadata = {
-      title: info.Title || undefined,
-      author: info.Author || undefined,
-      subject: info.Subject || undefined,
-      keywords: info.Keywords || undefined,
-      creator: info.Creator || undefined,
-      producer: info.Producer || undefined,
+      title: info.Title,
+      author: info.Author,
+      subject: info.Subject,
+      keywords: info.Keywords,
+      creator: info.Creator,
+      producer: info.Producer,
       creationDate: info.CreationDate ? this.parseDate(info.CreationDate) : undefined,
       modificationDate: info.ModDate ? this.parseDate(info.ModDate) : undefined,
       pageCount: data.numpages,
-      version: data.version || undefined,
+      version: data.version,
     };
 
     // Split text by page markers (heuristic)
@@ -143,7 +249,7 @@ export class PdfReaderService {
       metadata,
       info: {
         path: filePath,
-        size: dataBuffer.length,
+        size: fileStats.size,
       },
     };
   }
@@ -156,21 +262,21 @@ export class PdfReaderService {
       throw new Error(`PDF file not found: ${filePath}`);
     }
 
-    const dataBuffer = readFileSync(filePath);
-    const data = await pdfParse(dataBuffer, { max: 1 });
+    const dataBuffer = await readFileAsBuffer(filePath);
+    const data = await parsePdf(dataBuffer, { maxPages: 1 });
 
-    const info = data.info || {};
+    const info = data.info;
     return {
-      title: info.Title || undefined,
-      author: info.Author || undefined,
-      subject: info.Subject || undefined,
-      keywords: info.Keywords || undefined,
-      creator: info.Creator || undefined,
-      producer: info.Producer || undefined,
+      title: info.Title,
+      author: info.Author,
+      subject: info.Subject,
+      keywords: info.Keywords,
+      creator: info.Creator,
+      producer: info.Producer,
       creationDate: info.CreationDate ? this.parseDate(info.CreationDate) : undefined,
       modificationDate: info.ModDate ? this.parseDate(info.ModDate) : undefined,
       pageCount: data.numpages,
-      version: data.version || undefined,
+      version: data.version,
     };
   }
 

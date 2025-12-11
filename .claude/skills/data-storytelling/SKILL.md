@@ -212,6 +212,52 @@ Pour chaque découverte, structure ainsi :
 - "Si vous ne retenez qu'une chose..."
 - "La question n'est plus si, mais quand..."
 
+## Images pour le Storytelling
+
+Les images amplifient l'impact émotionnel des données. Utilise le skill `stock-photo-finder` pour illustrer tes insights.
+
+### Images par Type d'Émotion
+
+| Émotion Visée | Type d'Image | Mots-clés Pexels |
+|---------------|--------------|------------------|
+| **Urgence** | Tension, mouvement | `storm`, `countdown`, `speed blur` |
+| **Espoir** | Lumière, horizon | `sunrise`, `light hope`, `new beginning` |
+| **Confiance** | Solidité, équipe | `team success`, `handshake`, `trust` |
+| **Curiosité** | Mystère, découverte | `exploration`, `discovery`, `question` |
+| **Fierté** | Accomplissement | `achievement`, `celebration`, `trophy` |
+| **Empathie** | Visages, humanité | `people emotion`, `portrait authentic` |
+
+### Images par Moment du Récit
+
+| Acte | Objectif Visuel | Suggestions |
+|------|-----------------|-------------|
+| **Contexte** | Situer l'audience | Image du secteur, du marché |
+| **Conflit** | Créer la tension | Obstacle, challenge, tempête |
+| **Insight** | Moment "Aha!" | Lumière, révélation, loupe |
+| **Solution** | Résolution claire | Chemin, clé, puzzle résolu |
+| **Call to Action** | Inspirer l'action | Départ, mouvement, équipe |
+
+### Règle d'Or : Une Image, Une Émotion
+
+> "L'image ne doit pas répéter les données, elle doit amplifier le sentiment que les données doivent provoquer."
+
+**Exemple** :
+- Données : "Nos clients attendent en moyenne 45 minutes"
+- ❌ Image : Graphique du temps d'attente
+- ✓ Image : Personne frustrée regardant sa montre → `--query "waiting frustrated clock" --orientation landscape`
+
+### Template de Suggestion d'Image
+
+Pour chaque insight clé, suggérer :
+
+```
+Insight : [Le message]
+- Émotion cible : [Ce que l'audience doit ressentir]
+- Image suggérée : [Description]
+- Mots-clés Pexels : [Termes de recherche]
+- Orientation : landscape | portrait
+```
+
 ## Références
 
 Consulte :

@@ -287,6 +287,52 @@ Ne jamais centrer l'élément clé. Placer aux intersections :
 └─────────────────────────────────┘
 ```
 
+## Sélection d'Images (Stock Photos)
+
+Les images renforcent le message émotionnel. Utilise le skill `stock-photo-finder` pour trouver des photos pertinentes.
+
+### Quand Utiliser une Image
+
+| Type de Slide | Image Recommandée | Mots-clés Pexels |
+|---------------|-------------------|------------------|
+| Titre/Couverture | Impactante, métaphorique | `abstract`, `inspiration`, thème principal |
+| Équipe/Culture | Authentique, collaborative | `team collaboration`, `office teamwork` |
+| Vision/Futur | Aspirationnelle, lumineuse | `future technology`, `innovation`, `horizon` |
+| Problème | Tension visuelle | `challenge`, `obstacle`, `storm` |
+| Solution | Résolution, clarté | `success`, `solution`, `breakthrough` |
+| Données humaines | Personnes représentatives | `business professional`, `customer` |
+| Transition | Abstraite, neutre | `abstract minimal`, `geometric` |
+
+### Critères de Sélection (Garr Reynolds)
+
+1. **Pertinence** : L'image illustre directement le propos
+2. **Qualité** : Haute résolution, composition professionnelle
+3. **Authenticité** : Éviter les clichés stock trop posés
+4. **Cohérence** : Style uniforme dans toute la présentation
+5. **Lisibilité** : Zones claires pour superposer du texte si nécessaire
+
+### Styles d'Images par Ton
+
+| Ton | Style | Filtres Pexels |
+|-----|-------|----------------|
+| Corporate | Professionnel, épuré | `--orientation landscape --color 1E3A5F` |
+| Startup | Dynamique, authentique | `--query "modern workspace startup"` |
+| Inspirant | Lumineux, aspirationnel | `--query "inspiration success light"` |
+| Technique | Abstrait, technologique | `--query "technology abstract data"` |
+| Humain | Portraits, émotions | `--query "people portrait authentic"` |
+
+### Template de Suggestion d'Image
+
+Pour chaque slide nécessitant une image, spécifier :
+
+```
+Slide [N] : [Titre]
+- Objectif visuel : [Ce que l'image doit communiquer]
+- Mots-clés : [Termes de recherche Pexels]
+- Orientation : landscape | portrait | square
+- Zone texte : [Si du texte sera superposé, préciser où]
+```
+
 ## Anti-Patterns à Éviter
 
 ### ❌ Death by PowerPoint
@@ -343,9 +389,19 @@ Génère un document structuré :
 ...
 
 ## Éléments Visuels Requis
-- [ ] Graphique : [Description]
-- [ ] Diagramme : [Description]
-- [ ] Image : [Description]
+
+### Graphiques (skill: chart-generator)
+- [ ] Graphique : [Description + type recommandé]
+
+### Diagrammes (skill: diagram-generator)
+- [ ] Diagramme : [Description + type Mermaid/PlantUML]
+
+### Images Stock (skill: stock-photo-finder)
+- [ ] Image : [Description + mots-clés Pexels suggérés + orientation]
+
+Exemple:
+- [ ] Image slide 3 : Équipe en collaboration | `--query "team collaboration office" --orientation landscape`
+- [ ] Image slide 7 : Croissance et succès | `--query "growth success business" --orientation landscape`
 
 ## Messages Clés par Section
 1. [Message section 1]

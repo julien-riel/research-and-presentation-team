@@ -12,11 +12,15 @@
  * - Data quality reports
  * - Multi-sheet support for Excel
  * - Encoding detection
+ * - Streaming support for large files (>100MB)
+ * - Random sampling for very large datasets
  */
 
 import { parse } from 'csv-parse/sync';
+import { parse as parseStream } from 'csv-parse';
 import ExcelJS from 'exceljs';
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync, statSync, createReadStream } from 'node:fs';
+import { createInterface } from 'node:readline';
 import { extname } from 'node:path';
 import type {
   ColumnSchema,
@@ -27,8 +31,15 @@ import type {
   DataSchema,
   DataType,
   FileFormat,
+  FileStatistics,
   ReadOptions,
 } from '../../types/data.js';
+
+/** Default streaming threshold: 100MB */
+const DEFAULT_STREAMING_THRESHOLD = 100 * 1024 * 1024;
+
+/** Maximum string length in Node.js (~512MB) */
+const MAX_STRING_LENGTH = 0x1fffffe8;
 
 /**
  * Information about Excel sheets
@@ -54,10 +65,15 @@ export interface ReadResult {
 export class DataReaderService {
   /**
    * Read a data file and return structured data
+   * Automatically uses streaming for large files (>100MB by default)
    */
   async read(filePath: string, options: ReadOptions = {}): Promise<ReadResult> {
     const format = this.detectFormat(filePath);
     const fileSize = statSync(filePath).size;
+    const threshold = options.streamingThreshold ?? DEFAULT_STREAMING_THRESHOLD;
+
+    // Check if file is too large for synchronous read
+    const needsStreaming = options.streaming || fileSize > threshold || fileSize > MAX_STRING_LENGTH;
 
     let dataFrame: DataFrame;
 
@@ -67,12 +83,23 @@ export class DataReaderService {
         dataFrame = await this.readExcel(filePath, options);
         break;
       case 'csv':
-        dataFrame = this.readCsv(filePath, options);
+        if (needsStreaming) {
+          dataFrame = await this.readCsvStreaming(filePath, options);
+        } else {
+          dataFrame = this.readCsv(filePath, options);
+        }
         break;
       case 'tsv':
-        dataFrame = this.readCsv(filePath, { ...options, delimiter: '\t' });
+        if (needsStreaming) {
+          dataFrame = await this.readCsvStreaming(filePath, { ...options, delimiter: '\t' });
+        } else {
+          dataFrame = this.readCsv(filePath, { ...options, delimiter: '\t' });
+        }
         break;
       case 'json':
+        if (fileSize > MAX_STRING_LENGTH) {
+          throw new Error(`JSON file too large (${(fileSize / 1024 / 1024).toFixed(1)} MB). Maximum supported: ~512 MB. Consider converting to CSV.`);
+        }
         dataFrame = this.readJson(filePath);
         break;
       default:
@@ -83,6 +110,216 @@ export class DataReaderService {
     const quality = this.analyzeQuality(dataFrame, schema);
 
     return { dataFrame, schema, quality };
+  }
+
+  /**
+   * Get file statistics without loading all data
+   * Useful for very large files to understand structure before reading
+   */
+  async getFileStatistics(filePath: string, options: ReadOptions = {}): Promise<FileStatistics> {
+    const format = this.detectFormat(filePath);
+    const fileSize = statSync(filePath).size;
+
+    let rowCount = 0;
+    let columns: string[] = [];
+
+    switch (format) {
+      case 'xlsx':
+      case 'xls': {
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.readFile(filePath);
+        const sheetName = options.sheet || workbook.worksheets[0]?.name;
+        const worksheet = workbook.getWorksheet(sheetName);
+        if (worksheet) {
+          rowCount = worksheet.rowCount - 1; // Minus header
+          const headerRow = worksheet.getRow(1);
+          headerRow.eachCell({ includeEmpty: false }, (cell) => {
+            columns.push(cell.text?.toString() || '');
+          });
+        }
+        break;
+      }
+      case 'csv':
+      case 'tsv': {
+        const stats = await this.getCsvStatistics(filePath, options);
+        rowCount = stats.rowCount;
+        columns = stats.columns;
+        break;
+      }
+      case 'json': {
+        const content = readFileSync(filePath, 'utf-8');
+        const data = JSON.parse(content);
+        if (Array.isArray(data)) {
+          rowCount = data.length;
+          columns = data.length > 0 ? Object.keys(data[0]) : [];
+        }
+        break;
+      }
+    }
+
+    // Read sample for schema detection (first 1000 rows)
+    let sampleSchema: DataSchema | undefined;
+    try {
+      const sampleResult = await this.read(filePath, { ...options, maxRows: 1000 });
+      sampleSchema = sampleResult.schema;
+      sampleSchema.rowCount = rowCount; // Update with actual row count
+    } catch {
+      // Sample read failed, skip schema
+    }
+
+    return {
+      rowCount,
+      columnCount: columns.length,
+      columns,
+      fileSize,
+      format,
+      estimatedMemory: fileSize * 2, // Rough estimate: 2x file size in memory
+      sampleSchema,
+    };
+  }
+
+  /**
+   * Get CSV file statistics without loading all data
+   */
+  private async getCsvStatistics(filePath: string, options: ReadOptions = {}): Promise<{ rowCount: number; columns: string[] }> {
+    return new Promise((resolve, reject) => {
+      let rowCount = 0;
+      let columns: string[] = [];
+      const encoding = options.encoding || 'utf-8';
+
+      const rl = createInterface({
+        input: createReadStream(filePath, { encoding }),
+        crlfDelay: Infinity,
+      });
+
+      rl.on('line', (line) => {
+        if (rowCount === 0) {
+          // Parse header line
+          const delimiter = options.delimiter || this.detectDelimiterFromLine(line);
+          columns = line.split(delimiter).map(col => col.replace(/^"|"$/g, '').trim());
+        }
+        rowCount++;
+      });
+
+      rl.on('close', () => {
+        resolve({ rowCount: rowCount - 1, columns }); // Minus header row
+      });
+
+      rl.on('error', reject);
+    });
+  }
+
+  /**
+   * Detect delimiter from a single line
+   */
+  private detectDelimiterFromLine(line: string): string {
+    const delimiters = [',', ';', '\t', '|'];
+    let bestDelimiter = ',';
+    let maxCount = 0;
+
+    for (const delimiter of delimiters) {
+      const count = (line.match(new RegExp(delimiter === '|' ? '\\|' : delimiter, 'g')) || []).length;
+      if (count > maxCount) {
+        maxCount = count;
+        bestDelimiter = delimiter;
+      }
+    }
+
+    return bestDelimiter;
+  }
+
+  /**
+   * Read CSV file using streaming (for large files)
+   */
+  async readCsvStreaming(filePath: string, options: ReadOptions = {}): Promise<DataFrame> {
+    return new Promise((resolve, reject) => {
+      const encoding = options.encoding || 'utf-8';
+      const skipRows = options.skipRows ?? 0;
+      const maxRows = options.maxRows;
+      const sampleRate = options.sampleRate;
+
+      // First pass: detect delimiter from first line
+      const firstLinePromise = new Promise<string>((res, rej) => {
+        const rl = createInterface({
+          input: createReadStream(filePath, { encoding }),
+          crlfDelay: Infinity,
+        });
+        rl.once('line', (line) => {
+          rl.close();
+          res(line);
+        });
+        rl.on('error', rej);
+      });
+
+      firstLinePromise.then((firstLine) => {
+        const delimiter = options.delimiter || this.detectDelimiterFromLine(firstLine);
+
+        const columns: string[] = [];
+        const data: Record<string, unknown[]> = {};
+        let rowCount = 0;
+        let headerParsed = false;
+        let skippedRows = 0;
+
+        const parser = parseStream({
+          delimiter,
+          relax_column_count: true,
+          relax_quotes: true,
+          quote: false, // Disable quote parsing for problematic files
+          trim: true,
+          skip_empty_lines: true,
+        });
+
+        const stream = createReadStream(filePath, { encoding });
+
+        parser.on('data', (record: string[]) => {
+          // Skip rows if needed
+          if (skippedRows < skipRows) {
+            skippedRows++;
+            return;
+          }
+
+          // First row after skip is header
+          if (!headerParsed) {
+            record.forEach((col) => {
+              const colName = col || `Column${columns.length + 1}`;
+              columns.push(colName);
+              data[colName] = [];
+            });
+            headerParsed = true;
+            return;
+          }
+
+          // Check max rows
+          if (maxRows && rowCount >= maxRows) {
+            stream.destroy();
+            parser.end();
+            return;
+          }
+
+          // Apply sampling if specified
+          if (sampleRate && Math.random() > sampleRate) {
+            return;
+          }
+
+          // Add row data
+          columns.forEach((col, i) => {
+            const value = record[i];
+            data[col].push(this.parseValue(value || '', options));
+          });
+          rowCount++;
+        });
+
+        parser.on('end', () => {
+          resolve({ columns, data, rowCount });
+        });
+
+        parser.on('error', (err) => {
+          reject(new Error(`CSV parsing error: ${err.message}`));
+        });
+
+        stream.pipe(parser);
+      }).catch(reject);
+    });
   }
 
   /**
